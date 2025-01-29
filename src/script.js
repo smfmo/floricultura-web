@@ -3,7 +3,8 @@ const produtos = [
     {nome: "Rosa Vermelha", preco: 10.00, imagem: "/src/img/buque.png"},
     {nome: "Buque", preco: 10.00, imagem: "/src/img/samambaia.jpg"},
     {nome: "Rosa Vermelha", preco: 10.00, imagem: "/src/img/rosa.jpg"},
-    {nome: "Rosa Vermelha", preco: 10.00, imagem: "/src/img/samambaia.jpg"}
+    {nome: "Rosa Vermelha", preco: 10.00, imagem: "/src/img/samambaia.jpg"},
+    {nome: "rosa branca", preco:12.00, imagem:"/src/img/samambaia.jpg"}
 
 ]
 const lista = document.getElementById("product-list");
@@ -18,17 +19,20 @@ const produtosUnicos = produtos.filter((produto, index, self) =>
 function renderizarProdutos(){
     produtos.forEach((produto,index) => {
         const card = `
-            <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="${produto.imagem}"  class="card-img-top img-fluid" alt="${produto.nome} " style="height: auto; max-width: 100%px; text-align:center; ">
-                            <div class="card-body">
-                                <h5 class="card-title">${produto.nome}</h5>
-                                <p class="card-text">A partir de R$ ${produto.preco.toFixed(2)}</p>
-                                <button type="submit" class="btn btn-primary"  onclick="redirecionarCompra()">Comprar</button>
-                                <button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>
-                            </div>
-                        </div>
-                    </div> `
+            <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="d-flex flex-wrap" style="gap: ">
+                           
+                                <div class="card" style="width: 14rem; margin:auto;">
+                                <img src="${produto.imagem}"  class="card-img-top img-fluid" alt="${produto.nome} " style="height: auto; max-width: 100%px; text-align:center; ">
+                                <div class="card-body">
+                                    <h5 class="card-title">${produto.nome}</h5>
+                                    <p class="card-text">A partir de R$ ${produto.preco.toFixed(2)}</p>
+                                    <button type="submit" class="btn btn-primary"  onclick="redirecionarCompra()">Comprar</button>
+                                    <button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>
+
+                                </div>   
+                        </div>   
+                </div> `
             lista.innerHTML += card;
        
     });
