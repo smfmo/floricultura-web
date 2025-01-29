@@ -1,0 +1,14 @@
+/*login administrador*/
+.form-container {
+    max-width: 350px;
+    padding: 1rem;
+}
+.btn {
+    background-color: #C5FF70  !important; /* Verde mais vibrante */
+    border-color: #C5FF70 !important;
+    
+}
+.btn:hover {
+    background-color: #C13584!important;
+    border-color: #C13584 !important;
+}

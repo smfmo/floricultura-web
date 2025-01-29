@@ -1,17 +1,25 @@
+:root {
+    --verde-principal: #C5FF70; /* Cor principal extraída da imagem */
+    --verde-claro: #E0FFA3; /* Tom mais claro */
+    --verde-escuro: #A3E063; /* Tom mais escuro */
+    --verde-pastel: #D4FFB3; /* Tom pastel */
+    --verde-intenso: #8CD147; /* Tom mais vibrante */
+  }
+
 body {
     background-color: #f4f9f4;
 }
 .bg-primary {
-    background-color: #9ad29c !important; /* Verde claro */
+    background-color: #C5FF70 !important; /* Verde claro */
 }
 .btn-primary {
-    background-color: #9ad29c  !important; /* Verde mais vibrante */
-    border-color: #9ad29c  !important;
+    background-color: #A3E063  !important; /* Verde mais vibrante */
+    border-color: #A3E063  !important;
     
 }
 .btn-primary:hover {
-    background-color: #2eb82e !important;
-    border-color: #2eb82e !important;
+    background-color: #A3E063 !important;
+    border-color: #D4FFB3 !important;
 }
 footer {
     background-color: #B6D3B7 !important; /* Verde escuro */
