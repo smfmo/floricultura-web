@@ -16,3 +16,38 @@ body {
 footer {
     background-color: #B6D3B7 !important; /* Verde escuro */
 }
+
+ /* botões flutuantes instagram e WhatsApp */
+ .whatsapp-btn, .instagram-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 30px;
+    color: white;
+    z-index: 9999;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+.instagram-btn {
+    background-color: #C13584; /* Cor do Instagram */
+    bottom: 90px; /* Ajusta o botão do Instagram para ficar acima do WhatsApp */
+}
+.instagram-btn:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+
