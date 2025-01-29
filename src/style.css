@@ -1,0 +1,18 @@
+body {
+    background-color: #f4f9f4;
+}
+.bg-primary {
+    background-color: #9ad29c !important; /* Verde claro */
+}
+.btn-primary {
+    background-color: #9ad29c  !important; /* Verde mais vibrante */
+    border-color: #9ad29c  !important;
+    
+}
+.btn-primary:hover {
+    background-color: #2eb82e !important;
+    border-color: #2eb82e !important;
+}
+footer {
+    background-color: #B6D3B7 !important; /* Verde escuro */
+}
