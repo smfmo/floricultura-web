@@ -2,39 +2,67 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 
+
 @Entity(name = "flores")
 @Table(name = "flores")
 public class Flores {
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;  //id gerado automáticamente automático
+    private Long id;  //id gerado automáticamente automático
+
 
     private String nome;
+
+    private String urlImagem;
+
+    private Double preco;
+
     private String descricao;
+
     private String cuidados;
-    private Long valor;
-    private String disponibilidade;
+
     private String cor;
+
+    private String disponibilidade;
+
     private String embalagem;
 
+
     //construtor
-    public Flores(Integer id,
+    public Flores(Long id,
                   String nome,
+                  String urlImagem,
+                  Double preco,
                   String descricao,
                   String cuidados,
-                  Long valor,
-                  String disponibilidade,
                   String cor,
+                  String disponibilidade,
                   String embalagem) {
         this.id = id;
         this.nome = nome;
+        this.urlImagem = urlImagem;
+        this.preco = preco;
         this.descricao = descricao;
         this.cuidados = cuidados;
-        this.valor = valor;
-        this.disponibilidade = disponibilidade;
         this.cor = cor;
+        this.disponibilidade = disponibilidade;
         this.embalagem = embalagem;
+    }
+
+    public Flores(String nome,
+                  String urlImagem,
+                  String preco,
+                  Double descricao,
+                  String cuidados,
+                  String cor,
+                  String disponibilidade,
+                  String embalagem) {
+
+    }
+
+    public Flores(String nome, String urlImagem, Double preco, String descricao, String cuidados, String cor, String disponibilidade, String embalagem) {
+
     }
 
     public Flores() {
@@ -43,11 +71,11 @@ public class Flores {
 
 
     //métodos getters e setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -75,12 +103,12 @@ public class Flores {
         this.cuidados = cuidados;
     }
 
-    public Long getValor() {
-        return valor;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setValor(Long valor) {
-        this.valor = valor;
+    public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public String getDisponibilidade() {
@@ -105,5 +133,13 @@ public class Flores {
 
     public void setEmbalagem(String embalagem) {
         this.embalagem = embalagem;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }
