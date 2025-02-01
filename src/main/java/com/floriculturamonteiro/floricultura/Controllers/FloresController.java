@@ -26,7 +26,7 @@ public class FloresController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<?> getById(@PathVariable(value = "id") Long id) {
         Optional<Flores> Flores = repository.findById(id);
         if (Flores.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flores not found");
@@ -42,7 +42,7 @@ public class FloresController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Integer id){
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id){
         Optional<Flores> Flores = repository.findById(id);
         if (Flores.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flores not found");
@@ -52,7 +52,7 @@ public class FloresController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable(value = "id") Integer id, @RequestBody FloresDto dto){
+    public ResponseEntity<?> update(@PathVariable(value = "id") Long id, @RequestBody FloresDto dto){
         Optional<Flores> Flores = repository.findById(id);
         if (Flores.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Flores not found");

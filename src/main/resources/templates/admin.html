@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Administração</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+
+        <a class="navbar-brand" href="#">Floricultura Gabriel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#" onclick="redirecionarHome()">Voltar para o catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-primary text-success-emphasis text-center py-5"><!-- início do catálogo de flores-->
+    <h1>Área do administrador</h1>
+    <p>adicione, modifique, exclua e liste seus produtos!</p>
+</header><br>
+
+<div class="container mt-5">
+    <h2>Área de Administração da Floricultura</h2>
+    <h1>Adicionar Produto</h1>
+    <form action="/addFlores" method="post">
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" required>
+        </div>
+        <div class="mb-3">
+            <label for="urlImagem" class="form-label">URL da Imagem</label>
+            <input type="text" class="form-control" id="urlImagem" name="urlImagem" required>
+        </div>
+        <div class="mb-3">
+            <label for="preco" class="form-label">Preço</label>
+            <input type="number" step="0.01" class="form-control" id="preco" name="preco" required>
+        </div>
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="cuidados" class="form-label">cuidados</label>
+            <textarea class="form-control" id="cuidados" name="cuidados" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="cor" class="form-label">cor</label>
+            <textarea class="form-control" id="cor" name="cor" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="disponibilidade" class="form-label">disponibilidade</label>
+            <textarea class="form-control" id="disponibilidade" name="disponibilidade" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="embalagem" class="form-label">Embalagem</label>
+            <textarea class="form-control" id="embalagem" name="embalagem" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Adicionar Produto</button>
+    </form>
+
+    <h1>Produtos Cadastrados</h1>
+    <div th:each="flores : ${flores}" class="col-md-3 col-sm-6 mb-4">
+        <div class="d-flex flex-wrap">
+            <div class="card" style="width: 14rem; margin: auto;">
+                <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto; max-width: 100%; text-align: center;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${flores.nome}"></h5>
+                    <p class="card-text" th:text="${flores.descricao}"></p>
+                    <p class="card-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
+                    <p class="card-text" th:text="${flores.cuidados}"></p>
+                    <p class="card-text" th:text="${flores.cor}"></p>
+                    <p class="card-text" th:text="${flores.disponibilidade}"></p>
+                    <p class="card-text" th:text="${flores.embalagem}"></p>
+                    <a th:href="@{/editar/{id}(id=${flores.id})}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{/deletarFlores/{id}(id=${flores.id})}" class="btn btn-danger">Excluir</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+
+
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; Floricultura Gabriel. Todos os direitos reservados</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/adminScript.js"></script>
+</body>
+</html>
