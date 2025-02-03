@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <title>Página inicial</title>
 </head>
-
 <body>
     <div class="fixed-bottom mb-3 mr-3">
         <a href="https://wa.me/5561992025713" target="_blank" class="whatsapp-btn" title="Fale conosco!" >
@@ -85,25 +84,25 @@
         </div>
     </div>-->
 
-    <main class="container my-5">
+    <main class="container mt-5">
         <div class="row" >
             <div th:each="flores : ${flores}" class="col-md-3 col-sm-6 mb-4">
                 <div class="d-flex flex-wrap" >
-                    <div class="card" style="width: 17rem; margin:auto;">
-                        <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
-                    max-width: 100%px; text-align:center; ">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${flores.nome}"></h5>
-                            <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
-                            <p class="card-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
-                            <!--<p class="card-text" th:text="${flores.cuidados}"></p>
-                            <p class="card-text" th:text="${flores.cor}"></p>
-                            <p class="card-text" th:text="${flores.disponibilidade}"></p>
-                            <p class="card-text" th:text="${flores.embalagem}"></p>-->
-                            <button type="submit" class="btn btn-primary"  onclick="redirecionarCompra()">Comprar</button>
-                            <button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>
+                        <div class="card card-custom" style="width: 18rem;">
+                            <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
+                        max-width: 100%px; text-align:center; ">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${flores.nome}"></h5>
+                                <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
+                                <p class="price-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
+                                <!--<p class="card-text" th:text="${flores.cuidados}"></p>
+                                <p class="card-text" th:text="${flores.cor}"></p>
+                                <p class="card-text" th:text="${flores.disponibilidade}"></p>
+                                <p class="card-text" th:text="${flores.embalagem}"></p>-->
+                                <button type="submit" class="btn btn-primary"  onclick="redirecionarCompra()">Comprar</button>
+                                <button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
