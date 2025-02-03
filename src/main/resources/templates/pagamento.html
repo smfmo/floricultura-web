@@ -1,0 +1,110 @@
+ <!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org"  lang="pt-br">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Pagamento</title>
+ </head>
+ <body>
+    <!--botões do instagram e WhatsApp-->
+    <div class="fixed-bottom mb-3 mr-3">
+        <a href="https://wa.me/5561992025713" target="_blank" class="whatsapp-btn" title="Fale conosco!" >
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <a href="https://www.instagram.com/floricultura_monteiro" target="_blank" class="instagram-btn" title="Nosso instagram!">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+    </div>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+          <a class="navbar-brand" href="#">Floricultura Monteiro</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link" href="@{/}">Voltar para o catálogo </a></li>
+                  <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <header class="bg-primary text-success-emphasis text-center py-5">
+      <h1>Escolha o método de pagamento</h1>
+      <p>Finalize sua compra com segurança</p>
+</header>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4 shadow">
+                    <h2 class="text-center">Método de Pagamento</h2>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Escolha uma opção:</label>
+                            <select class="form-select" id="paymentMethod">
+                                <option value="creditCard">Cartão de Crédito</option>
+                                <option value="debitCard">Cartão de Débito</option>
+                                <option value="pix">PIX</option>
+                            </select>
+                        </div>
+
+                        <div id="cardFields" class="d-none">
+                            <div class="mb-3">
+                                <label for="cardNumber" class="form-label">Número do Cartão</label>
+                                <input type="text" class="form-control" id="cardNumber" placeholder="4111 1111 1111 1111">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cardHolder" class="form-label">Nome do Titular</label>
+                                <input type="text" class="form-control" id="cardHolder" placeholder="Nome no Cartão">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="expiryDate" class="form-label">Validade</label>
+                                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/AAAA">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cvv" class="form-label">CVV</label>
+                                    <input type="text" class="form-control" id="cvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="qrcode" class="text-center d-none">
+                            <p>Escaneie o QR Code para pagar com PIX:</p>
+                            <img src="/img/qrcode.png" alt="QR Code PIX" class="img-fluid" width="200">
+                        </div>
+
+                        <button type="button" class="btn btn-primary w-100 mt-3" id="payButton">Pagar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("paymentMethod").addEventListener("change", function() {
+           let method = this.value;
+           let cardFields = document.getElementById("cardFields");
+           let qrCode = document.getElementById("qrcode");
+
+           if (method === "creditCard" || method === "debitCard") {
+               cardFields.classList.remove("d-none");
+               qrCode.classList.add("d-none");
+           } else if (method === "pix") {
+               cardFields.classList.add("d-none");
+               qrCode.classList.remove("d-none");
+           }
+       });
+    </script>
+ </body>
+ </html>
