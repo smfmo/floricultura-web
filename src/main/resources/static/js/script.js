@@ -56,7 +56,7 @@ function redirecionarDescricao(){
 }
 
 function redirecionarHome(){
-    window.location.href = "http://127.0.0.1:5500/src/catalogo.html";
+    window.location.href = "/floricultura/src/main/resources/templates/catalogo.html";
 }
 
 
