@@ -58,4 +58,38 @@ footer {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
+/* estilo do catálogo na página inicial*/
+.card-custom {
+          border-radius: 15px; /* Borda arredondada */
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+          background-color: white;
+          text-align: center;
+          padding: 10px;
+      }
+
+      .card img {
+          border-radius: 10px;
+          width: 100%;
+          height: auto;
+      }
+
+      .btn-custom {
+          background-color: #A8E65C; /* Verde claro */
+          border: none;
+          color: black;
+          font-weight: bold;
+          border-radius: 8px;
+          padding: 8px 16px;
+          margin: 5px;
+      }
+
+      .btn-custom:hover {
+          background-color: #98d84f;
+      }
+
+      /*.general-text {
+          font-weight: bold;
+          color: black;
+      }*/
+
 
