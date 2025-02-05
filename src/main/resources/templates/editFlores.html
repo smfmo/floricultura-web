@@ -9,14 +9,14 @@
 <body>
 <div class="container">
     <h1>Editar Produto</h1>
-    <form th:action="@{/atualizarFlores/{id}(id=${flores.id})}" method="post" >
+    <form th:action="@{/atualizarFlores/{id}(id=${flores.id})}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" th:field="*{flores.nome}" required>
         </div>
         <div class="mb-3">
-            <label for="urlImagem" class="form-label">URL da Imagem</label>
-            <input type="text" class="form-control" id="urlImagem" name="urlImagem" th:field="*{flores.urlImagem}" required>
+            <label for="imagem" class="form-label">Upload da Imagem</label>
+            <input type="file"  class="form-control" id="imagem" name="imagem" required>
         </div>
         <div class="mb-3">
             <label for="preco" class="form-label">Preço</label>

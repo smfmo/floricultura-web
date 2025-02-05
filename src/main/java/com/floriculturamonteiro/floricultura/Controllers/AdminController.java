@@ -2,16 +2,23 @@ package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
+import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private ArmazenamentoImgService imgService;
 
     //página de catálogo
     @GetMapping("/")
@@ -29,8 +36,18 @@ public class AdminController {
 
     //adicionar flores
     @PostMapping("/addFlores")
-    public String addFlores(@ModelAttribute Flores flores){
-        adminService.addFlor(flores);
+    public String addFlores(@ModelAttribute Flores flores,
+                            @RequestParam("imagem") MultipartFile imagem){
+        try {
+            //salva a imagem e obtém o caminho
+            String nomeArquivo = imgService.armazenarImg(imagem);
+            flores.setUrlImagem(nomeArquivo);
+
+            adminService.addFlor(flores);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/admin";
     }
 
@@ -46,8 +63,22 @@ public class AdminController {
 
     //atualizar flores
     @PostMapping("/atualizarFlores/{id}")
-    public String atualizarFlores(@PathVariable Long id, @ModelAttribute Flores florAtualizada){
-        adminService.atualizarFlores(id, florAtualizada);
+    public String atualizarFlores(@PathVariable Long id,
+                                  @ModelAttribute Flores florAtualizada,
+                                  @RequestParam("imagem") MultipartFile imagem){
+
+        try {
+            //se uma nova imagem for adicionada ao editar a flor, vai salcar e atualizar o caminho
+            if (!imagem.isEmpty()) {
+                String caminhoImg = imgService.armazenarImg(imagem);
+                florAtualizada.setUrlImagem(caminhoImg);
+
+                //atualiza o produto normalmente no banco de dados
+                adminService.atualizarFlores(id, florAtualizada);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/admin";
     }
 
