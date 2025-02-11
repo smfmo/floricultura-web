@@ -98,19 +98,26 @@
                                     <p class="price-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
                                     <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
                                     <input type="hidden" name="floresId" th:value="${flores.id}">
-                                    <label>
-                                        <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 me-2">
-                                    </label><br>
+
+                                    <div class="text-center">
+                                        <label>
+                                            <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto"><br>
+                                        </label>
+                                    </div>
+
                                     <!--<p class="card-text" th:text="${flores.cuidados}"></p>
                                     <p class="card-text" th:text="${flores.cor}"></p>
                                     <p class="card-text" th:text="${flores.disponibilidade}"></p>
                                     <p class="card-text" th:text="${flores.embalagem}"></p>-->
                                     <input type="hidden" name="NomeProduto" th:value="${flores.nome}">
                                     <input type="hidden" name="precoTotal" th:value="${flores.preco} * ${#numbers.formatInteger(1, 1)}">
-
-                                    <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button><br>
-                                    <!--<button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>-->
+                                    <div class="d-flex justify-content-center gap-3">
+                                        <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button>
+                                    </div><br>
                                 </form>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <button type="submit" class="btn btn-primary" >detalhes</button>
+                                </div>
                             </div>
                         </div>
                 </div>
