@@ -68,11 +68,26 @@ footer {
       }
 
       .card img {
+
+          object-fit: cover;
           border-radius: 10px;
           width: 100%;
           height: auto;
       }
 
+/*.card{
+    min-height: 450px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.card-body{
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    display: flex;
+}*/
       .btn-custom {
           background-color: #A8E65C; /* Verde claro */
           border: none;
