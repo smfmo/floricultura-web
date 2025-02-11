@@ -90,17 +90,27 @@
                 <div class="d-flex flex-wrap" >
                         <div class="card card-custom" style="width: 18rem;">
                             <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
-                        max-width: 100%px; text-align:center; ">
+                        max-width: 100%; text-align:center; ">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${flores.nome}"></h5>
                                 <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
-                                <p class="price-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
-                                <!--<p class="card-text" th:text="${flores.cuidados}"></p>
-                                <p class="card-text" th:text="${flores.cor}"></p>
-                                <p class="card-text" th:text="${flores.disponibilidade}"></p>
-                                <p class="card-text" th:text="${flores.embalagem}"></p>-->
-                                <button type="submit" class="btn btn-primary"  onclick="redirecionarCompra()">Comprar</button>
-                                <button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>
+                                <form th:action="@{/carrinho/adicionarItem}" method="get">
+                                    <p class="price-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
+                                    <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
+                                    <input type="hidden" name="floresId" th:value="${flores.id}">
+                                    <label>
+                                        <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 me-2">
+                                    </label><br>
+                                    <!--<p class="card-text" th:text="${flores.cuidados}"></p>
+                                    <p class="card-text" th:text="${flores.cor}"></p>
+                                    <p class="card-text" th:text="${flores.disponibilidade}"></p>
+                                    <p class="card-text" th:text="${flores.embalagem}"></p>-->
+                                    <input type="hidden" name="NomeProduto" th:value="${flores.nome}">
+                                    <input type="hidden" name="precoTotal" th:value="${flores.preco} * ${#numbers.formatInteger(1, 1)}">
+
+                                    <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button><br>
+                                    <!--<button type="submit" class="btn btn-primary"  onclick="redirecionarDescricao()">detalhes</button>-->
+                                </form>
                             </div>
                         </div>
                 </div>

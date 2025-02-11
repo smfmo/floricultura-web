@@ -1,8 +1,10 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
+import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
+import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,14 @@ public class AdminController {
 
     @Autowired
     private ArmazenamentoImgService imgService;
+    @Autowired
+    private CarrinhoService carrinhoService;
 
     //página de catálogo
-    @GetMapping("/")
+    @GetMapping
     public String catalogo(Model model){
+        Carrinho carrinho = carrinhoService.criarCarrinho();
+        model.addAttribute("carrinhoId", carrinho.getId());
         model.addAttribute("flores", adminService.getAllFlores());
         return "catalogo";
     }
