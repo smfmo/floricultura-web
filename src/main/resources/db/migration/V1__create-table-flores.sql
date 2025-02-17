@@ -3,6 +3,6 @@ CREATE TABLE flores (
     nome VARCHAR(255) ,
     url_imagem VARCHAR(255) ,
     preco NUMERIC(10, 2) ,
-    descricao TEXT ,
+    descricao TEXT,
     cuidados TEXT
 );
