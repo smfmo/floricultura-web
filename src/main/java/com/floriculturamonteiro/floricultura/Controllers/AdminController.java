@@ -12,32 +12,37 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
-
     @Autowired
     private ArmazenamentoImgService imgService;
     @Autowired
     private CarrinhoService carrinhoService;
 
-    //página de catálogo
-    @GetMapping
-    public String catalogo(Model model){
-        Carrinho carrinho = carrinhoService.criarCarrinho();
-        model.addAttribute("carrinhoId", carrinho.getId());
-        model.addAttribute("flores", adminService.getAllFlores());
-        return "catalogo";
-    }
-
     //página do administrador
     @GetMapping("/admin")
     public String admin(Model model){
-        model.addAttribute("flores", adminService.getAllFlores());
+
+        List<Flores> floresEmEstoque = adminService.buscarFloresEmEstoque();
+        List<Flores> floresSemEstoque = adminService.buscarFloresSemEstoque();
+
+        model.addAttribute("floresEmEstoque", floresEmEstoque);
+        model.addAttribute("floresSemEstoque", floresSemEstoque);
+
         return "admin";
+    }
+
+
+    //restaura as flores que estiverem com estoque
+    @GetMapping("/restaurarEstoque/{id}")
+    public String RestaurarEstoque(@PathVariable Long id){
+        adminService.restaurarEstoque(id);
+        return "redirect:/admin";
     }
 
     //adicionar flores
@@ -93,5 +98,12 @@ public class AdminController {
     public String deletarFlores(@PathVariable Long id){
         adminService.deletarFlores(id);
         return "redirect:/admin";
+    }
+
+    //ver as vendas no controle de Vendas
+    @GetMapping("/controleVenda")
+    public String exibirCompras(Model model){
+        model.addAttribute("carrinhos", carrinhoService.exibirCompras());
+        return "controleVenda";
     }
 }

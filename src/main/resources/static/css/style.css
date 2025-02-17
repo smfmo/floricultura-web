@@ -107,4 +107,9 @@ footer {
           color: black;
       }*/
 
+.inativo{ /* card de produtos sem estoque*/
+    opacity: 0.6;
+    background-color: #f8f9fa;
+}
+
 
