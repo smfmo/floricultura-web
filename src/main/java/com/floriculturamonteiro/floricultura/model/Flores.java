@@ -22,12 +22,7 @@ public class Flores {
 
     private String cuidados;
 
-    private String cor;
-
-    private String disponibilidade;
-
-    private String embalagem;
-
+    private Boolean emEstoque = true;
 
     //construtor
     public Flores(Long id,
@@ -35,19 +30,14 @@ public class Flores {
                   String urlImagem,
                   Double preco,
                   String descricao,
-                  String cuidados,
-                  String cor,
-                  String disponibilidade,
-                  String embalagem) {
+                  String cuidados) {
         this.id = id;
         this.nome = nome;
         this.urlImagem = urlImagem;
         this.preco = preco;
         this.descricao = descricao;
         this.cuidados = cuidados;
-        this.cor = cor;
-        this.disponibilidade = disponibilidade;
-        this.embalagem = embalagem;
+
     }
 
     public Flores(String nome,
@@ -61,7 +51,14 @@ public class Flores {
 
     }
 
-    public Flores(String nome, String urlImagem, Double preco, String descricao, String cuidados, String cor, String disponibilidade, String embalagem) {
+    public Flores(String nome,
+                  String urlImagem,
+                  Double preco,
+                  String descricao,
+                  String cuidados,
+                  String cor,
+                  String disponibilidade,
+                  String embalagem) {
 
     }
 
@@ -71,6 +68,14 @@ public class Flores {
 
 
     //métodos getters e setters
+    public Boolean getEmEstoque() {
+        return emEstoque;
+    }
+
+    public void setEmEstoque(Boolean emEstoque) {
+        this.emEstoque = emEstoque;
+    }
+
     public Long getId() {
         return id;
     }
@@ -109,30 +114,6 @@ public class Flores {
 
     public void setPreco(Double preco) {
         this.preco = preco;
-    }
-
-    public String getDisponibilidade() {
-        return disponibilidade;
-    }
-
-    public void setDisponibilidade(String disponibilidade) {
-        this.disponibilidade = disponibilidade;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public String getEmbalagem() {
-        return embalagem;
-    }
-
-    public void setEmbalagem(String embalagem) {
-        this.embalagem = embalagem;
     }
 
     public String getUrlImagem() {

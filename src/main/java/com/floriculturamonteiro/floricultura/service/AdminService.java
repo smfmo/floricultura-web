@@ -41,15 +41,33 @@ public class AdminService {
             flores.setPreco(florAtualizada.getPreco());
             flores.setDescricao(florAtualizada.getDescricao());
             flores.setCuidados(florAtualizada.getCuidados());
-            flores.setCor(florAtualizada.getCor());
-            flores.setDisponibilidade(florAtualizada.getDisponibilidade());
-            flores.setEmbalagem(florAtualizada.getEmbalagem());
             repository.save(flores);
         });
     }
 
     //deletar flores
     public void deletarFlores(Long id){
-        repository.deleteById(id);
+        repository.findById(id).ifPresent(flores ->{
+            flores.setEmEstoque(false);
+            repository.save(flores);
+        });
+    }
+
+    //buscar somente flores que estão em estoque
+    public List<Flores> buscarFloresEmEstoque(){
+        return repository.findByEmEstoqueTrue();
+    }
+
+    //buscar flores que não estão em estoque
+    public List<Flores> buscarFloresSemEstoque(){
+        return repository.findByEmEstoqueFalse();
+    }
+
+    //restaurar as flores
+    public void restaurarEstoque(Long id){
+        repository.findById(id).ifPresent(flores ->{
+            flores.setEmEstoque(true);
+            repository.save(flores);
+        });
     }
 }

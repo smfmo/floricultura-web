@@ -4,8 +4,5 @@ CREATE TABLE flores (
     url_imagem VARCHAR(255) ,
     preco NUMERIC(10, 2) ,
     descricao TEXT ,
-    cuidados TEXT ,
-    cor VARCHAR(100) ,
-    disponibilidade VARCHAR(100) ,
-    embalagem VARCHAR(100)
+    cuidados TEXT
 );

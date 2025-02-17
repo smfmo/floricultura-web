@@ -64,10 +64,9 @@
         </table>
     </div>
     <div class="text-center mt-4">
-        <form th:action="@{/carrinho/finalizar/{carrinhoId}(carrinhoId=${carrinhoId})}" method="post"
-              style="display: inline-block; margin-right: 10px;">
-            <button type="submit" class="btn btn-success btn-lg">Finalizar Compra</button>
-        </form>
+        <a th:href="@{/carrinho/finalizar/{carrinhoId}(carrinhoId=${carrinhoId})}" class="btn btn-primary btn-lg">
+            Finalizar carrinho e continuar
+        </a>
         <a th:href="@{/}" class="btn btn-primary btn-lg">Continuar Comprando</a>
     </div>
 </main>
