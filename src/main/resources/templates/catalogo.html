@@ -115,8 +115,10 @@
                                         <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button>
                                     </div><br>
                                 </form>
+
                                 <div class="d-flex justify-content-center gap-3">
-                                    <button type="submit" class="btn btn-primary" >detalhes</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    th:attr="data-bs-target= '#modalDetalhes' + ${flores.id}">detalhes</button>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +126,31 @@
             </div>
         </div>
     </main>
-
+    <!-- Modal para cada flor -->
+    <div th:each="flores : ${flores}" class="modal fade" th:id="'modalDetalhes'+${flores.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" th:text="${flores.nome}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor">
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p>
+                            <p><strong>Cuidados:</strong> <span th:text="${flores.cuidados}"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="bg-dark text-white text-center py-3">
         <p>&copy; Floricultura Monteiro. Todos os direitos reservados</p>
 
