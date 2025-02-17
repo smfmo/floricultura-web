@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+    <title>Controle de Vendas </title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+
+    <a class="navbar-brand" href="#">Floricultura Monteiro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="bg-primary text-success-emphasis text-center py-5"><!-- início do catálogo de flores-->
+  <h1>Controle de Vendas</h1>
+  <p></p>
+</header><br>
+<div class="container mt-5">
+  <div class="row">
+
+    <div th:each="carrinho : ${carrinhos}" class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h2>Carrinho ID: <span th:text="${carrinho.id}"></span></h2>
+          <h4 th:if="${carrinho.cliente != null}">
+            Nome do Cliente: <span th:text="${carrinho.cliente.nome}"></span>
+          </h4>
+          <h4 th:if="${carrinho.cliente != null}">
+            Telefone: <span th:text="${carrinho.cliente.telefone}"></span>
+          </h4>
+          <h4> Data e hora da compra: <span th:text="${#temporals.format(carrinho.dataHoraCompra, 'dd/MM/yyyy HH:mm:ss')}"></span></h4>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Id</th>
+              <th>Produto</th>
+              <th>Quantidade</th>
+              <th>Preço Unitário</th>
+              <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${carrinho.itens}">
+              <td th:text="${item.id}"></td>
+              <td th:text="${item.flores.nome}"></td>
+              <td th:text="${item.quantidade}"></td>
+              <td th:text="${item.flores.preco}"></td>
+              <td th:text="${item.precoTotal}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</html>

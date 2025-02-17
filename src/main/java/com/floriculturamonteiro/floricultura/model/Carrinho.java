@@ -2,6 +2,8 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,9 +14,31 @@ public class Carrinho {
     private Long id;
 
     @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemCarrinho> itens;
+    private List<ItemCarrinho> itens = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    private Cliente cliente;
+
+    private LocalDateTime dataHoraCompra;
 
     //métodos getters e setters
+
+    public LocalDateTime getDataHoraCompra() {
+        return dataHoraCompra;
+    }
+
+    public void setDataHoraCompra(LocalDateTime dataHoraCompra) {
+        this.dataHoraCompra = dataHoraCompra;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public Long getId() {
         return id;

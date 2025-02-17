@@ -1,5 +1,6 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
+import com.floriculturamonteiro.floricultura.model.Cliente;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.service.AdminService;
@@ -50,10 +51,19 @@ public class CarrinhoController {
         return "redirect:/carrinho/" + carrinhoId;
     }
 
+    @GetMapping("/finalizar/{carrinhoId}")
+    public String mostratFormCliente(@PathVariable Long carrinhoId, Model model) {
+        model.addAttribute("carrinhoId", carrinhoId);
+        model.addAttribute("cliente", new Cliente());
+        return "formulario-cliente";
+    }
     @PostMapping("/finalizar/{carrinhoId}")
-    public String finalizarCompra(@PathVariable Long carrinhoId, HttpSession session) {
-        carrinhoService.finalizarCompra(carrinhoId);
+    public String finalizarCompra(@PathVariable Long carrinhoId,
+                                  HttpSession session,
+                                  @ModelAttribute Cliente cliente) {
+        carrinhoService.finalizarCompra(carrinhoId, cliente);
         session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
+        carrinhoService.limparCarrinhosVazios();
         return "redirect:/";
     }
 
@@ -62,6 +72,9 @@ public class CarrinhoController {
     public String adicionarItem(@RequestParam Long floresId,
                                 @RequestParam int quantidade,
                                 HttpSession session) {
+        //limpar carrinhos vazios
+        carrinhoService.limparCarrinhosVazios();
+
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
         if (carrinhoId == null) {
             //se não houver carrinho na sessão, cria um novo
