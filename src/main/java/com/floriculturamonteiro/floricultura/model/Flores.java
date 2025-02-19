@@ -18,8 +18,9 @@ public class Flores {
 
     private Double preco;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
-
+    @Column(columnDefinition = "TEXT")
     private String cuidados;
 
     private Boolean emEstoque = true;

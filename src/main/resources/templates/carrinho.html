@@ -32,6 +32,10 @@
     <p>Confira os itens adicionados ao seu carrinho</p>
 </header><br>
 
+<!--/*@thymesVar id="error" type="java"*/-->
+<div th:if="${error}" class="alert alert-danger" role="alert">
+    <span th:text="${error}"></span>
+</div>
 <main class="container mt-5">
     <div class="table-responsive">
         <table class="table table-bordered table-hover bg-white">
