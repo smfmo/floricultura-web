@@ -68,7 +68,6 @@ footer {
       }
 
       .card img {
-
           object-fit: cover;
           border-radius: 10px;
           width: 100%;
@@ -111,5 +110,16 @@ footer {
     opacity: 0.6;
     background-color: #f8f9fa;
 }
+
+/*.card-form{
+    border-radius: 15px; /* Borda arredondada
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+    position: sticky;
+    top: 20px; /* Define a distância do topo ao rolar
+    z-index: 1000; /* Garante que o card fique acima de outros elementos
+}*/
 
 

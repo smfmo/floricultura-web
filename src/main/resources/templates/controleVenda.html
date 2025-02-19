@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .endereco-box{
+      background-color: #eceff1; /* Tom de cinza mais escuro */
+      border-radius: 8px; /* Bordas arredondadas */
+      padding: 12px; /* Espaçamento interno */
+      border: 1px solid #cfd8dc; /* Borda sutil para destaque */
+      font-size: 16px; /* Tamanho da fonte ajustado */
+    }
+  </style>
     <title>Controle de Vendas </title>
 </head>
 <body>
@@ -30,7 +39,6 @@
 </header><br>
 <div class="container mt-5">
   <div class="row">
-
     <div th:each="carrinho : ${carrinhos}" class="col-md-12 mb-4">
       <div class="card">
         <div class="card-body">
@@ -41,7 +49,16 @@
           <h4 th:if="${carrinho.cliente != null}">
             Telefone: <span th:text="${carrinho.cliente.telefone}"></span>
           </h4>
-          <h4> Data e hora da compra: <span th:text="${#temporals.format(carrinho.dataHoraCompra, 'dd/MM/yyyy HH:mm:ss')}"></span></h4>
+          <div th:if="${carrinho.cliente != null}" class="endereco-box">
+            <strong>Endereço:</strong> <span th:text="${carrinho.cliente.endereco.logradouro}"></span>
+            <span th:text="${carrinho.cliente.endereco.bairro}" ></span>
+            <span th:text="${carrinho.cliente.endereco.localidade}"></span>
+            <span th:text="${carrinho.cliente.endereco.uf}"></span><br>
+            <strong>Número: </strong><span th:text="${carrinho.cliente.endereco.numero}"></span><br>
+            <strong>Complemento:</strong> <span th:text="${carrinho.cliente.endereco.complemento}"></span><br>
+          </div>
+          <h4> Data e hora da compra: <span th:text="${#temporals.format(carrinho.dataHoraCompra, 'dd/MM/yyyy HH:mm:ss')}"></span></h4><br>
+
           <table class="table table-striped">
             <thead>
             <tr>
@@ -62,6 +79,7 @@
             </tr>
             </tbody>
           </table>
+          <h4>Total do Carrinho: R$ <span th:text="${carrinho.totalCarrinho}"></span></h4>
         </div>
       </div>
     </div>
