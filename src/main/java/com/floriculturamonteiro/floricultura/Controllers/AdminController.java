@@ -2,6 +2,7 @@ package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
@@ -101,8 +102,14 @@ public class AdminController {
     }
 
     //ver as vendas no controle de Vendas
-    @GetMapping("/controleVenda")
+    @GetMapping("controleVenda")
     public String exibirCompras(Model model){
+        List<Carrinho> carrinhos = carrinhoService.exibirCompras();
+        for (Carrinho carrinho : carrinhos) {
+            double totalCarrinho = carrinho.getItens().stream()
+                    .mapToDouble(ItemCarrinho::getPrecoTotal).sum();
+            carrinho.setTotalCarrinho(totalCarrinho);
+        }
         model.addAttribute("carrinhos", carrinhoService.exibirCompras());
         return "controleVenda";
     }

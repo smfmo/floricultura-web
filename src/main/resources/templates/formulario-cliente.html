@@ -1,27 +1,190 @@
 <!DOCTYPE html>
-<html lang="pt-br"  xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <title>Finalizar compra</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Finalizar Compra</title>
+    <script>
+        function validarCep() {
+            const cep = document.getElementById('cep').value.replace(/\D/g, '');
+            if (cep.length !== 8) {
+                alert('CEP inválido!');
+                return false;
+            }
+
+            fetch(`/cep/${cep}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('logradouro').value = data.logradouro;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('localidade').value = data.localidade;
+                    document.getElementById('uf').value = data.uf;
+                    document.getElementById('numero').value = data.numero;
+                    document.getElementById('complemento').value = data.complemento;
+
+                    const cidade = data.localidade;
+                    if (!['Novo Gama', 'Valparaíso de Goiás'].includes(cidade)) {
+                        alert('Desculpe, não atendemos sua região.');
+                        return false;
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar CEP:', error);
+                    return false;
+                });
+        }
+
+        document.querySelector('form').addEventListener('submit', function (event) {
+            if (!validarCep()) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="text-center"> Finalizar compra</h1>
-    <form th:action="@{/carrinho/finalizar/{carrinhoId}(carrinhoId=${carrinhoId})}" method="post">
-        <div class="form-group">
-            <label for="nome">Nome</label>
-            <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
-        </div>
-        <div class="form-group">
-            <label for="telefone">número de telefone</label>
-            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="+55 11 96123-4567" required>
-            <small class="form-text text-muted">Somente números!</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Finalizar Compra</button>
-    </form>
-
+<div class="fixed-bottom mb-3 mr-3">
+    <a href="https://wa.me/5561992025713" target="_blank" class="whatsapp-btn" title="Fale conosco!">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://www.instagram.com/floricultura_monteiro" target="_blank" class="instagram-btn" title="Nosso instagram!">
+        <i class="fab fa-instagram"></i>
+    </a>
 </div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+
+        <a class="navbar-brand" href="#">Floricultura Monteiro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="bg-primary text-success-emphasis text-center py-5">
+    <h1>Identificação</h1>
+</header>
+
+<main class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <form th:action="@{/carrinho/finalizar/{carrinhoId}(carrinhoId=${carrinhoId})}" method="post">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Número de telefone</label>
+                    <input type="text" class="form-control" id="telefone" name="telefone" placeholder="+55 11 96123-4567" required>
+                    <small class="form-text text-muted">Somente números!</small>
+                </div>
+                <div class="form-group">
+                    <label for="cep">CEP</label>
+                    <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite seu CEP" required>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="validarCep()">Buscar Endereço</button>
+                </div>
+                <div class="form-group">
+                    <label for="logradouro">Logradouro</label>
+                    <input type="text" class="form-control" id="logradouro" name="logradouro" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" class="form-control" id="bairro" name="bairro" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="localidade">Cidade</label>
+                    <input type="text" class="form-control" id="localidade" name="localidade" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="uf">UF</label>
+                    <input type="text" class="form-control" id="uf" name="uf" readonly>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <label for="numero">Número</label>
+                        <input type="text" class="form-control" id="numero" name="numero">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" class="form-control" id="complemento" name="complemento">
+                    </div>
+                </div><br>
+                <button type="submit" class="btn btn-primary">Finalizar Compra</button>
+            </form>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-4">
+            <div class=" card card-custom" style="width: 22rem; margin: auto;">
+                <div class="card-body">
+                    <h5 class="card-title">Resumo da Compra</h5>
+                    <div th:each="item : ${itens}">
+                        <img th:src="@{'/' + ${item.flores.urlImagem}}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
+                        max-width: 50%; text-align:center; ">
+                        <div><span th:text="${item.flores.nome}"></span></div>
+                        <div><span th:text="'R$ ' + ${item.flores.preco}"></span></div>
+                        <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
+                        <hr>
+                    </div>
+                    <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${total}"></span></p>
+                </div>
+            </div>
+            <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <img src="/img/cancelado.png" class="img-fluid rounded mb-3" alt="Cancelamento">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalReembolsoLabel">Reembolso e Cancelamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                * Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique magni necessitatibus
+                                maiores delectus minus at architecto dolores odit eligendi? Illo animi libero eaque aperiam
+                                dolor atque quas! Sit, esse voluptatem.
+                            </p>
+                            <p>
+                                * Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde ipsa voluptatem molestias id
+                                atque beatae blanditiis corporis optio nobis odio vitae ab excepturi ducimus at adipisci, ut
+                                modi? Numquam, beatae!
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="width: 80%; padding-top: 20px;">
+                <div class="card card-custom" style="width: 15rem; margin-top: 15px; margin-right: 1px;">
+                    <img src="/img/cancelado.png" class="card-img-top" alt="Cancelamento">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReembolso">
+                                Política de Reembolso e cancelamento
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main><br>
+
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; Floricultura Monteiro. Todos os direitos reservados</p>
+
+</footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>
