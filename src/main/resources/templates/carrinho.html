@@ -51,7 +51,7 @@
             <tbody>
             <tr th:each="item : ${itens}" class="text-center">
                 <td>
-                    <img th:src="@{'/' + ${item.flores.urlImagem}}" class="img-thumbnail" alt="Imagem da Flor" style="max-width: 80px; height: auto;">
+                    <img th:src="@{'/' + ${item.flores.urlImagem}}" class="img-thumbnail" alt="Imagem da Flor" style="max-width: 80px; height: auto;" src="">
                 </td>
                 <td th:text="${item.flores.nome}"></td>
                 <td th:text="${item.quantidade}"></td>
