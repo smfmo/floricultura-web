@@ -12,6 +12,7 @@ public class CepService {
     private static final String VIA_CEP_URL = "https://viacep.com.br/ws/%s/json/";
     private static final List<String> CIDADES_ATENDIDAS = List.of("Novo Gama", "Valparaíso de Goiás");
 
+
     //metodo de buscar o endereco pelo cep
     public Endereco buscarEnderecoPeloCep(String cep) {
         RestTemplate restTemplate = new RestTemplate();

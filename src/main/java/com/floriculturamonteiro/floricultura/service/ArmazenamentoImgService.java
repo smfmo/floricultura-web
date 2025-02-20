@@ -1,9 +1,7 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Flores;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,15 +12,14 @@ import java.util.UUID;
 public class ArmazenamentoImgService {
 
     private final Path rootLocation = Paths.get("uploads");
-    private Flores flores;
 
     public String armazenarImg(MultipartFile arquivo) throws IOException {
         if(arquivo.isEmpty()){
-            throw new IOException("Arquivo vazio, falha ao carregar imagem!");
+            throw new IOException("Arquivo vazio, não há imagem!");
         }
 
         //aqui gera nomes únicos para o arquivo
-        String nomeArquivo = UUID.randomUUID().toString() + arquivo.getOriginalFilename();
+        String nomeArquivo = UUID.randomUUID() + arquivo.getOriginalFilename();
         Path destinoArquivo = rootLocation.resolve(nomeArquivo);
 
         //vai criar um dirétorio se não existir

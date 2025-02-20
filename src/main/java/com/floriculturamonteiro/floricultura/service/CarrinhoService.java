@@ -14,13 +14,19 @@ import java.util.List;
 
 @Service
 public class CarrinhoService {
+    //atributos
+    private final ItemCarrinhoRepository itemCarrinhoRepository;
+    private final CarrinhoRepository carrinhoRepository;
+    private final AdminService adminService;
 
     @Autowired
-    private ItemCarrinhoRepository itemCarrinhoRepository;
-    @Autowired
-    private CarrinhoRepository carrinhoRepository;
-    @Autowired
-    private AdminService adminService;
+    public CarrinhoService(ItemCarrinhoRepository itemCarrinhoRepository,
+                           CarrinhoRepository carrinhoRepository,
+                           AdminService adminService) {
+        this.itemCarrinhoRepository = itemCarrinhoRepository;
+        this.carrinhoRepository = carrinhoRepository;
+        this.adminService = adminService;
+    }
 
     //criar um carrinho
     public Carrinho criarCarrinho() {
@@ -29,8 +35,12 @@ public class CarrinhoService {
     }
 
     //adicionar itens ao carrinho
-    public void adicionarFloresAoCarrinho(Long carrinhoId, Long floresId,
-                                        int quantidade, String nomeProduto, double precoTotal) {
+    public void adicionarFloresAoCarrinho(Long carrinhoId,
+                                          Long floresId,
+                                          int quantidade,
+                                          String nomeProduto,
+                                          double precoTotal) {
+
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
         Flores flores = adminService.buscarPeloId(floresId).orElseThrow();
 

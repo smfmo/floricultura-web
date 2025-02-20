@@ -16,14 +16,20 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class AdminController {
+public  class AdminController {
+
+    private final AdminService adminService;
+    private final ArmazenamentoImgService imgService;
+    private final CarrinhoService carrinhoService;
 
     @Autowired
-    private AdminService adminService;
-    @Autowired
-    private ArmazenamentoImgService imgService;
-    @Autowired
-    private CarrinhoService carrinhoService;
+    public AdminController(AdminService adminService,
+                           ArmazenamentoImgService imgService,
+                           CarrinhoService carrinhoService) {
+        this.adminService = adminService;
+        this.imgService = imgService;
+        this.carrinhoService = carrinhoService;
+    }
 
     //página do administrador
     @GetMapping("/admin")
