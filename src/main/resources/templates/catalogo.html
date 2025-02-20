@@ -46,7 +46,7 @@
                 <div class="d-flex flex-wrap" >
                         <div class="card card-custom" style="width: 18rem;">
                             <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
-                        max-width: 100%; text-align:center; ">
+                        max-width: 100%; text-align:center; " src="">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${flores.nome}"></h5>
                                 <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
@@ -71,7 +71,6 @@
                                         <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button>
                                     </div><br>
                                 </form>
-
                                 <div class="d-flex justify-content-center gap-3">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     th:attr="data-bs-target= '#modalDetalhes' + ${flores.id}">detalhes</button>
@@ -93,7 +92,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor">
+                            <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor" src="">
                         </div>
                         <div class="col-md-6">
                             <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p>
@@ -112,5 +111,5 @@
 
     </footer>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>

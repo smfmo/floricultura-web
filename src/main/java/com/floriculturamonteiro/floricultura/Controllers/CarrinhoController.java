@@ -84,7 +84,8 @@ public class CarrinhoController {
 
         //validar o cep
         if (!cepService.cepAtendido(cep)){
-            redirectAttributes.addFlashAttribute("error", "Desculpe, não atendemos sua região!");
+            redirectAttributes.addFlashAttribute("error",
+                    "Desculpe, não podemos prosseguir com a compra. Não atendemos sua região!");
             return "redirect:/carrinho/" + carrinhoId;
         }
         Cliente cliente = new Cliente();
