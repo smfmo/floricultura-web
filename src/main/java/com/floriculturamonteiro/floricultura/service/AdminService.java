@@ -11,16 +11,12 @@ import java.util.Optional;
 @Service
 public class AdminService {
 
-    @Autowired
-    private FloresRepository repository;
+    //atributo
+    private final FloresRepository repository;
 
+    @Autowired
     public AdminService(FloresRepository repository) {
         this.repository = repository;
-    }
-
-    //listar as flores
-    public List<Flores> getAllFlores(){
-        return repository.findAll();
     }
 
     //adicionar as flores
@@ -70,4 +66,9 @@ public class AdminService {
             repository.save(flores);
         });
     }
+
+    /*listar as flores (se precisar listar todas as flores cadastradas!!)
+    public List<Flores> getAllFlores(){
+        return repository.findAll();
+    }*/
 }
