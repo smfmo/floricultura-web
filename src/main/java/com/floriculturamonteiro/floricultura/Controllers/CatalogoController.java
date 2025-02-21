@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class CatalogoController {
@@ -18,9 +19,14 @@ public class CatalogoController {
     @Autowired
     private CarrinhoService carrinhoService;
 
+    //pagina inicial
+    @GetMapping("/")
+    public String PagInicial(){
+        return "Paginainicial";
+    }
 
     //página de catálogo
-    @GetMapping
+    @GetMapping("/catalogo")
     public String catalogo(Model model){
         Carrinho carrinho = carrinhoService.criarCarrinho();
         model.addAttribute("carrinhoId", carrinho.getId());
