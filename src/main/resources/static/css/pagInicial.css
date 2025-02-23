@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Floricultura Monteiro</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <style>
-    body {
+body {
         margin: 0;
         font-family: 'Roboto', sans-serif;
         background-color: #A3E063; /* Fundo verde*/
@@ -38,7 +29,7 @@
     }
 
     .hero-content h1 {
-        font-family: 'Playfair Display', serif;
+        font-family:;
         font-size: 3rem;
         font-weight: 700;
         margin-bottom: 20px;
@@ -48,7 +39,8 @@
     .hero-content p {
         font-size: 1.25rem;
         margin-bottom: 40px;
-        color: rgba(255, 255, 255, 0.8);
+        color: #333333;
+
     }
 
     .btn-primary {
@@ -109,39 +101,36 @@
             padding: 10px 30px;
         }
     }
-  </style>
-</head>
-<body>
 
-<!-- Hero Section -->
-<div class="hero-section">
-  <img src="img/floriculturaMonteiro.jpg" alt="Floricultura Monteiro" class="hero-image">
-  <div class="hero-content">
-    <h1>Bem-vindo à Floricultura Monteiro</h1>
-    <p>Descubra a beleza das flores em nosso catálogo exclusivo.</p>
-    <a href="/catalogo" class="btn btn-primary">Ir às Compras</a>
-  </div>
-  <div class="petals" id="petals"></div>
-</div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  function createPetal() {
-      const petal = document.createElement('div');
-      petal.classList.add('petal');
-      petal.style.left = Math.random() * 100 + 'vw';
-      petal.style.animationDuration = Math.random() * 3 + 2 + 's';
-      petal.style.opacity = Math.random();
-      petal.style.width = Math.random() * 20 + 10 + 'px';
-      petal.style.height = petal.style.width;
-      document.getElementById('petals').appendChild(petal);
-      setTimeout(() => {
-          petal.remove();
-      }, 5000);
+/* Estilos para a área restrita */
+  .restricted-area {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
   }
 
-  setInterval(createPetal, 300);
-</script>
-</body>
-</html>
+  .restricted-link {
+      text-decoration: none;
+      color: #9c27b0; /* Cor roxa para combinar com o design */
+      font-size: 1.1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+      padding: 10px 15px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+  }
+
+  .restricted-link:hover {
+      background-color: rgba(255, 255, 255, 1); /* Fundo mais sólido ao passar o mouse */
+      color: #7b1fa2; /* Roxo mais escuro ao passar o mouse */
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .restricted-link i {
+      font-size: 1.2rem;
+  }
