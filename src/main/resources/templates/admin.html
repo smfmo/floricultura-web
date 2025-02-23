@@ -34,6 +34,11 @@
 </header><br>
 
 <div class="container mt-5">
+    <div class="text-end mt-3">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-danger">desconectar</button>
+        </form>
+    </div>
     <h2>Área de Administração da Floricultura</h2>
     <h1>Adicionar Produto</h1>
     <form action="/addFlores" method="post" enctype="multipart/form-data">
