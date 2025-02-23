@@ -31,6 +31,12 @@ public  class AdminController {
         this.carrinhoService = carrinhoService;
     }
 
+    //Login do administrador
+    @GetMapping("/loginAdm")
+    public String loginAdm(){
+        return "loginAdm";
+    }
+
     //página do administrador
     @GetMapping("/admin")
     public String admin(Model model){
