@@ -19,10 +19,22 @@ public class CatalogoController {
     @Autowired
     private CarrinhoService carrinhoService;
 
+    //sobre nós
+    @GetMapping("/sobre-nos")
+    public String sobreNos(){
+        return "sobre-nos";
+    }
+
     //pagina inicial
     @GetMapping("/")
     public String PagInicial(){
-        return "Paginainicial";
+        return "Pagina-inicial";
+    }
+
+    //contato e localização
+    @GetMapping("/contato")
+    public String contatoLoc(){
+        return "contato";
     }
 
     //página de catálogo
