@@ -26,8 +26,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin}">Voltar</a></li>
       </ul>
     </div>
   </div>
@@ -35,14 +34,16 @@
 
 <header class="bg-primary text-success-emphasis text-center py-5"><!-- início do catálogo de flores-->
   <h1>Controle de Vendas</h1>
-  <p></p>
 </header><br>
 <div class="container mt-5">
+  <form th:action="@{/controleVenda/limpar}" method="post" class="mb-4">
+    <button type="submit" class="btn btn-danger">Limpar carrinhos concluídos</button>
+  </form>
   <div class="row">
     <div th:each="carrinho : ${carrinhos}" class="col-md-12 mb-4">
       <div class="card">
         <div class="card-body">
-          <h2>Carrinho ID: <span th:text="${carrinho.id}"></span></h2>
+          <h2>Carrinho ID: <span th:text="${carrinho.id}"></span></h2><hr>
           <h4 th:if="${carrinho.cliente != null}">
             Nome do Cliente: <span th:text="${carrinho.cliente.nome}"></span>
           </h4>
@@ -55,9 +56,26 @@
             <span th:text="${carrinho.cliente.endereco.localidade}"></span>
             <span th:text="${carrinho.cliente.endereco.uf}"></span><br>
             <strong>Número: </strong><span th:text="${carrinho.cliente.endereco.numero}"></span><br>
-            <strong>Complemento:</strong> <span th:text="${carrinho.cliente.endereco.complemento}"></span><br>
-          </div>
-          <h4> Data e hora da compra: <span th:text="${#temporals.format(carrinho.dataHoraCompra, 'dd/MM/yyyy HH:mm:ss')}"></span></h4><br>
+            <strong>Complemento:</strong> <span th:text="${carrinho.cliente.endereco.complemento}"></span>
+          </div><br>
+          <h4> Data e hora da compra: <span th:text="${#temporals.format(carrinho.dataHoraCompra, 'dd/MM/yyyy HH:mm:ss')}"></span></h4><hr>
+
+          <div class="endereco-box">
+            <h5 class="text-warning fw-bold">ATENÇÃO!<br> A marcação do Status só devera
+            ser feita depois que a entrega for finalizada corretamente.</h5>
+            <p class="card-text">
+              Status:
+              <span th:if="${carrinho.concluido}" class="text-success fw-bold">Concluído</span>
+              <span th:unless="${carrinho.concluido}" class="text-warning fw-bold">Pendente</span>
+            </p>
+
+            <form th:if="${!carrinho.concluido}" th:action="@{/controleVenda/concluir/{id}(id=${carrinho.id})}" method="post">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="concluido" onchange="this.form.submit()">
+                <label class="form-check-label" for="concluido">Marcar como concluído</label>
+              </div>
+            </form>
+          </div><hr>
 
           <table class="table table-striped">
             <thead>
@@ -74,12 +92,12 @@
               <td th:text="${item.id}"></td>
               <td th:text="${item.flores.nome}"></td>
               <td th:text="${item.quantidade}"></td>
-              <td th:text="${item.flores.preco}"></td>
-              <td th:text="${item.precoTotal}"></td>
+              <td th:text="${#numbers.formatDecimal(item.flores.preco, 1, 2)}"></td>
+              <td th:text="${#numbers.formatDecimal(item.precoTotal, 1, 2)}"></td>
             </tr>
             </tbody>
           </table>
-          <h4>Total do Carrinho: R$ <span th:text="${carrinho.totalCarrinho}"></span></h4>
+          <h4>Total do Carrinho: R$ <span th:text="${#numbers.formatDecimal(carrinho.totalCarrinho, 1, 2)}"></span></h4>
         </div>
       </div>
     </div>

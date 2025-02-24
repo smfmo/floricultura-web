@@ -51,20 +51,14 @@
                                 <h5 class="card-title" th:text="${flores.nome}"></h5>
                                 <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
                                 <form th:action="@{/carrinho/adicionarItem}" method="get">
-                                    <p class="price-text"><strong>Preço: R$ </strong><span th:text="${flores.preco}"></span></p>
+                                    <p class="price-text"><strong>Preço: R$ </strong><span th:text="${#numbers.formatDecimal(flores.preco, 1, 2)}"></span></p>
                                     <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
                                     <input type="hidden" name="floresId" th:value="${flores.id}">
-
                                     <div class="text-center">
                                         <label>
                                             <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto"><br>
                                         </label>
                                     </div>
-
-                                    <!--<p class="card-text" th:text="${flores.cuidados}"></p>
-                                    <p class="card-text" th:text="${flores.cor}"></p>
-                                    <p class="card-text" th:text="${flores.disponibilidade}"></p>
-                                    <p class="card-text" th:text="${flores.embalagem}"></p>-->
                                     <input type="hidden" name="NomeProduto" th:value="${flores.nome}">
                                     <input type="hidden" name="precoTotal" th:value="${flores.preco} * ${#numbers.formatInteger(1, 1)}">
                                     <div class="d-flex justify-content-center gap-3">
@@ -95,7 +89,7 @@
                             <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor" src="">
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p>
+                            <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p><hr>
                             <p><strong>Cuidados:</strong> <span th:text="${flores.cuidados}"></span></p>
                         </div>
                     </div>

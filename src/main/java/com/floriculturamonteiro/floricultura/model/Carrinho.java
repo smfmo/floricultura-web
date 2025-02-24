@@ -2,6 +2,7 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +24,25 @@ public class Carrinho {
     private LocalDateTime dataHoraCompra;
 
     @Transient
-    private double totalCarrinho;
+    private BigDecimal totalCarrinho;
+
+    private boolean concluido;
 
     //métodos getters e setters
-    public double getTotalCarrinho() {
+
+    public boolean isConcluido() {
+        return concluido;
+    }
+
+    public void setConcluido(boolean concluido) {
+        this.concluido = concluido;
+    }
+
+    public BigDecimal getTotalCarrinho() {
         return totalCarrinho;
     }
 
-    public void setTotalCarrinho(double totalCarrinho) {
+    public void setTotalCarrinho(BigDecimal totalCarrinho) {
         this.totalCarrinho = totalCarrinho;
     }
 
