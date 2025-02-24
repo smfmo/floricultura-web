@@ -2,6 +2,8 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 
 @Entity(name = "flores")
 @Table(name = "flores")
@@ -11,12 +13,11 @@ public class Flores {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  //id gerado automáticamente automático
 
-
     private String nome;
 
     private String urlImagem;
 
-    private Double preco;
+    private BigDecimal preco;
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
@@ -29,7 +30,7 @@ public class Flores {
     public Flores(Long id,
                   String nome,
                   String urlImagem,
-                  Double preco,
+                  BigDecimal preco,
                   String descricao,
                   String cuidados) {
         this.id = id;
@@ -109,11 +110,11 @@ public class Flores {
         this.cuidados = cuidados;
     }
 
-    public Double getPreco() {
+    public BigDecimal getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
 

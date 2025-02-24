@@ -2,6 +2,8 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 public class ItemCarrinho {
     //atributos
@@ -19,7 +21,7 @@ public class ItemCarrinho {
     @JoinColumn(name = "carrinho_id")
     private Carrinho carrinho;
 
-    private double precoTotal;
+    private BigDecimal precoTotal;
 
     private String nomeProduto;
 
@@ -57,11 +59,11 @@ public class ItemCarrinho {
         this.carrinho = carrinho;
     }
 
-    public double getPrecoTotal() {
+    public BigDecimal getPrecoTotal() {
         return precoTotal;
     }
 
-    public void setPrecoTotal(double precoTotal) {
+    public void setPrecoTotal(BigDecimal precoTotal) {
         this.precoTotal = precoTotal;
     }
 

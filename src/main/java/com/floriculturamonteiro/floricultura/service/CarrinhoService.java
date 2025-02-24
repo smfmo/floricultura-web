@@ -7,9 +7,9 @@ import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,13 +40,13 @@ public class CarrinhoService {
                                           Long floresId,
                                           int quantidade,
                                           String nomeProduto,
-                                          double precoTotal) {
+                                          BigDecimal precoTotal) {
 
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
         Flores flores = adminService.buscarPeloId(floresId).orElseThrow();
 
         ItemCarrinho item = new ItemCarrinho();
-        item.setPrecoTotal(flores.getPreco() * quantidade);
+        item.setPrecoTotal(flores.getPreco().multiply(BigDecimal.valueOf(quantidade)));
         item.setNomeProduto(flores.getNome());
         item.setFlores(flores);
         item.setQuantidade(quantidade);
@@ -63,7 +63,11 @@ public class CarrinhoService {
         carrinho.setCliente(cliente);
         carrinhoRepository.save(carrinho);
         carrinho.setDataHoraCompra(LocalDateTime.now());
-        //aqui vai vir a lógica de finalização de compra, salvar no banco de dados(vai aqui)
+
+        BigDecimal totalCarrinho = carrinho.getItens().stream()
+                .map(ItemCarrinho::getPrecoTotal)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+        carrinho.setTotalCarrinho(totalCarrinho);
 
 
         //limpar o carrinho após a compra
@@ -84,4 +88,23 @@ public class CarrinhoService {
             }
         }
     }
+
+    public void carrinhoConcluido(Long carrinhoId){
+        Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
+        carrinho.setConcluido(true);
+        carrinhoRepository.save(carrinho);
+    }
+
+    public void limparCarrinhosConcluidos(){
+        List<Carrinho> carrinhosConcluidos = carrinhoRepository.findByConcluido(true);
+
+        //remover os itens de cada cada carrinho concluído
+        for(Carrinho carrinho : carrinhosConcluidos){
+            itemCarrinhoRepository.deleteAll(carrinho.getItens());
+        }
+
+        //remove os carrihos concluidos
+        carrinhoRepository.deleteAll(carrinhosConcluidos);
+    }
+
 }
