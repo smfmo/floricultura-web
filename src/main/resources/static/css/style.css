@@ -122,4 +122,12 @@ footer {
     z-index: 1000; /* Garante que o card fique acima de outros elementos
 }*/
 
+.controle-box{ /* Espaço do controle de vendas */
+    background-color: #eceff1; /* Tom de cinza mais escuro */
+      border-radius: 8px; /* Bordas arredondadas */
+      padding: 12px; /* Espaçamento interno */
+      border: 1px solid #cfd8dc; /* Borda sutil para destaque */
+      font-size: 16px; /* Tamanho da fonte ajustado */
+    }
+
 

@@ -64,8 +64,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+                <!--<li class="nav-item"><a class="nav-link" th:href="@{}">voltar ao carrinho</a></li>-->
             </ul>
         </div>
     </div>
@@ -130,11 +129,11 @@
                         <img th:src="@{'/' + ${item.flores.urlImagem}}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
                         max-width: 50%; text-align:center; ">
                         <div><span th:text="${item.flores.nome}"></span></div>
-                        <div><span th:text="'R$ ' + ${item.flores.preco}"></span></div>
+                        <div><span th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.flores.preco, 1, 2)}"></span></div>
                         <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
                         <hr>
                     </div>
-                    <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${total}"></span></p>
+                    <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${#numbers.formatDecimal(total, 1,  2)}"></span></p>
                 </div>
             </div>
             <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">

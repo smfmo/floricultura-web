@@ -7,7 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <title>Administração</title>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -20,9 +19,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/}" >Voltar para o catálogo</a></li>
-                <li class="nav-item"><a class="nav-link" href="#sobrenos">Sobre nós</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}" >Verificar o catálogo</a></li>
             </ul>
         </div>
     </div>
@@ -30,7 +27,6 @@
 
 <header class="bg-primary text-success-emphasis text-center py-5"><!-- área do administrador parte superior-->
     <h1>Área do administrador</h1>
-    <p>adicione, modifique, exclua e liste seus produtos!</p>
 </header><br>
 
 <div class="container mt-5">
@@ -62,13 +58,15 @@
             <label for="cuidados" class="form-label">cuidados</label>
             <textarea class="form-control" id="cuidados" name="cuidados" required></textarea>
         </div>
-
         <button type="submit" class="btn btn-primary">Adicionar Produto</button>
-    </form><br>
+    </form><hr>
 
-    <div>
-        <a th:href="@{/controleVenda}" class="btn btn-primary">CONTROLE DE VENDAS</a>
-    </div>
+    <div class="controle-box">
+        <h4> Verifique aqui o Controle de Vendas</h4>
+        <div>
+            <a th:href="@{/controleVenda}" class="btn btn-primary">CONTROLE DE VENDAS</a>
+        </div>
+    </div><hr>
 
     <h1>Produtos Cadastrados - Em estoque</h1><br>
     <div class="container">
@@ -87,7 +85,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div><hr>
+
     <h1>Produtos sem estoque</h1>
     <div th:each="flores : ${floresSemEstoque}" class="col-md-3 col-sm-6 mb-4">
         <div class="d-flex flex wrap">

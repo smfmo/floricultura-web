@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -118,11 +119,28 @@ public  class AdminController {
     public String exibirCompras(Model model){
         List<Carrinho> carrinhos = carrinhoService.exibirCompras();
         for (Carrinho carrinho : carrinhos) {
-            double totalCarrinho = carrinho.getItens().stream()
-                    .mapToDouble(ItemCarrinho::getPrecoTotal).sum();
+            BigDecimal totalCarrinho = carrinho.getItens().stream()
+                    .map(ItemCarrinho::getPrecoTotal)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+
             carrinho.setTotalCarrinho(totalCarrinho);
         }
         model.addAttribute("carrinhos", carrinhoService.exibirCompras());
         return "controleVenda";
     }
+
+    //marcar os carrinhos concluidos
+    @PostMapping("/controleVenda/concluir/{carrinhoId}")
+    public String marcarComoConcluido(@PathVariable Long carrinhoId){
+        carrinhoService.carrinhoConcluido(carrinhoId);
+        return "redirect:/controleVenda";
+    }
+
+    //limpar os carrinhos que ja foram concluídos
+    @PostMapping("controleVenda/limpar")
+    public String limparCarrinhosConcluidos(){
+        carrinhoService.limparCarrinhosConcluidos();
+        return "redirect:/controleVenda";
+    }
+
 }

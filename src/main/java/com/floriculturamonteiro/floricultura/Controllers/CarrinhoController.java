@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -22,21 +23,28 @@ import java.util.List;
 @Scope("session") //um carrinho por sessão de usuário
 public class CarrinhoController {
 
+    private final CarrinhoService carrinhoService;
+    private final AdminService adminService;
+    private final CepService cepService;
+
     @Autowired
-    private CarrinhoService carrinhoService;
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private CepService cepService;
+    public CarrinhoController(CarrinhoService carrinhoService,
+                              AdminService adminService,
+                              CepService cepService) {
+        this.carrinhoService = carrinhoService;
+        this.adminService = adminService;
+        this.cepService = cepService;
+    }
 
     //vizualizar o carrinho
     @GetMapping("/{carrinhoId}")
     public String verCarrinho(@PathVariable Long carrinhoId, Model model) {
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         //calcular o total do carrinho
-        double total = itens.stream()
-                .mapToDouble(item -> item.getQuantidade() * item.getFlores()
-                        .getPreco()).sum();
+       BigDecimal total = itens.stream()
+               .map(ItemCarrinho::getPrecoTotal)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         model.addAttribute("itens", itens);
         model.addAttribute("total", total);
         model.addAttribute("carrinhoId", carrinhoId);
@@ -50,7 +58,7 @@ public class CarrinhoController {
                                           @RequestParam Long floresId,
                                           @RequestParam int quantidade,
                                           @RequestParam String nomeProduto,
-                                          @RequestParam double precoTotal,
+                                          @RequestParam BigDecimal precoTotal,
                                           HttpSession session) {
         carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId,
                 quantidade, nomeProduto, precoTotal);
@@ -65,8 +73,9 @@ public class CarrinhoController {
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         model.addAttribute("itens", itens);
 
-        double total = itens.stream().mapToDouble(item -> item.getQuantidade() * item.getFlores().getPreco())
-                .sum();
+        BigDecimal total = itens.stream().map(ItemCarrinho::getPrecoTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
         model.addAttribute("total", total);
         return "formulario-cliente";
     }
@@ -108,7 +117,7 @@ public class CarrinhoController {
         carrinhoService.finalizarCompra(carrinhoId, cliente);
         session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
         carrinhoService.limparCarrinhosVazios();
-        return "redirect:/";
+        return "redirect:/catalogo";
     }
 
     //metodo para adicionar itens ao carrinho existente ou criar um novo
@@ -128,8 +137,10 @@ public class CarrinhoController {
 
         //adicionar item ao carrinho
         Flores flores = adminService.buscarPeloId(floresId).orElseThrow();
-        carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId, quantidade, flores.getNome(),
-                flores.getPreco() * quantidade);
+
+        BigDecimal precoTotal = flores.getPreco().multiply(BigDecimal.valueOf(quantidade));
+
+        carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId, quantidade, flores.getNome(), precoTotal);
 
         return "redirect:/carrinho/" + carrinhoId;
     }

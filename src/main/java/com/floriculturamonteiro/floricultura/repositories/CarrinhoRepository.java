@@ -12,4 +12,6 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
             "LEFT JOIN FETCH c.cliente " +
             "WHERE SIZE(c.itens) > 0")
     List<Carrinho> findAllWithItens();
+
+    List<Carrinho> findByConcluido(boolean concluido);
 }
