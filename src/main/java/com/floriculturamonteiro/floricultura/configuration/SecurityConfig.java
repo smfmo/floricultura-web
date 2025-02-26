@@ -21,7 +21,7 @@ public class SecurityConfig {
                         .requestMatchers("/loginAdm").permitAll() //acesso público ao Login
                         .requestMatchers( "/admin", // Página do administrador
                                 "/admin/**", // Todas as subrotas de /admin
-                                "/addFlores", // Adicionar flores
+                                "/addFlores/**", // Adicionar flores
                                 "/editar/**", // Editar flores
                                 "/deletarFlores/**", // Deletar flores
                                 "/atualizarFlores/**", // Atualizar flores
