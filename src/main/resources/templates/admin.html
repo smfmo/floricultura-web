@@ -37,7 +37,7 @@
     </div>
     <h2>Área de Administração da Floricultura</h2>
     <h1>Adicionar Produto</h1>
-    <form action="/addFlores" method="post" enctype="multipart/form-data">
+    <form th:action="@{/addFlores}" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" name="nome" required>
