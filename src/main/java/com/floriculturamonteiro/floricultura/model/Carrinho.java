@@ -1,6 +1,8 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Carrinho {
     //atributos
     @Id
@@ -21,60 +25,14 @@ public class Carrinho {
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")
     private Cliente cliente;
 
+    @Column(name = "data_hora_compra")
     private LocalDateTime dataHoraCompra;
 
     @Transient
     private BigDecimal totalCarrinho;
 
+    @Column(name = "concluido")
     private boolean concluido;
 
-    //métodos getters e setters
-
-    public boolean isConcluido() {
-        return concluido;
-    }
-
-    public void setConcluido(boolean concluido) {
-        this.concluido = concluido;
-    }
-
-    public BigDecimal getTotalCarrinho() {
-        return totalCarrinho;
-    }
-
-    public void setTotalCarrinho(BigDecimal totalCarrinho) {
-        this.totalCarrinho = totalCarrinho;
-    }
-
-    public LocalDateTime getDataHoraCompra() {
-        return dataHoraCompra;
-    }
-
-    public void setDataHoraCompra(LocalDateTime dataHoraCompra) {
-        this.dataHoraCompra = dataHoraCompra;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<ItemCarrinho> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemCarrinho> itens) {
-        this.itens = itens;
-    }
+    //métodos getters e setters gerados pelo lombok
 }
