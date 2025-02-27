@@ -1,12 +1,11 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
+@Table(name = "cliente", schema = "public")
+@Data
 public class Cliente {
  //atributos
     @Id
