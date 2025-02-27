@@ -1,16 +1,13 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 import java.math.BigDecimal;
 
 
 @Entity(name = "flores")
 @Table(name = "flores", schema = "public")
-@Getter
-@Setter
+@Data
 public class Flores {
     //atributos
     @Id

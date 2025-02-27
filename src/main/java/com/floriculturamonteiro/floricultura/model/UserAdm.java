@@ -1,19 +1,15 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 
-
 @Entity
 @Table(name = "user_adm", schema = "public")
-@Getter
-@Setter
+@Data
 public class UserAdm implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
