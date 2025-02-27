@@ -1,10 +1,15 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
+@Table (name = "Item_carrinho", schema = "public")
+@Getter
+@Setter
 public class ItemCarrinho {
     //atributos
     @Id
@@ -12,66 +17,20 @@ public class ItemCarrinho {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "flores_id")
-    private Flores flores;
+    private Flores flores; //flores_id (chave estrangeira)
 
+    @Column(name = "quantidade")
     private int quantidade;
 
     @ManyToOne
-    @JoinColumn(name = "carrinho_id")
-    private Carrinho carrinho;
+    private Carrinho carrinho; //carrinho_id (chave estrangeira)
 
+    @Column(name = "preco_total")
     private BigDecimal precoTotal;
 
+    @Column(name = "nome_produto")
     private String nomeProduto;
 
-    //métodos getters e setters
+    //métodos getters e setters gerados pelo lombok
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Flores getFlores() {
-        return flores;
-    }
-
-    public void setFlores(Flores flores) {
-        this.flores = flores;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public Carrinho getCarrinho() {
-        return carrinho;
-    }
-
-    public void setCarrinho(Carrinho carrinho) {
-        this.carrinho = carrinho;
-    }
-
-    public BigDecimal getPrecoTotal() {
-        return precoTotal;
-    }
-
-    public void setPrecoTotal(BigDecimal precoTotal) {
-        this.precoTotal = precoTotal;
-    }
-
-    public String getNomeProduto() {
-        return nomeProduto;
-    }
-
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
-    }
 }

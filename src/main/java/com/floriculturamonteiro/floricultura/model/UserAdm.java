@@ -11,20 +11,21 @@ import java.util.Collections;
 
 
 @Entity
+@Table(name = "user_adm", schema = "public")
 @Getter
 @Setter
-
 public class UserAdm implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "username",unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password",nullable = false)
     private String password;
 
+    @Column(name = "role")
     private String role;
 
     //getters e setters
