@@ -1,29 +1,38 @@
 package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 
 @Entity(name = "flores")
-@Table(name = "flores")
+@Table(name = "flores", schema = "public")
+@Getter
+@Setter
 public class Flores {
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;  //id gerado automáticamente automático
 
+    @Column(name = "nome")
     private String nome;
 
+    @Column(name = "url_imagem")
     private String urlImagem;
 
+    @Column(name = "preco")
     private BigDecimal preco;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "descricao", columnDefinition = "TEXT")
     private String descricao;
-    @Column(columnDefinition = "TEXT")
+
+    @Column(name = "cuidados", columnDefinition = "TEXT")
     private String cuidados;
 
+    @Column(name = "em_estoque")
     private Boolean emEstoque = true;
 
     //construtor
@@ -42,87 +51,9 @@ public class Flores {
 
     }
 
-    public Flores(String nome,
-                  String urlImagem,
-                  String preco,
-                  Double descricao,
-                  String cuidados,
-                  String cor,
-                  String disponibilidade,
-                  String embalagem) {
-
-    }
-
-    public Flores(String nome,
-                  String urlImagem,
-                  Double preco,
-                  String descricao,
-                  String cuidados,
-                  String cor,
-                  String disponibilidade,
-                  String embalagem) {
-
-    }
-
     public Flores() {
 
     }
 
-
-    //métodos getters e setters
-    public Boolean getEmEstoque() {
-        return emEstoque;
-    }
-
-    public void setEmEstoque(Boolean emEstoque) {
-        this.emEstoque = emEstoque;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getCuidados() {
-        return cuidados;
-    }
-
-    public void setCuidados(String cuidados) {
-        this.cuidados = cuidados;
-    }
-
-    public BigDecimal getPreco() {
-        return preco;
-    }
-
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
-    }
+    //métodos getters e setters gerados pelo lombok
 }
