@@ -6,8 +6,10 @@ import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,14 +21,17 @@ public class CarrinhoService {
     private final ItemCarrinhoRepository itemCarrinhoRepository;
     private final CarrinhoRepository carrinhoRepository;
     private final AdminService adminService;
+    private final EmailService emailService;
 
     @Autowired
     public CarrinhoService(ItemCarrinhoRepository itemCarrinhoRepository,
                            CarrinhoRepository carrinhoRepository,
-                           AdminService adminService) {
+                           AdminService adminService,
+                           EmailService emailService) {
         this.itemCarrinhoRepository = itemCarrinhoRepository;
         this.carrinhoRepository = carrinhoRepository;
         this.adminService = adminService;
+        this.emailService = emailService;
     }
 
     //criar um carrinho
@@ -42,8 +47,10 @@ public class CarrinhoService {
                                           String nomeProduto,
                                           BigDecimal precoTotal) {
 
-        Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
-        Flores flores = adminService.buscarPeloId(floresId).orElseThrow();
+        Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(()-> new RuntimeException("Carrinho nao encontrado com o id: " + carrinhoId));
+        Flores flores = adminService.buscarPeloId(floresId)
+                .orElseThrow(()-> new RuntimeException("Flores nao encontrado com o id: " + floresId));
 
         ItemCarrinho item = new ItemCarrinho();
         item.setPrecoTotal(flores.getPreco().multiply(BigDecimal.valueOf(quantidade)));
@@ -58,7 +65,7 @@ public class CarrinhoService {
         return itemCarrinhoRepository.findByCarrinhoId(carrinhoId);
     }
 
-    public void finalizarCompra(Long carrinhoId, Cliente cliente) {
+    public void finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
         carrinho.setCliente(cliente);
         carrinhoRepository.save(carrinho);
@@ -69,7 +76,14 @@ public class CarrinhoService {
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
         carrinho.setTotalCarrinho(totalCarrinho);
 
+        //enviar o email após finalização da compra
+        Context context = new Context();
+        context.setVariable("clienteNome", cliente.getNome());
+        context.setVariable("statusCarrinho", "compra finalizada");
+        context.setVariable("totalCarrinho", totalCarrinho);
+        context.setVariable("itens", carrinho.getItens());
 
+        emailService.enviarEmail(cliente.getEmail(), "status do seu pedido", "email", context);
         //limpar o carrinho após a compra
         itemCarrinhoRepository.deleteAll(carrinho.getItens());
     }
