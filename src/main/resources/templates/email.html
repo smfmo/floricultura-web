@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Status do Pedido</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E0FFA3; /* verde-claro */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #C5FF70; /* verde-principal */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #A3E063; /* verde-escuro */
+            border-radius: 10px 10px 0 0;
+        }
+        .header img {
+            max-width: 100%;
+            height: auto;
+        }
+        .content {
+            padding: 20px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #8CD147; /* verde-intenso */
+            border-radius: 0 0 10px 10px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="cid:floriculturaMonteiro"  alt="Floricultura Monteiro">
+    </div>
+    <div class="content">
+        <h1>Olá, <span th:text="${clienteNome}">Cliente</span>!</h1>
+        <p>O status do seu pedido é: <strong th:text="${statusCarrinho}">Status</strong></p>
+        <p>Total da compra: <strong th:text="${totalCarrinho}">Total</strong></p>
+        <h2>Itens do Pedido:</h2>
+        <ul>
+            <li th:each="item : ${itens}">
+                <span th:text="${item.nomeProduto}">Produto</span> -
+                <span th:text="${item.quantidade}">Quantidade</span> x
+                R$ <span th:text="${item.precoTotal}">Preço</span>
+            </li>
+        </ul>
+    </div>
+    <div class="footer">
+        <p>Obrigado por comprar conosco!</p>
+    </div>
+</div>
+</body>
+</html>
