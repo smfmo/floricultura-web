@@ -1,12 +1,11 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
-import com.floriculturamonteiro.floricultura.model.Cliente;
-import com.floriculturamonteiro.floricultura.model.Endereco;
-import com.floriculturamonteiro.floricultura.model.Flores;
-import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
+import com.floriculturamonteiro.floricultura.model.*;
+import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.CepService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,14 +24,16 @@ public class CarrinhoController {
     private final CarrinhoService carrinhoService;
     private final AdminService adminService;
     private final CepService cepService;
+    private final CarrinhoRepository carrinhoRepository;
 
     @Autowired
     public CarrinhoController(CarrinhoService carrinhoService,
                               AdminService adminService,
-                              CepService cepService) {
+                              CepService cepService, CarrinhoRepository carrinhoRepository) {
         this.carrinhoService = carrinhoService;
         this.adminService = adminService;
         this.cepService = cepService;
+        this.carrinhoRepository = carrinhoRepository;
     }
 
     //vizualizar o carrinho
@@ -90,6 +90,7 @@ public class CarrinhoController {
                                   @RequestParam String uf,
                                   @RequestParam String numero,
                                   @RequestParam String complemento,
+                                  @RequestParam String email,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
 
@@ -102,6 +103,7 @@ public class CarrinhoController {
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
+        cliente.setEmail(email);
 
         Endereco endereco = new Endereco();
         endereco.setCep(cep);
@@ -111,13 +113,24 @@ public class CarrinhoController {
         endereco.setUf(uf);
         endereco.setNumero(numero);
         endereco.setComplemento(complemento);
-
         cliente.setEndereco(endereco);
 
-        carrinhoService.finalizarCompra(carrinhoId, cliente);
-        session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
-        carrinhoService.limparCarrinhosVazios();
-        return "redirect:/catalogo";
+        try{
+            carrinhoService.finalizarCompra(carrinhoId, cliente);
+            session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
+            carrinhoService.limparCarrinhosVazios();
+            redirectAttributes.addFlashAttribute("sucess", "Compra finalizada com sucesso!");
+        } catch (MessagingException e){
+            //erro ao envial email
+            redirectAttributes.addFlashAttribute("error",
+                    "Compra finalizada, mas ocorreu um erro ao enviar o email de confirmação!");
+        }
+        return "redirect:/carrinho/confirmacao";
+    }
+
+    @GetMapping("/confirmacao")
+    public String confirmacaoCompra(){
+        return "confirmacao-compra";
     }
 
     //metodo para adicionar itens ao carrinho existente ou criar um novo
@@ -129,9 +142,10 @@ public class CarrinhoController {
         carrinhoService.limparCarrinhosVazios();
 
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
-        if (carrinhoId == null) {
+        if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
             //se não houver carrinho na sessão, cria um novo
-            carrinhoId = carrinhoService.criarCarrinho().getId();
+            Carrinho novoCarrinho = carrinhoService.criarCarrinho();
+            carrinhoId = novoCarrinho.getId();
             session.setAttribute("carrinhoId", carrinhoId);
         }
 

@@ -22,5 +22,8 @@ public class Cliente {
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
+    @Column(name = "email")
+    private String email;
+
     //métodos getters e setters gerados pelo lombok
 }
