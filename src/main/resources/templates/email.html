@@ -23,7 +23,7 @@
         .header {
             text-align: center;
             padding: 20px 0;
-            background-color: #A3E063; /* verde-escuro */
+            background-color: #9c27b0; /* verde-escuro */
             border-radius: 10px 10px 0 0;
         }
         .header img {
@@ -36,7 +36,7 @@
         .footer {
             text-align: center;
             padding: 20px 0;
-            background-color: #8CD147; /* verde-intenso */
+            background-color: #9c27b0; /* verde-intenso */
             border-radius: 0 0 10px 10px;
             color: #fff;
         }
@@ -49,13 +49,13 @@
     </div>
     <div class="content">
         <h1>Olá, <span th:text="${clienteNome}">Cliente</span>!</h1>
-        <p>O status do seu pedido é: <strong th:text="${statusCarrinho}">Status</strong></p>
-        <p>Total da compra: <strong th:text="${totalCarrinho}">Total</strong></p>
+        <p>Status do pedido: <strong th:text="${statusCarrinho}">Status</strong></p>
+        <p>Total da compra:<strong th:text="${totalCarrinho}"> R$ Total </strong></p>
         <h2>Itens do Pedido:</h2>
         <ul>
             <li th:each="item : ${itens}">
                 <span th:text="${item.nomeProduto}">Produto</span> -
-                <span th:text="${item.quantidade}">Quantidade</span> x
+                <!--<span th:text="${item.quantidade}">Quantidade</span>-->
                 R$ <span th:text="${item.precoTotal}">Preço</span>
             </li>
         </ul>

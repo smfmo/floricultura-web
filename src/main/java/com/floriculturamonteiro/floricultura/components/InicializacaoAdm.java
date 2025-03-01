@@ -16,7 +16,7 @@ public class InicializacaoAdm implements CommandLineRunner {
         this.userAdmService = userAdmService;
     }
 
-    public void run (String... args) throws Exception{
+    public void run (String... args) {
         //criação do usuário administrador
         userAdmService.criarUsuarioAdmin("gkkm2006", "g@briel2006");
     }

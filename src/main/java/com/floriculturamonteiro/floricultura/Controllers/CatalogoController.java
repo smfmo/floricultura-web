@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CatalogoController {
     //atributos
     private final AdminService adminService;
-
     private final CarrinhoService carrinhoService;
 
     @Autowired
