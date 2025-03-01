@@ -1,109 +1,210 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org" lang="pt-br">
-
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilizando botões fixos do WhatsApp e Instagram */
+        .fixed-bottom {
+            right: 20px;
+            bottom: 20px;
+            position: fixed;
+        }
+
+        .whatsapp-btn,
+        .instagram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+        }
+
+        .whatsapp-btn:hover,
+        .instagram-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Navbar estilizada */
+        .navbar {
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 16px;
+            padding: 8px 15px;
+        }
+
+        /* Cabeçalho */
+        header {
+            color: white;
+            background: #007bff;
+        }
+
+        /* Cartões de flores */
+        .card-custom {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        /* Botões dentro dos cards */
+        .card-body button {
+            border-radius: 8px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: white;
+            font-size: 14px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .whatsapp-btn,
+            .instagram-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+            .card-custom {
+                margin-bottom: 15px;
+            }
+
+            .card-body .btn {
+                font-size: 14px;
+            }
+        }
+    </style>
     <title>Página inicial</title>
 </head>
+
 <body>
-    <div class="fixed-bottom mb-3 mr-3">
-        <a href="https://wa.me/5561992025713" target="_blank" class="whatsapp-btn" title="Fale conosco!" >
-            <i class="fab fa-whatsapp"></i>
-        </a>
-
-        <a href="https://www.instagram.com/floricultura_monteiro" target="_blank" class="instagram-btn" title="Nosso instagram!">
-            <i class="fab fa-instagram"></i>
-        </a>
+<div class="fixed-bottom p-3 d-flex flex-column align-items-end">
+    <a href="https://wa.me/5561992025713" target="_blank" class="whatsapp-btn mb-2" title="Fale conosco!">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://www.instagram.com/floricultura_monteiro" target="_blank" class="instagram-btn" title="Nosso Instagram!">
+        <i class="fab fa-instagram"></i>
+    </a>
+</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">Floricultura Monteiro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/sobre-nos}">Sobre nós</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/contato}">Contato e localização</a></li>
+            </ul>
+        </div>
     </div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" >Floricultura Monteiro</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/sobre-nos}">Sobre nós</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/contato}">Contato e localização</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+</nav>
 
-    <header class="bg-primary text-success-emphasis text-center py-5"><!-- início do catálogo de flores-->
-        <h1>Bem-vindo ao  nosso catálogo Flores</h1>
-        <p>Encontre as flores mais lindas para todas as ocasiões</p>
-    </header><br>
+<header class="bg-primary text-center py-4">
+    <h1 class="fs-4">Bem-vindo ao nosso catálogo de Flores</h1>
+    <p class="fs-6">Encontre as flores mais lindas para todas as ocasiões</p>
+</header>
 
-    <main class="container mt-5">
-        <div class="row" >
-            <div th:each="flores : ${flores}" class="col-md-3 col-sm-6 mb-4">
-                <div class="d-flex flex-wrap" >
-                        <div class="card card-custom" style="width: 18rem;">
-                            <img th:src="${flores.urlImagem}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
-                        max-width: 100%; text-align:center; " src="">
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${flores.nome}"></h5>
-                                <!--<p class="card-text" th:text="${flores.descricao}"></p>-->
-                                <form th:action="@{/carrinho/adicionarItem}" method="get">
-                                    <p class="price-text"><strong>Preço: R$ </strong><span th:text="${#numbers.formatDecimal(flores.preco, 1, 2)}"></span></p>
-                                    <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
-                                    <input type="hidden" name="floresId" th:value="${flores.id}">
-                                    <div class="text-center">
-                                        <label>
-                                            <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto"><br>
-                                        </label>
-                                    </div>
-                                    <input type="hidden" name="NomeProduto" th:value="${flores.nome}">
-                                    <input type="hidden" name="precoTotal" th:value="${flores.preco} * ${#numbers.formatInteger(1, 1)}">
-                                    <div class="d-flex justify-content-center gap-3">
-                                        <button type="submit" class="btn btn-primary" >Adicionar ao carrinho</button>
-                                    </div><br>
-                                </form>
-                                <div class="d-flex justify-content-center gap-3">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    th:attr="data-bs-target= '#modalDetalhes' + ${flores.id}">detalhes</button>
-                                </div>
-                            </div>
+<main class="container mt-4">
+    <div class="row g-4">
+        <div th:each="flores : ${flores}" class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card card-custom h-100">
+                <img th:src="${flores.urlImagem}" class="card-img-top" alt="Imagem da Flor">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title" th:text="${flores.nome}"></h5>
+                    <p class="price-text"><strong>Preço: R$ </strong><span th:text="${#numbers.formatDecimal(flores.preco, 1, 2)}"></span></p>
+                    <form th:action="@{/carrinho/adicionarItem}" method="get" class="mt-auto">
+                        <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
+                        <input type="hidden" name="floresId" th:value="${flores.id}">
+                        <div class="text-center mb-2">
+                            <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto">
                         </div>
+                        <button type="submit" class="btn btn-primary w-100">Adicionar ao carrinho</button>
+                    </form>
+                    <button type="button" class="btn btn-primary w-100 mt-2" data-bs-toggle="modal" th:attr="data-bs-target='#modalDetalhes' + ${flores.id}">Detalhes</button>
                 </div>
             </div>
         </div>
-    </main>
-    <!-- Modal para cada flor -->
-    <div th:each="flores : ${flores}" class="modal fade" th:id="'modalDetalhes'+${flores.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel" th:text="${flores.nome}"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor" src="">
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p><hr>
-                            <p><strong>Cuidados:</strong> <span th:text="${flores.cuidados}"></span></p>
-                        </div>
+    </div>
+</main>
+<div th:each="flores : ${flores}" class="modal fade" th:id="'modalDetalhes'+${flores.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" th:text="${flores.nome}"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img th:src="${flores.urlImagem}" class="img-fluid" alt="Imagem da Flor" src="">
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p><hr>
+                        <p><strong>Cuidados:</strong> <span th:text="${flores.cuidados}"></span></p>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
             </div>
         </div>
     </div>
-    <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; Floricultura Monteiro. Todos os direitos reservados</p>
+</div>
+<footer class="bg-dark text-white text-center py-3 mt-4">
+    <p>&copy; Floricultura Monteiro. Todos os direitos reservados</p>
+</footer>
 
-    </footer>
-</body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
+
