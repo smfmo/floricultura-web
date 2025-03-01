@@ -16,8 +16,12 @@ import java.util.Optional;
 @RequestMapping("/flores")
 public class FloresController {
 
+    private final FloresRepository repository;
+
     @Autowired
-    FloresRepository repository;
+    public FloresController(FloresRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping
     public ResponseEntity<List<Flores>> getAll(){

@@ -35,7 +35,7 @@ public  class AdminController {
     //Login do administrador
     @GetMapping("/loginAdm")
     public String loginAdm(){
-        return "loginAdm";
+        return "LoginAdm";
     }
 
     //página do administrador

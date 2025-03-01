@@ -2,7 +2,6 @@ package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Endereco;
 import com.floriculturamonteiro.floricultura.service.CepService;
-import jakarta.persistence.GeneratedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/cep")
 public class CepController {
+
+    private final CepService cepService;
+
     @Autowired
-    private CepService cepService;
+    public CepController(CepService cepService) {
+        this.cepService = cepService;
+    }
 
     @GetMapping("/{cep}")
     public Endereco getEndereco(@PathVariable String cep) {
