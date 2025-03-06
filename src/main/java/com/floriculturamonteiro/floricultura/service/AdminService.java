@@ -33,7 +33,7 @@ public class AdminService {
     public void atualizarFlores(Long id, Flores florAtualizada){
         repository.findById(id).ifPresent(flores ->{
             flores.setNome(florAtualizada.getNome());
-            flores.setUrlImagem(florAtualizada.getUrlImagem());
+            flores.setUrlImagens(florAtualizada.getUrlImagens());
             flores.setPreco(florAtualizada.getPreco());
             flores.setDescricao(florAtualizada.getDescricao());
             flores.setCuidados(florAtualizada.getCuidados());

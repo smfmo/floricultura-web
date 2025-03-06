@@ -11,7 +11,6 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-
         <a class="navbar-brand" href="#">Floricultura Monteiro</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,13 +18,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}" >Verificar o catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}">Verificar o catálogo</a></li>
             </ul>
         </div>
     </div>
 </nav>
 
-<header class="bg-primary text-success-emphasis text-center py-5"><!-- área do administrador parte superior-->
+<header class="bg-primary text-success-emphasis text-center py-5">
     <h1>Área do administrador</h1>
 </header><br>
 
@@ -43,8 +42,8 @@
             <input type="text" class="form-control" id="nome" name="nome" required>
         </div>
         <div class="mb-3">
-            <label for="imagem" class="form-label">Upload da Imagem</label>
-            <input type="file" class="form-control" id="imagem" name="imagem" required>
+            <label for="imagens" class="form-label">Upload das Imagens</label>
+            <input type="file" class="form-control" id="imagens" name="imagens" multiple required>
         </div>
         <div class="mb-3">
             <label for="preco" class="form-label">Preço</label>
@@ -55,7 +54,7 @@
             <textarea class="form-control" id="descricao" name="descricao" required></textarea>
         </div>
         <div class="mb-3">
-            <label for="cuidados" class="form-label">cuidados</label>
+            <label for="cuidados" class="form-label">Cuidados</label>
             <textarea class="form-control" id="cuidados" name="cuidados" required></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Adicionar Produto</button>
@@ -70,10 +69,27 @@
 
     <h1>Produtos Cadastrados - Em estoque</h1><br>
     <div class="container">
-        <div class="row d-flex flex-wrap ">
-            <div th:each="flores : ${floresEmEstoque}" class="col-md-3 col-sm-6 mb-4">
+        <div class="row d-flex flex-wrap">
+            <div th:each="flores, iter : ${floresEmEstoque}" class="col-md-3 col-sm-6 mb-4">
                 <div class="card card-custom" style="width: 19rem; margin: auto;">
-                    <img th:src="@{'/' + ${flores.urlImagem}}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto; max-width: 100%; text-align: center;">
+                    <!-- Carousel com ID único para cada flor -->
+                    <div th:id="'carouselEmEstoque' + ${iter.index}" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div th:each="urlImagem, iterStat : ${flores.urlImagens}"
+                                 th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                                <img th:src="${urlImagem}" class="d-block w-100 card-img-top" alt="Imagem da Flor">
+                            </div>
+                        </div>
+                        <!-- Botões de controle do carousel -->
+                        <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#carouselEmEstoque' + ${iter.index}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" th:attr="data-bs-target='#carouselEmEstoque' + ${iter.index}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Próximo</span>
+                        </button>
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title" th:text="${flores.nome}"></h5>
                         <strong>Descrição: </strong><p class="card-text" th:text="${flores.descricao}"></p>
@@ -88,10 +104,27 @@
     </div><hr>
 
     <h1>Produtos sem estoque</h1>
-    <div th:each="flores : ${floresSemEstoque}" class="col-md-3 col-sm-6 mb-4">
-        <div class="d-flex flex wrap">
-            <div class="inativo" style="width: 14rem; margin: auto;" >
-                <img th:src="@{'/' + ${flores.urlImagem}}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto; max-width: 100%; text-align: center;">
+    <div class="row">
+        <div th:each="flores, iter : ${floresSemEstoque}" class="col-md-3 col-sm-6 mb-4">
+            <div class="card card-custom" style="width: 19rem; margin: auto;">
+                <!-- Carousel com ID único para cada flor -->
+                <div th:id="'carouselSemEstoque' + ${iter.index}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div th:each="urlImagem, iterStat : ${flores.urlImagens}"
+                             th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                            <img th:src="${urlImagem}" class="d-block w-100 card-img-top" alt="Imagem da Flor">
+                        </div>
+                    </div>
+                    <!-- Botões de controle do carousel -->
+                    <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#carouselSemEstoque' + ${iter.index}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" th:attr="data-bs-target='#carouselSemEstoque' + ${iter.index}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Próximo</span>
+                    </button>
+                </div>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${flores.nome}"></h5>
                     <p class="card-text" th:text="${flores.descricao}"></p>

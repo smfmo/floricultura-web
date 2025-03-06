@@ -76,7 +76,7 @@
 <main class="container mt-5">
     <div class="row">
         <div class="col-md-8">
-            <form th:action="@{/carrinho/finalizar/{carrinhoId}(carrinhoId=${carrinhoId})}" method="post">
+            <form th:action="@{/carrinho/finalizar}" method="post">
                 <div class="form-group">
                     <label for="nome">Nome</label>
                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
@@ -124,13 +124,29 @@
                 <button type="submit" class="btn btn-primary">Finalizar Compra</button>
             </form>
         </div>
+
         <div class="col-md-3 col-sm-6 mb-4">
             <div class=" card card-custom" style="width: 22rem; margin: auto;">
                 <div class="card-body">
                     <h5 class="card-title">Resumo da Compra</h5>
-                    <div th:each="item : ${itens}">
-                        <img th:src="@{'/' + ${item.flores.urlImagem}}" class="card-img-top img-fluid" alt="Imagem da Flor" style="height: auto;
-                        max-width: 50%; text-align:center; ">
+                    <div th:each="item, iter : ${itens}">
+                        <div th:id="'carousel' + ${iter.index}" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div th:each="urlImagem, iterStat : ${item.flores.urlImagens}"
+                                     th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                                    <img th:src="${urlImagem}" class="d-block w-100 card-img-top" alt="Imagem da Flor">
+                                </div>
+                            </div>
+                            <!-- Botões de controle do carousel -->
+                            <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#carousel' + ${iter.index}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" th:attr="data-bs-target='#carousel' + ${iter.index}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Próximo</span>
+                            </button>
+                        </div>
                         <div><span th:text="${item.flores.nome}"></span></div>
                         <div><span th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.flores.preco, 1, 2)}"></span></div>
                         <div>Quantidade: <span th:text="${item.quantidade}"></span></div>

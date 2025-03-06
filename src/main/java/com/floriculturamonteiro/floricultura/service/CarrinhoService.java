@@ -121,4 +121,10 @@ public class CarrinhoService {
         carrinhoRepository.deleteAll(carrinhosConcluidos);
     }
 
+    public void excluirItensDoCarrinho(Long itemId){
+        ItemCarrinho item = itemCarrinhoRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item não encotrado"));
+
+        itemCarrinhoRepository.delete(item);
+    }
 }

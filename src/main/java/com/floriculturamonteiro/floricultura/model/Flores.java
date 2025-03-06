@@ -3,6 +3,7 @@ package com.floriculturamonteiro.floricultura.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Entity(name = "flores")
@@ -17,8 +18,9 @@ public class Flores {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "url_imagem")
-    private String urlImagem;
+    @ElementCollection
+    @CollectionTable(name = "flores_imagens", joinColumns = @JoinColumn(name = "flores_id"))
+    private List<String> urlImagens;
 
     @Column(name = "preco")
     private BigDecimal preco;
@@ -35,13 +37,13 @@ public class Flores {
     //construtor
     public Flores(Long id,
                   String nome,
-                  String urlImagem,
+                  List<String> urlImagens,
                   BigDecimal preco,
                   String descricao,
                   String cuidados) {
         this.id = id;
         this.nome = nome;
-        this.urlImagem = urlImagem;
+        this.urlImagens = urlImagens;
         this.preco = preco;
         this.descricao = descricao;
         this.cuidados = cuidados;
