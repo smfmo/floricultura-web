@@ -5,10 +5,12 @@ import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.CepService;
+import com.floriculturamonteiro.floricultura.service.ClienteService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,20 +27,30 @@ public class CarrinhoController {
     private final AdminService adminService;
     private final CepService cepService;
     private final CarrinhoRepository carrinhoRepository;
+    private final ClienteService clienteService;
 
     @Autowired
     public CarrinhoController(CarrinhoService carrinhoService,
                               AdminService adminService,
-                              CepService cepService, CarrinhoRepository carrinhoRepository) {
+                              CepService cepService,
+                              CarrinhoRepository carrinhoRepository,
+                              ClienteService clienteService) {
         this.carrinhoService = carrinhoService;
         this.adminService = adminService;
         this.cepService = cepService;
         this.carrinhoRepository = carrinhoRepository;
+        this.clienteService = clienteService;
     }
 
     //vizualizar o carrinho
-    @GetMapping("/{carrinhoId}")
-    public String verCarrinho(@PathVariable Long carrinhoId, Model model) {
+    @GetMapping("")
+    public String verCarrinho(HttpSession session, Model model) {
+        Long carrinhoId = (Long) session.getAttribute("carrinhoId");
+
+        if (carrinhoId == null) {
+            return "redirect:/catalogo"; //se não houver carrinho na sessão retorna para o catálogo
+        }
+
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         //calcular o total do carrinho
        BigDecimal total = itens.stream()
@@ -63,11 +75,14 @@ public class CarrinhoController {
         carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId,
                 quantidade, nomeProduto, precoTotal);
         session.setAttribute("carrinhoId", carrinhoId); //aqui armazena o ID do carrinho na sessão
-        return "redirect:/carrinho/" + carrinhoId;
+        return "redirect:/carrinho";
     }
 
-    @GetMapping("/finalizar/{carrinhoId}")
-    public String mostratFormCliente(@PathVariable Long carrinhoId, Model model) {
+    @GetMapping("/finalizar")
+    public String mostratFormCliente(HttpSession session, Model model) {
+
+        Long carrinhoId = (Long) session.getAttribute("carrinhoId");
+
         model.addAttribute("carrinhoId", carrinhoId);
         model.addAttribute("cliente", new Cliente());
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
@@ -79,9 +94,9 @@ public class CarrinhoController {
         model.addAttribute("total", total);
         return "formulario-cliente";
     }
-    @PostMapping("/finalizar/{carrinhoId}")
-    public String finalizarCompra(@PathVariable Long carrinhoId,
-                                  @RequestParam String nome,
+    @PostMapping("/finalizar")
+    public String finalizarCompra(
+                                    @RequestParam String nome,
                                   @RequestParam String telefone,
                                   @RequestParam String cep,
                                   @RequestParam String logradouro,
@@ -94,12 +109,15 @@ public class CarrinhoController {
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
 
+        Long carrinhoId = (Long) session.getAttribute("carrinhoId");
         //validar o cep
         if (!cepService.cepAtendido(cep)){
             redirectAttributes.addFlashAttribute("error",
                     "Desculpe, não podemos prosseguir com a compra. Não atendemos sua região!");
-            return "redirect:/carrinho/" + carrinhoId;
+
+            return "redirect:/carrinho";
         }
+
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
@@ -114,6 +132,8 @@ public class CarrinhoController {
         endereco.setNumero(numero);
         endereco.setComplemento(complemento);
         cliente.setEndereco(endereco);
+
+        clienteService.salvarCliente(cliente); //salva o cliente no banco de dados
 
         try{
             carrinhoService.finalizarCompra(carrinhoId, cliente);
@@ -156,6 +176,12 @@ public class CarrinhoController {
 
         carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId, quantidade, flores.getNome(), precoTotal);
 
-        return "redirect:/carrinho/" + carrinhoId;
+        return "redirect:/carrinho";
+    }
+
+    @DeleteMapping("/remover/{itemId}")
+    public ResponseEntity<Void> removerItemDoCarrinho(@PathVariable Long itemId) {
+        carrinhoService.excluirItensDoCarrinho(itemId);
+        return ResponseEntity.noContent().build();
     }
 }

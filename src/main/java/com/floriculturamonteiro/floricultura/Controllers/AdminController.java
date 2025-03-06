@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -62,14 +63,15 @@ public  class AdminController {
     //adicionar flores
     @PostMapping("/addFlores")
     public String addFlores(@ModelAttribute Flores flores,
-                            @RequestParam("imagem") MultipartFile imagem){
+                            @RequestParam("imagens") MultipartFile[] imagens){
         try {
-            //salva a imagem e obtém o caminho
-            String nomeArquivo = imgService.armazenarImg(imagem);
-            flores.setUrlImagem(nomeArquivo);
-
+            List<String> nomesArquivos = new ArrayList<>();
+            for (MultipartFile imagem : imagens) {
+               String nomeArquivo = imgService.armazenarImg(imagem);
+                nomesArquivos.add(nomeArquivo);
+            }
+            flores.setUrlImagens(nomesArquivos);
             adminService.addFlor(flores);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -90,17 +92,13 @@ public  class AdminController {
     @PostMapping("/atualizarFlores/{id}")
     public String atualizarFlores(@PathVariable Long id,
                                   @ModelAttribute Flores florAtualizada,
-                                  @RequestParam("imagem") MultipartFile imagem){
-
+                                  @RequestParam("imagens") MultipartFile[] imagens){
         try {
-            //se uma nova imagem for adicionada ao editar a flor, vai salcar e atualizar o caminho
-            if (!imagem.isEmpty()) {
-                String caminhoImg = imgService.armazenarImg(imagem);
-                florAtualizada.setUrlImagem(caminhoImg);
-
-                //atualiza o produto normalmente no banco de dados
-                adminService.atualizarFlores(id, florAtualizada);
+            if (imagens.length > 0) {
+                List<String> caminhoImagens = imgService.armazenarImg(imagens);
+                florAtualizada.setUrlImagens(caminhoImagens);
             }
+            adminService.atualizarFlores(id, florAtualizada);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
