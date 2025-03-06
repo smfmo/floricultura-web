@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,5 +34,13 @@ public class ArmazenamentoImgService {
 
         //aqui vai retornar o nome do arquivo
         return nomeArquivo;
+    }
+    public List<String> armazenarImg(MultipartFile[] imagens) throws IOException {
+        List<String> nomesArquivos = new ArrayList<>();
+        for (MultipartFile imagem : imagens) {
+            String nomeArquivo = armazenarImg(imagem);
+            nomesArquivos.add(nomeArquivo);
+        }
+        return nomesArquivos;
     }
 }

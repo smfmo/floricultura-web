@@ -3,6 +3,7 @@ package com.floriculturamonteiro.floricultura.configuration;
 import com.floriculturamonteiro.floricultura.repositories.UserAdmRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,16 +18,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/carrinho/remover/**")
+                ) //permite a exclusão dos itens do carrinho no carrinho de compras
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/loginAdm").permitAll() //acesso público ao Login
-                        .requestMatchers( "/admin", // Página do administrador
-                                "/admin/**", // Todas as subrotas de /admin
-                                "/addFlores/**", // Adicionar flores
-                                "/editar/**", // Editar flores
-                                "/deletarFlores/**", // Deletar flores
-                                "/atualizarFlores/**", // Atualizar flores
-                                "/controleVenda", // Controle de vendas
+                        .requestMatchers( "/admin",
+                                "/admin/**",
+                                "/addFlores/**",
+                                "/editar/**",
+                                "/deletarFlores/**",
+                                "/atualizarFlores/**",
+                                "/controleVenda",
                                 "/restaurarEstoque/**").hasRole("ADMIN") //restringe o acesso somente a administradores
+                        .requestMatchers(HttpMethod.DELETE, "/carrinho/remover/**").permitAll() //permite acesso ao metodo delete no carrinho de compras
                         .anyRequest().permitAll() // permite acesso a todas as outras páginas
                 )
                 .formLogin(form -> form
