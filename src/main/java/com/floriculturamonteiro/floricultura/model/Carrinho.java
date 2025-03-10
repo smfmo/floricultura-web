@@ -31,5 +31,6 @@ public class Carrinho {
     @Column(name = "concluido")
     private boolean concluido;
 
+
     //métodos getters e setters gerados pelo lombok
 }
