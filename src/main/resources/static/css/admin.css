@@ -1,0 +1,104 @@
+:root {
+    --verde-principal: #C5FF70;
+    --verde-claro: #E0FFA3;
+    --verde-escuro: #a3e063;
+    --verde-pastel: #D4FFB3;
+    --verde-intenso: #8CD147;
+}
+
+body {
+    background-color: #f4f9f4;
+}
+
+.bg-primary {
+    background-color: #C5FF70 !important;
+}
+
+.btn-primary {
+    background-color: #A3E063 !important;
+    border-color: #A3E063 !important;
+}
+
+.btn-primary:hover {
+    background-color: #A3E063 !important;
+    border-color: #D4FFB3 !important;
+}
+
+.card-custom {
+    display: flex;
+    flex-direction: column;
+    height: 450px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    overflow: hidden;
+}
+
+.card-custom:hover {
+    transform: translateY(-5px);
+}
+
+.card-custom .carousel-inner {
+    height: 250px;
+}
+
+.card-custom .carousel-item img {
+    height: 50%;
+    width: 50%;
+    object-fit: contain;
+}
+
+.card-custom .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.card-custom .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.card-custom .card-text {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.card-custom .btn {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.btn-custom {
+    background-color: #A8E65C;
+    border: none;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin: 5px;
+}
+
+.btn-custom:hover {
+    background-color: #98d84f;
+}
+
+.controle-box {
+    background-color: #eceff1;
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #cfd8dc;
+    font-size: 16px;
+}
+
+.row-cols-1 .col,
+.row-cols-md-3 .col,
+.row-cols-lg-4 .col {
+    margin-bottom: 20px;
+}
