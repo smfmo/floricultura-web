@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -80,7 +81,6 @@ public class CarrinhoController {
 
     @GetMapping("/finalizar")
     public String mostratFormCliente(HttpSession session, Model model) {
-
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
         model.addAttribute("carrinhoId", carrinhoId);
