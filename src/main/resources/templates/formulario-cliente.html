@@ -6,6 +6,92 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <title>Finalizar Compra</title>
+    <style>
+        .form-box {
+            background-color: #eceff1; /* Tom de cinza mais escuro */
+            border-radius: 8px; /* Bordas arredondadas */
+            padding: 12px; /* Espaçamento interno */
+            border: 1px solid #cfd8dc; /* Borda sutil para destaque */
+            font-size: 16px; /* Tamanho da fonte ajustado */
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            padding-bottom: 100px; /* Espaço para o rodapé */
+        }
+
+        .footer-info {
+            text-align: center;
+        }
+
+        footer {
+            background-color: #C5FF70;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+            height: auto;
+        }
+        /* Estilizando botões fixos do WhatsApp e Instagram */
+        .fixed-bottom {
+            right: 20px;
+            bottom: 20px;
+            position: fixed;
+        }
+
+        .whatsapp-btn,
+        .instagram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
+        }
+
+        .whatsapp-btn:hover,
+        .instagram-btn:hover {
+            transform: scale(1.1);
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar-nav {
+                text-align: center;
+            }
+
+            .whatsapp-btn,
+            .instagram-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 20px;
+            }
+
+        }
+    </style>
     <script>
         function validarCep() {
             const cep = document.getElementById('cep').value.replace(/\D/g, '');
@@ -73,136 +159,143 @@
     <h1>Identificação</h1>
 </header>
 
-<main class="container mt-5">
-    <div class="row">
-        <div class="col-md-8">
-            <form th:action="@{/carrinho/finalizar}" method="post">
-                <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite seu nome" required>
-                </div>
-                <div class="form-group">
-                    <label for="telefone">Número de telefone</label>
-                    <input type="text" class="form-control" id="telefone" name="telefone" placeholder="+55 11 96123-4567" required>
-                    <small class="form-text text-muted">Somente números!</small>
-                </div>
-                <div class="form-group">
-                    <label for="email">Digite seu e-mail</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="exemplo@exemplo.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="cep">CEP</label>
-                    <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite seu CEP" required>
-                    <button type="button" class="btn btn-secondary mt-2" onclick="validarCep()">Buscar Endereço</button>
-                </div>
-                <div class="form-group">
-                    <label for="logradouro">Logradouro</label>
-                    <input type="text" class="form-control" id="logradouro" name="logradouro">
-                </div>
-                <div class="form-group">
-                    <label for="bairro">Bairro</label>
-                    <input type="text" class="form-control" id="bairro" name="bairro">
-                </div>
-                <div class="form-group">
-                    <label for="localidade">Cidade</label>
-                    <input type="text" class="form-control" id="localidade" name="localidade">
-                </div>
-                <div class="form-group">
-                    <label for="uf">UF</label>
-                    <input type="text" class="form-control" id="uf" name="uf">
-                </div>
-                <div class="form-group row">
-                    <div class="col-md-6">
-                        <label for="numero">Número</label>
-                        <input type="text" class="form-control" id="numero" name="numero">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="complemento">Complemento</label>
-                        <input type="text" class="form-control" id="complemento" name="complemento">
-                    </div>
-                </div><br>
-                <button type="submit" class="btn btn-primary">Finalizar Compra</button>
-            </form>
-        </div>
-
-        <div class="col-md-3 col-sm-6 mb-4">
-            <div class=" card card-custom" style="width: 22rem; margin: auto;">
-                <div class="card-body">
-                    <h5 class="card-title">Resumo da Compra</h5>
-                    <div th:each="item, iter : ${itens}">
-                        <div th:id="'carousel' + ${iter.index}" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <div th:each="urlImagem, iterStat : ${item.flores.urlImagens}"
-                                     th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
-                                    <img th:src="${urlImagem}" class="d-block w-100 card-img-top" alt="Imagem da Flor">
+<div class="wrapper">
+    <div class="content">
+        <main class="container mt-5">
+            <div class="row">
+                <div class="col-md-8">
+                    <form th:action="@{/carrinho/finalizar}" method="post">
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label for="nome">Nome do destinatário</label>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefone">telefone do destinatário</label>
+                                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite aqui" required>
+                                <small class="form-text text-muted">Somente números!</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cartaoMensagem">cartão de mensagem (Lembre-se de colocar o seu nome)</label>
+                            <textarea style="width: 420px; height: 100px; padding: 10px; vertical-align: top;" class="form-control" id="cartaoMensagem" name="cartaoMensagem" placeholder="Digite aqui"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Digite seu e-mail</label>
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Digite aqui" required>
+                        </div>
+                        <hr>
+                        <div class="form-box">
+                            <div class="form-group">
+                                <label for="cep">CEP</label>
+                                <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite seu CEP" required>
+                                <button type="button" class="btn btn-secondary mt-2" onclick="validarCep()">Buscar Endereço</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="logradouro">Logradouro</label>
+                                <input type="text" class="form-control" id="logradouro" name="logradouro">
+                            </div>
+                            <div class="form-group">
+                                <label for="bairro">Bairro</label>
+                                <input type="text" class="form-control" id="bairro" name="bairro">
+                            </div>
+                            <div class="form-group">
+                                <label for="localidade">Cidade</label>
+                                <input type="text" class="form-control" id="localidade" name="localidade">
+                            </div>
+                            <div class="form-group">
+                                <label for="uf">UF</label>
+                                <input type="text" class="form-control" id="uf" name="uf">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="numero">Número</label>
+                                    <input type="text" class="form-control" id="numero" name="numero">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="complemento">ponto de referencia para entrega</label>
+                                    <input type="text" class="form-control" id="complemento" name="complemento">
                                 </div>
                             </div>
-                            <!-- Botões de controle do carousel -->
-                            <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#carousel' + ${iter.index}" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Anterior</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" th:attr="data-bs-target='#carousel' + ${iter.index}" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Próximo</span>
-                            </button>
                         </div>
-                        <div><span th:text="${item.flores.nome}"></span></div>
-                        <div><span th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.flores.preco, 1, 2)}"></span></div>
-                        <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
                         <hr>
+                        <button type="submit" class="btn btn-primary">Finalizar Compra</button>
+                    </form>
+                </div>
+
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card card-custom" style="width: 22rem; margin: auto;">
+                        <div class="card-body">
+                            <h5 class="card-title">Resumo da Compra</h5>
+                            <div th:each="item : ${itens}">
+                                <div><span th:text="${item.flores.nome}"></span></div>
+                                <div><span th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.flores.preco, 1, 2)}"></span></div>
+                                <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
+                                <hr>
+                            </div>
+                            <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
+                        </div>
                     </div>
-                    <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${#numbers.formatDecimal(total, 1,  2)}"></span></p>
+                    <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <img src="/img/cancelado.png" class="img-fluid rounded mb-3" alt="Cancelamento">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalReembolsoLabel">Reembolso e Cancelamento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        * Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique magni necessitatibus
+                                        maiores delectus minus at architecto dolores odit eligendi? Illo animi libero eaque aperiam
+                                        dolor atque quas! Sit, esse voluptatem.
+                                    </p>
+                                    <p>
+                                        * Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde ipsa voluptatem molestias id
+                                        atque beatae blanditiis corporis optio nobis odio vitae ab excepturi ducimus at adipisci, ut
+                                        modi? Numquam, beatae!
+                                    </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container" style="width: 80%; padding-top: 20px;">
+                        <div class="card card-custom" style="width: 15rem; margin-top: 15px; margin-right: 1px;">
+                            <img src="/img/cancelado.png" class="card-img-top" alt="Cancelamento">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReembolso">
+                                        Política de Reembolso e cancelamento
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                        <img src="/img/cancelado.png" class="img-fluid rounded mb-3" alt="Cancelamento">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalReembolsoLabel">Reembolso e Cancelamento</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>
-                                * Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique magni necessitatibus
-                                maiores delectus minus at architecto dolores odit eligendi? Illo animi libero eaque aperiam
-                                dolor atque quas! Sit, esse voluptatem.
-                            </p>
-                            <p>
-                                * Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde ipsa voluptatem molestias id
-                                atque beatae blanditiis corporis optio nobis odio vitae ab excepturi ducimus at adipisci, ut
-                                modi? Numquam, beatae!
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        </div>
-                    </div>
-                </div>
+        </main>
+    </div>
+</div>
+<footer>
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-8 footer-info">
+                <p>Floricultura Monteiro | CNPJ: 59.380.838/0001-09</p>
+                <p>Em frente a Sorveteria Mega Gelatto - R. 2, Quadra 51 lote 17. Loja 6 - Jardim Oriente, Valparaíso de Goiás - GO, 72870-221</p>
+                <p>WhatsApp: (61) 99202-5713</p>
             </div>
-            <div class="container" style="width: 80%; padding-top: 20px;">
-                <div class="card card-custom" style="width: 15rem; margin-top: 15px; margin-right: 1px;">
-                    <img src="/img/cancelado.png" class="card-img-top" alt="Cancelamento">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalReembolso">
-                                Política de Reembolso e cancelamento
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-4 text-center">
+                <img src="/img/floriculturaMonteiro.jpg" alt="Imagem do Rodapé" class="img-fluid rounded" style="max-width: 120px; height: auto;">
             </div>
         </div>
     </div>
-</main><br>
-
-<footer class="bg-dark text-white text-center py-3">
-    <p>&copy; Floricultura Monteiro. Todos os direitos reservados</p>
-
 </footer>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </html>
