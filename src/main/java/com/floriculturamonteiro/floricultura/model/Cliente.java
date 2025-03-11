@@ -25,5 +25,8 @@ public class Cliente {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "cartao_mensagem")
+    private String cartaoMensagemDestinatario;
+
     //métodos getters e setters gerados pelo lombok
 }
