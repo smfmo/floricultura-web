@@ -6,49 +6,153 @@
   <link rel="icon" type="image/ico" href="/img/floriculturaMonteiro.ico">
   <title>Confirmação de Compra</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #C5FF70;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background-color: #a3e063;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    .about-section {
+      padding: 80px 20px;
       text-align: center;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      margin: 40px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
     }
+
+    .about-section h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #8CD147; /* Cor verde */
+      margin-bottom: 20px;
+      animation: fadeInDown 1.5s ease;
+    }
+
+    .about-section p {
+      font-size: 1.25rem;
+      color: #333333;
+      margin-bottom: 40px;
+      animation: fadeInUp 1.5s ease;
+    }
+
     .success {
-      color: green;
+      color: #4CAF50;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease;
     }
+
     .error {
-      color: red;
+      color: #FF5252;
+      font-size: 1.25rem;
+      margin-bottom: 20px;
+      animation: fadeIn 1.5s ease;
     }
-    .btn-primary{
-      background-color: #9c27b0; /* Cor roxa para o botão */
-      border-color: #9c27b0;
+
+    .btn-back {
+      background-color: #8CD147;
+      border-color: #8CD147;
       font-size: 1.25rem;
       padding: 12px 40px;
       border-radius: 30px;
       transition: all 0.3s ease;
       text-transform: uppercase;
       letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 40px;
+      text-decoration: none;
+    }
+
+    .btn-back:hover {
+      background-color: #7BB142;
+      border-color: #7BB142;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    footer {
+      background-color: #B6D3B7 !important;
+      padding: 10px 0;
+      text-align: center;
+      width: 100%;
+      position: relative;
+      bottom: 0;
+      height: auto;
+    }
+
+    .footer-info p {
+      color: #333333;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (max-width: 768px) {
+      .about-section h1 {
+        font-size: 2.5rem;
+      }
+
+      .about-section p {
+        font-size: 1rem;
+      }
+
+      .btn-back {
+        font-size: 1rem;
+        padding: 10px 30px;
+      }
     }
   </style>
 </head>
 <body>
-<div class="container">
-  <h1>Confirmação de Compra</h1>
+<div class="about-section">
+  <h1>Compra realizada com sucesso</h1>
   <!--/*@thymesVar id="success" type="java"*/-->
   <div th:if="${success}" class="success" th:text="${success}"></div>
   <!--/*@thymesVar id="error" type="java"*/-->
   <div th:if="${error}" class="error" th:text="${error}"></div>
   <p>Obrigado por comprar conosco!</p>
-  <a th:href="@{/catalogo}" class=" btn btn-primary">Voltar à página inicial</a>
+  <a th:href="@{/catalogo}" class="btn-back">Voltar à página inicial</a>
 </div>
+<footer>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-8 footer-info">
+        <p>Floricultura Monteiro | CNPJ: 59.380.838/0001-09</p>
+        <p>Em frente a Sorveteria Mega Gelatto - R. 2, Quadra 51 lote 17. Loja 6 - Jardim Oriente, Valparaíso de Goiás - GO, 72870-221</p>
+        <p>WhatsApp: (61) 99202-5713</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <img src="/img/floriculturaMonteiro.jpg" alt="Imagem do Rodapé" class="img-fluid rounded" style="max-width: 120px; height: auto;">
+      </div>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

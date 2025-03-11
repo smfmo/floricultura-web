@@ -24,13 +24,11 @@
         .bi-trash3:hover {
             color: #dc3545 !important;
         }
-        /* Estilizando botões fixos do WhatsApp e Instagram */
         .fixed-bottom {
             right: 20px;
             bottom: 20px;
             position: fixed;
         }
-
         .whatsapp-btn,
         .instagram-btn {
             display: flex;
@@ -71,6 +69,25 @@
             }
 
         }
+        /* Navbar estilizada */
+        .navbar {
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 16px;
+            padding: 8px 15px;
+        }
+
+        /* Cabeçalho */
+        header {
+            color: white;
+            background: #007bff;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -83,15 +100,14 @@
     </a>
 </div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">Floricultura Monteiro</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand">Floricultura Monteiro</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}">Voltar ao catálogo</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}">voltar ao catálogo</a></li>
             </ul>
         </div>
     </div>
