@@ -28,5 +28,8 @@ public class Cliente {
     @Column(name = "cartao_mensagem")
     private String cartaoMensagemDestinatario;
 
+    @Column(name = "incluir_cartao_mensagem")
+    private boolean incluirCartaoMensagem = false;
+
     //métodos getters e setters gerados pelo lombok
 }
