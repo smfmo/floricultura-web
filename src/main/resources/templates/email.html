@@ -50,8 +50,12 @@
     <div class="content">
         <h1>Olá, <span th:text="${clienteNome}">Cliente</span>!</h1>
         <p>Status do pedido: <strong th:text="${statusCarrinho}">Status</strong></p>
-        <p>Total da compra:<strong th:text="${totalCarrinho}"> R$ Total </strong></p>
+        <p>Total da compra: R$ <strong th:text="${totalCarrinho}"> Total </strong></p>
         <h2>Itens do Pedido:</h2>
+        <div th:if="${incluirCartaoMensagem}">
+            <p>Cartão de mensagem: R$ 10,00</p>
+        </div>
+
         <ul>
             <li th:each="item : ${itens}">
                 <span th:text="${item.nomeProduto}">Produto</span> -

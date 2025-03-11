@@ -105,6 +105,9 @@
             font-size: 16px;
             padding: 8px 15px;
         }
+        .form-check{
+            color: #6a1b9a;
+        }
     </style>
     <script>
         function validarCep() {
@@ -140,6 +143,29 @@
         document.querySelector('form').addEventListener('submit', function (event) {
             if (!validarCep()) {
                 event.preventDefault();
+            }
+        });
+        function atualizarTotal() {
+            let totalCompraElement = document.getElementById('totalCompra');
+            let totalCompra = parseFloat(totalCompraElement.innerText.replace(',', '.'));
+
+            let incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem').checked;
+            const valorCartaoMensagem = 10.00;
+
+            if (incluirCartaoMensagem) {
+                totalCompra += valorCartaoMensagem;
+            } else {
+                totalCompra -= valorCartaoMensagem;
+            }
+
+            totalCompraElement.innerText = totalCompra.toFixed(2).replace('.', ',');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verifica se o checkbox está marcado ao carregar a página
+            let incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem').checked;
+            if (incluirCartaoMensagem) {
+                atualizarTotal();
             }
         });
     </script>
@@ -192,12 +218,19 @@
                             <label for="cartaoMensagemDestinatario">cartão de mensagem (Lembre-se de colocar o seu nome)</label>
                             <textarea class="form-control" type="text" style="width: 420px; height: 100px; padding: 10px; vertical-align: top;"  id="cartaoMensagemDestinatario" name="cartaoMensagemDestinatario" placeholder="Digite aqui" required></textarea>
                         </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="incluirCartaoMensagem" name="incluirCartaoMensagem" onchange="atualizarTotal()">
+                            <label class="form-check-label" for="incluirCartaoMensagem">Incluir cartão de mensagem(R$ 10,00)</label><br>
+                            <small class="form-text text-muted">Obs: será cobrado um valor adicional de R$ 10,00 pelo cartão, caso não queira não marque esta opção</small>
+                        </div><br>
+
                         <div class="col-md-6">
                             <label for="email">Digite seu e-mail</label>
                             <input type="text" class="form-control" id="email" name="email" placeholder="Digite aqui" required>
                         </div>
                         <hr>
                         <div class="form-box">
+                            <h3>Informações para a entrega</h3><br>
                             <div class="form-group">
                                 <label for="cep">CEP</label>
                                 <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite seu CEP" required>
@@ -245,7 +278,10 @@
                                 <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
                                 <hr>
                             </div>
-                            <p class="card-text"><strong>Total da compra: R$ </strong><span th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
+                            <div th:if="${cliente?.incluirCartaoMensagem}">
+                                <div>Cartão de Mensagem: <span>R$ 10,00</span></div>
+                            </div>
+                            <p class="card-text"><strong>Total da compra: R$ </strong><span id="totalCompra" th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
                         </div>
                     </div>
                     <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">

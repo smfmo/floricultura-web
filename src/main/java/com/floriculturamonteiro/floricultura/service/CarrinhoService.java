@@ -74,14 +74,20 @@ public class CarrinhoService {
         BigDecimal totalCarrinho = carrinho.getItens().stream()
                 .map(ItemCarrinho::getPrecoTotal)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
-        carrinho.setTotalCarrinho(totalCarrinho);
 
+        //se o cliente optar por incluir o cartão de mensagem, adiciona 10 Reais ao valor
+        if (cliente.isIncluirCartaoMensagem()){
+            totalCarrinho = totalCarrinho.add(new BigDecimal("10.00"));
+        }
+
+        carrinho.setTotalCarrinho(totalCarrinho);
         //enviar o email após finalização da compra
         Context context = new Context();
         context.setVariable("clienteNome", cliente.getNome());
         context.setVariable("statusCarrinho", "compra finalizada");
         context.setVariable("totalCarrinho", totalCarrinho);
         context.setVariable("itens", carrinho.getItens());
+        context.setVariable("incluirCartaoMensagem", cliente.isIncluirCartaoMensagem());
 
         emailService.enviarEmail(cliente.getEmail(), "status do seu pedido", "email", context);
         //limpar o carrinho após a compra
