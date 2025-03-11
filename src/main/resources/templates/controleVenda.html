@@ -7,27 +7,38 @@
   <link rel="icon" type="image/ico" href="/img/floriculturaMonteiro.ico">
     <title>Controle de Vendas </title>
   <style>
+    /* Navbar estilizada */
+    .navbar {
+      padding: 10px 20px;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+    }
+
+    .navbar-nav .nav-link {
+      font-size: 16px;
+      padding: 8px 15px;
+    }
     .endereco-box{
-      background-color: #eceff1; /* Tom de cinza mais escuro */
-      border-radius: 8px; /* Bordas arredondadas */
-      padding: 12px; /* Espaçamento interno */
-      border: 1px solid #cfd8dc; /* Borda sutil para destaque */
-      font-size: 16px; /* Tamanho da fonte ajustado */
+      background-color: #eceff1;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid #cfd8dc;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-
-    <a class="navbar-brand" href="#">Floricultura Monteiro</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="container-fluid">
+    <a class="navbar-brand">Floricultura Monteiro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" th:href="@{/admin}">Voltar</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/admin}">voltar</a></li>
       </ul>
     </div>
   </div>
