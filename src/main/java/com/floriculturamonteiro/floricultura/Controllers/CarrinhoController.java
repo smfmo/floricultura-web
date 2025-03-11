@@ -106,6 +106,7 @@ public class CarrinhoController {
                                   @RequestParam String complemento,
                                   @RequestParam String email,
                                   @RequestParam(required = false) String cartaoMensagemDestinatario, //cartão opcional
+                                    @RequestParam(required = false) boolean incluirCartaoMensagem,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
 
@@ -122,6 +123,7 @@ public class CarrinhoController {
         cliente.setTelefone(telefone);
         cliente.setEmail(email);
         cliente.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
+        cliente.setIncluirCartaoMensagem(incluirCartaoMensagem);
 
         Endereco endereco = new Endereco();
         endereco.setCep(cep);
