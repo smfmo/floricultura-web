@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -106,6 +105,7 @@ public class CarrinhoController {
                                   @RequestParam String numero,
                                   @RequestParam String complemento,
                                   @RequestParam String email,
+                                  @RequestParam(required = false) String cartaoMensagemDestinatario, //cartão opcional
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
 
@@ -117,11 +117,11 @@ public class CarrinhoController {
 
             return "redirect:/carrinho";
         }
-
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
         cliente.setEmail(email);
+        cliente.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
 
         Endereco endereco = new Endereco();
         endereco.setCep(cep);
