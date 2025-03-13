@@ -67,6 +67,7 @@
             <span th:text="${carrinho.cliente.endereco.bairro}" ></span>
             <span th:text="${carrinho.cliente.endereco.localidade}"></span>
             <span th:text="${carrinho.cliente.endereco.uf}"></span><br>
+            <span th:text="${carrinho.cliente.isIncluirCartaoMensagem()}"></span>
             <strong>Número: </strong><span th:text="${carrinho.cliente.endereco.numero}"></span><br>
             <strong>Ponto de referência:</strong> <span th:text="${carrinho.cliente.endereco.complemento}"></span>
           </div><br>
