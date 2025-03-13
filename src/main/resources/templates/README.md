@@ -39,7 +39,7 @@ O **E-commerce Floricultura Monteiro** é uma plataforma de vendas online focada
 
 ## 📋 Funcionalidades Detalhadas
 
-### Para Clientes:
+### Para Clientes:git
 - Navegação intuitiva por categorias de produtos.
 - Carrinho de compras com resumo de pedidos.
 - Pagamentos seguros via Pix, cartão de crédito, débito e boleto.
