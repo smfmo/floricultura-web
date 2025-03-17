@@ -8,4 +8,7 @@ import java.util.List;
 public interface FloresRepository extends JpaRepository<Flores, Long> {
     List<Flores> findByEmEstoqueTrue();
     List<Flores> findByEmEstoqueFalse();
+
+    Flores findByNome(String nome);
+
 }

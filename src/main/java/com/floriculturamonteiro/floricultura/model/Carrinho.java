@@ -15,7 +15,10 @@ public class Carrinho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carrinho",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<ItemCarrinho> itens = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)

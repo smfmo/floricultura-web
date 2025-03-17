@@ -8,17 +8,21 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Table(name = "user_adm", schema = "public")
+@Table(name = "user_adm",
+        schema = "public")
 @Data
 public class UserAdm implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username",unique = true, nullable = false)
+    @Column(name = "username",
+            unique = true,
+            nullable = false)
     private String username;
 
-    @Column(name = "password",nullable = false)
+    @Column(name = "password",
+            nullable = false)
     private String password;
 
     @Column(name = "role")

@@ -6,14 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "endereco", schema = "public")
+@Table(name = "endereco",
+        schema = "public")
 @Data
 public class Endereco {
     //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String cep;
     private String logradouro;
     private String complemento;
