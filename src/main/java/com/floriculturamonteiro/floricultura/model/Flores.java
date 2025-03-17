@@ -7,7 +7,8 @@ import java.util.List;
 
 
 @Entity(name = "flores")
-@Table(name = "flores", schema = "public")
+@Table(name = "flores",
+        schema = "public")
 @Data
 public class Flores {
     //atributos
@@ -19,7 +20,8 @@ public class Flores {
     private String nome;
 
     @ElementCollection
-    @CollectionTable(name = "flores_imagens", joinColumns = @JoinColumn(name = "flores_id"))
+    @CollectionTable(name = "flores_imagens",
+            joinColumns = @JoinColumn(name = "flores_id"))
     private List<String> urlImagens;
 
     @Column(name = "preco")

@@ -5,7 +5,8 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Entity
-@Table (name = "Item_carrinho", schema = "public")
+@Table (name = "Item_carrinho",
+        schema = "public")
 @Data
 public class ItemCarrinho {
     //atributos

@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "cliente", schema = "public")
+@Table(name = "cliente",
+        schema = "public")
 @Data
 public class Cliente {
  //atributos
@@ -18,7 +19,8 @@ public class Cliente {
     @Column(name = "telefone")
     private String telefone;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 

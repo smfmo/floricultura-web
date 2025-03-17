@@ -4,7 +4,6 @@ import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -68,6 +67,7 @@ public class AdminService {
     }
 
     /*listar as flores (se precisar listar todas as flores cadastradas!!)
+    @Transactional(readOnly = true) //apenas leitura
     public List<Flores> getAllFlores(){
         return repository.findAll();
     }*/
