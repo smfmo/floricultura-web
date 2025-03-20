@@ -8,20 +8,16 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" type="image/ico" href="/img/floriculturaMonteiro.ico">
     <style>
-        /* Reset básico */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
-        /* Estilizando botões fixos do WhatsApp e Instagram */
         .fixed-bottom {
             right: 20px;
             bottom: 20px;
             position: fixed;
         }
-
         .whatsapp-btn,
         .instagram-btn {
             display: flex;
@@ -35,15 +31,12 @@
             text-decoration: none;
             transition: transform 0.3s ease-in-out;
         }
-
         .whatsapp-btn {
             background-color: #25d366;
         }
-
         .instagram-btn {
             background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045);
         }
-
         .whatsapp-btn:hover,
         .instagram-btn:hover {
             transform: scale(1.1);
@@ -51,23 +44,17 @@
         .navbar {
             padding: 10px 20px;
         }
-
         .navbar-brand {
             font-weight: bold;
         }
-
         .navbar-nav .nav-link {
             font-size: 16px;
             padding: 8px 15px;
         }
-
-        /* Cabeçalho */
         header {
             color: white;
             background: #007bff;
         }
-
-        /* Cartões de flores */
         .card-custom {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             border: none;
@@ -75,40 +62,31 @@
             overflow: hidden;
             background: #fff;
         }
-
         .card-custom:hover {
             transform: translateY(-5px);
             box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
         }
-
         .card-img-top {
             max-height: 200px;
             object-fit: cover;
         }
-
-        /* Botões dentro dos cards */
         .card-body button {
             border-radius: 8px;
             transition: background 0.3s ease-in-out;
         }
-
-        /* Responsividade */
         @media (max-width: 768px) {
             .navbar-nav {
                 text-align: center;
             }
-
             .whatsapp-btn,
             .instagram-btn {
                 width: 45px;
                 height: 45px;
                 font-size: 20px;
             }
-
             .card-custom {
                 margin-bottom: 15px;
             }
-
             .card-body .btn {
                 font-size: 14px;
             }
@@ -187,7 +165,7 @@
             </div>
         </main>
 
-        <!-- Modal de detalhes -->
+
         <div th:each="flores : ${flores}" class="modal fade" th:id="'modalDetalhes'+${flores.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -198,7 +176,6 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <!-- Carousel dentro do modal -->
                                 <div th:id="'modalCarousel' + ${flores.id}" class="carousel slide" data-bs-ride="carousel">
                                     <div class="carousel-inner">
                                         <div th:each="urlImagem, iterStat : ${flores.urlImagens}" th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
