@@ -4,7 +4,7 @@ import com.floriculturamonteiro.floricultura.model.Endereco;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.List; //refatorar para localizações estáticas
 
 @Service
 public class CepService {
