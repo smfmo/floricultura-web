@@ -87,17 +87,26 @@ public class CarrinhoController {
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         model.addAttribute("itens", itens);
 
-        BigDecimal total = itens.stream().map(ItemCarrinho::getPrecoTotal)
+        BigDecimal total = itens.stream()
+                .map(ItemCarrinho::getPrecoTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        Boolean incluirCartaoMensagem = (Boolean) session.getAttribute("incluirCartaoMensagem");
+        if (incluirCartaoMensagem == null) {
+            incluirCartaoMensagem = false; // Valor padrão
+        }
+
+        model.addAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
         model.addAttribute("total", total);
+
+
         return "formulario-cliente";
     }
     @PostMapping("/finalizar")
     public String finalizarCompra(
                                     @RequestParam String nome,
                                   @RequestParam String telefone,
-                                  @RequestParam String cep,
+                                  @RequestParam String regiao,
                                   @RequestParam String logradouro,
                                   @RequestParam String bairro,
                                   @RequestParam String localidade,
@@ -111,13 +120,17 @@ public class CarrinhoController {
                                   RedirectAttributes redirectAttributes) {
 
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
+
+        session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
+
         //validar o cep
-        if (!cepService.cepAtendido(cep)){
+        if (!cepService.cepAtendido(regiao)){
             redirectAttributes.addFlashAttribute("error",
                     "Desculpe, não podemos prosseguir com a compra. Não atendemos sua região!");
 
             return "redirect:/carrinho";
         }
+
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
@@ -126,13 +139,13 @@ public class CarrinhoController {
         cliente.setIncluirCartaoMensagem(incluirCartaoMensagem);
 
         Endereco endereco = new Endereco();
-        endereco.setCep(cep);
         endereco.setLogradouro(logradouro);
         endereco.setBairro(bairro);
         endereco.setLocalidade(localidade);
         endereco.setUf(uf);
         endereco.setNumero(numero);
         endereco.setComplemento(complemento);
+        endereco.setRegiao(regiao);
         cliente.setEndereco(endereco);
 
         clienteService.salvarCliente(cliente); //salva o cliente no banco de dados

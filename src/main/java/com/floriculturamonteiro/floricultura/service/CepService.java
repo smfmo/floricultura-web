@@ -1,31 +1,25 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Endereco;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.List; //refatorar para localizações estáticas
+import java.math.BigDecimal;
+//refatorar para localizações estáticas - retirar API de Ceps
 
 @Service
 public class CepService {
 
-    private static final String VIA_CEP_URL = "https://viacep.com.br/ws/%s/json/";
-    private static final List<String> CIDADES_ATENDIDAS = List.of("Novo Gama", "Valparaíso de Goiás");
+    private final RegioesAtendidasService regiaoService;
 
-
-    //metodo de buscar o endereco pelo cep
-    public Endereco buscarEnderecoPeloCep(String cep) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = String.format(VIA_CEP_URL, cep);
-        return restTemplate.getForObject(url, Endereco.class);
+    @Autowired
+    public CepService(RegioesAtendidasService regiaoService) {
+        this.regiaoService = regiaoService;
     }
 
-    //Validação das regiões atendidas
-    public boolean cepAtendido(String cep) {
-        Endereco endereco = buscarEnderecoPeloCep(cep);
-        if (endereco == null) {
-            return false; //CEP inválido
-        }
-        return CIDADES_ATENDIDAS.contains(endereco.getLocalidade());
+    public boolean cepAtendido(String regiao){
+        return regiaoService.regiaoAtendida(regiao);
+    }
+    public BigDecimal getPrecoEntrega(String regiao){
+        return regiaoService.getPrecoEntrega(regiao);
     }
 }
