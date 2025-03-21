@@ -110,63 +110,63 @@
         }
     </style>
     <script>
-        function validarCep() {
-            const cep = document.getElementById('cep').value.replace(/\D/g, '');
-            if (cep.length !== 8) {
-                alert('CEP inválido!');
-                return false;
-            }
-
-            fetch(`/cep/${cep}`)
+        function carregarRegioes() {
+            fetch('/regioes') // Endpoint que retorna as regiões
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('logradouro').value = data.logradouro;
-                    document.getElementById('bairro').value = data.bairro;
-                    document.getElementById('localidade').value = data.localidade;
-                    document.getElementById('uf').value = data.uf;
-                    document.getElementById('numero').value = data.numero;
-                    document.getElementById('complemento').value = data.complemento;
+                    const selectRegiao = document.getElementById('regiao');
+                    selectRegiao.innerHTML = '<option value="">Selecione uma região</option>';
 
-                    const cidade = data.localidade;
-                    if (!['Novo Gama', 'Valparaíso de Goiás'].includes(cidade)) {
-                        alert('Desculpe, não atendemos sua região.');
-                        return false;
+                    for (const [regiao, preco] of Object.entries(data)) {
+                        const opcao = document.createElement('option');
+                        opcao.value = regiao;
+                        opcao.textContent = `${regiao} - R$ ${preco.toFixed(2)}`;
+                        opcao.setAttribute('data-preco', preco)
+                        selectRegiao.appendChild(opcao);
                     }
-                    return true;
+                    selectRegiao.addEventListener('change', atualizarTotalComEntrega)
                 })
                 .catch(error => {
-                    console.error('Erro ao buscar CEP:', error);
-                    return false;
+                    console.error('Erro ao carregar regiões:', error);
                 });
         }
 
-        document.querySelector('form').addEventListener('submit', function (event) {
-            if (!validarCep()) {
-                event.preventDefault();
-            }
-        });
-        function atualizarTotal() {
-            let totalCompraElement = document.getElementById('totalCompra');
-            let totalCompra = parseFloat(totalCompraElement.innerText.replace(',', '.'));
+        function atualizarTotalComEntrega() {
+            const selectRegiao = document.getElementById('regiao');
+            const precoEntrega = parseFloat(selectRegiao.options[selectRegiao.selectedIndex].getAttribute('data-preco')) || 0;
 
-            let incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem').checked;
+            const totalCompraElement = document.getElementById('totalCompra');
+            const totalCompra = parseFloat(totalCompraElement.innerText.replace(',', '.'));
+
+            const incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem').checked;
             const valorCartaoMensagem = 10.00;
 
+            let totalFinal = totalCompra;
             if (incluirCartaoMensagem) {
-                totalCompra += valorCartaoMensagem;
-            } else {
-                totalCompra -= valorCartaoMensagem;
+                totalFinal += valorCartaoMensagem;
             }
+            totalFinal += precoEntrega;
 
-            totalCompraElement.innerText = totalCompra.toFixed(2).replace('.', ',');
+            document.getElementById('totalFinal').innerText = totalFinal.toFixed(2).replace('.', ',');
+            document.getElementById('precoEntrega').innerText = precoEntrega.toFixed(2).replace('.', ',');
+
+            const cartaoMensagemInfo = document.getElementById('cartaoMensagemInfo');
+            if (incluirCartaoMensagem) {
+                cartaoMensagemInfo.style.display = 'block';
+            } else {
+                cartaoMensagemInfo.style.display = 'none';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Verifica se o checkbox está marcado ao carregar a página
-            let incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem').checked;
-            if (incluirCartaoMensagem) {
-                atualizarTotal();
-            }
+            carregarRegioes();
+
+            const incluirCartaoMensagem = document.getElementById('incluirCartaoMensagem');
+            incluirCartaoMensagem.addEventListener('change', function () {
+                atualizarTotalComEntrega();
+            });
+
+            atualizarTotalComEntrega();
         });
     </script>
 </head>
@@ -219,7 +219,7 @@
                             <textarea class="form-control" type="text" style="width: 420px; height: 100px; padding: 10px; vertical-align: top;"  id="cartaoMensagemDestinatario" name="cartaoMensagemDestinatario" placeholder="Digite aqui" required></textarea>
                         </div>
                         <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="incluirCartaoMensagem" name="incluirCartaoMensagem" onchange="atualizarTotal()">
+                            <input type="checkbox" class="form-check-input" id="incluirCartaoMensagem" name="incluirCartaoMensagem" onchange="atualizarTotalComEntrega()">
                             <label class="form-check-label" for="incluirCartaoMensagem">Incluir cartão de mensagem(R$ 10,00)</label><br>
                             <small class="form-text text-muted">Obs: será cobrado um valor adicional de R$ 10,00 pelo cartão, caso não queira não marque esta opção</small>
                         </div><br>
@@ -232,9 +232,10 @@
                         <div class="form-box">
                             <h3>Informações para a entrega</h3><br>
                             <div class="form-group">
-                                <label for="cep">CEP</label>
-                                <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite seu CEP" required>
-                                <button type="button" class="btn btn-secondary mt-2" onclick="validarCep()">Buscar Endereço</button>
+                                <label for="regiao">Selecione sua região:</label>
+                                <select class="form-control" id="regiao" name="regiao" required>
+                                    <option value="">Carregando regiões...</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="logradouro">Logradouro</label>
@@ -278,10 +279,21 @@
                                 <div>Quantidade: <span th:text="${item.quantidade}"></span></div>
                                 <hr>
                             </div>
-                            <div th:if="${cliente?.incluirCartaoMensagem}">
-                                <div>Cartão de Mensagem: <span>R$ 10,00</span></div>
-                            </div>
-                            <p class="card-text"><strong>Total da compra: R$ </strong><span id="totalCompra" th:text="${#numbers.formatDecimal(total, 1, 2)}"></span></p>
+                            <p class="card-text">
+                                <strong>Subtotal: R$ </strong>
+                                <span id="totalCompra" th:text="${#numbers.formatDecimal(total, 1, 2)}"></span>
+                            </p>
+                            <p class="card-text">
+                                <strong>Taxa de entrega: R$ </strong>
+                                <span id="precoEntrega">0,00</span>
+                            </p>
+                            <div id="cartaoMensagemInfo" style="display: none;">
+                                <div><strong> Cartão de Mensagem:</strong> <span>R$ 10,00</span></div>
+                            </div><hr>
+                            <p class="card-text">
+                                <strong>Total: R$ </strong>
+                                <span id="totalFinal" th:text="${#numbers.formatDecimal(total + (incluirCartaoMensagem ? 10 : 0), 1, 2)}"></span>
+                            </p>
                         </div>
                     </div>
                     <div class="modal fade" id="modalReembolso" tabindex="-1" aria-labelledby="modalReembolsoLabel" aria-hidden="true">

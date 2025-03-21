@@ -28,7 +28,7 @@ public class Carrinho {
     @Column(name = "data_hora_compra")
     private LocalDateTime dataHoraCompra;
 
-    @Transient
+    @Column(name = "total_carrinho")
     private BigDecimal totalCarrinho;
 
     @Column(name = "concluido")

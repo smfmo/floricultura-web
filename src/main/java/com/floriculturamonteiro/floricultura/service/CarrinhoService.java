@@ -10,7 +10,6 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,16 +21,19 @@ public class CarrinhoService {
     private final CarrinhoRepository carrinhoRepository;
     private final AdminService adminService;
     private final EmailService emailService;
+    private final RegioesAtendidasService regioesAtendidasService;
 
     @Autowired
     public CarrinhoService(ItemCarrinhoRepository itemCarrinhoRepository,
                            CarrinhoRepository carrinhoRepository,
                            AdminService adminService,
-                           EmailService emailService) {
+                           EmailService emailService,
+                           RegioesAtendidasService regioesAtendidasService) {
         this.itemCarrinhoRepository = itemCarrinhoRepository;
         this.carrinhoRepository = carrinhoRepository;
         this.adminService = adminService;
         this.emailService = emailService;
+        this.regioesAtendidasService = regioesAtendidasService;
     }
 
     //criar um carrinho
@@ -80,7 +82,13 @@ public class CarrinhoService {
             totalCarrinho = totalCarrinho.add(new BigDecimal("10.00"));
         }
 
+        //adiçao do valor da entrega com base na região
+        String regiao = cliente.getEndereco().getRegiao();
+        BigDecimal precoEntrega = regioesAtendidasService.getPrecoEntrega(regiao);
+        totalCarrinho = totalCarrinho.add(precoEntrega);
+
         carrinho.setTotalCarrinho(totalCarrinho);
+
         //enviar o email após finalização da compra
         Context context = new Context();
         context.setVariable("clienteNome", cliente.getNome());
