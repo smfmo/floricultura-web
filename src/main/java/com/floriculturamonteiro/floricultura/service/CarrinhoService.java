@@ -104,7 +104,7 @@ public class CarrinhoService {
 
     //metodo para exibir as compras no controle de vendas
     public List<Carrinho> exibirCompras() {
-        return carrinhoRepository.findAllWithItens();
+        return carrinhoRepository.EncontrarTodosComItens();
     }
 
     //limpar carrinhos vazios
