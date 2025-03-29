@@ -96,7 +96,7 @@
               <th>Produto</th>
               <th>Quantidade</th>
               <th>Preço Unitário</th>
-              <th>total dos produtos</th>
+              <th>Total dos produtos</th>
             </tr>
             </thead>
             <tbody>
@@ -109,22 +109,22 @@
             </tr>
             </tbody>
             <thead>
-              <tr>
-                <th>Cartão Mensagem</th>
-                <th>Entrega</th>
-                <th>total final </th>
-              </tr>
+            <tr>
+              <th>Cartão Mensagem</th>
+              <th>Entrega</th>
+              <th>total final </th>
+            </tr>
             </thead>
             <tbody>
-            <tr th:each="carrinho : ${carrinhos}">
+            <tr >
               <td th:text="${#numbers.formatDecimal(carrinho.valorCartaoMensagem, 1, 2)}"></td>
               <td th:text="${#numbers.formatDecimal(carrinho.valorEntrega, 1, 2)}"></td>
               <td th:text="${#numbers.formatDecimal(carrinho.totalFinal, 1, 2)}"></td>
             </tr>
             </tbody>
           </table>
-          <!--<h4>Total do Carrinho: R$ <span th:text="${#numbers.formatDecimal(carrinho.getTotalCarrinho(), 1, 2)}"></span></h4>-->
         </div>
+          <!--<h4>Total do Carrinho: R$ <span th:text="${#numbers.formatDecimal(carrinho.getTotalCarrinho(), 1, 2)}"></span></h4>-->
       </div>
     </div>
   </div>
