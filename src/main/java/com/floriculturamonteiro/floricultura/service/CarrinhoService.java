@@ -9,6 +9,7 @@ import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -67,37 +68,46 @@ public class CarrinhoService {
         return itemCarrinhoRepository.findByCarrinhoId(carrinhoId);
     }
 
+    @Transactional
     public void finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
-        Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
-        carrinho.setCliente(cliente);
+        Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
+
+        // 1. calcula o subtotal dos itens (metodo na calsse Carrinho)
+       BigDecimal subtotal = carrinho.calcularSubTotalItens();
+
+       // 2. calcula o valor do cartão de mensagem (caso seja marcada a opção)
+       BigDecimal valorCartao = cliente.isIncluirCartaoMensagem()
+               ? new BigDecimal("10.00")
+               : BigDecimal.ZERO;
+
+       // 3. obtém o valor da entrega
+       String regiao = cliente.getEndereco().getRegiao();
+       BigDecimal valorEntrega = regioesAtendidasService.getPrecoEntrega(regiao);
+
+       // 4. calcular o total final
+       BigDecimal totalFinal = subtotal.add(valorCartao).add(valorEntrega);
+
+       // 5. atualiza os valores no carrinho
+       carrinho.setSubTotalItens(subtotal);
+       carrinho.setValorCartaoMensagem(valorCartao);
+       carrinho.setValorEntrega(valorEntrega);
+       carrinho.setTotalFinal(totalFinal);
+       carrinho.setCliente(cliente);
+       carrinho.setDataHoraCompra(LocalDateTime.now());
+
         carrinhoRepository.save(carrinho);
-        carrinho.setDataHoraCompra(LocalDateTime.now());
-
-        BigDecimal totalCarrinho = carrinho.getItens().stream()
-                .map(ItemCarrinho::getPrecoTotal)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        //se o cliente optar por incluir o cartão de mensagem, adiciona 10 Reais ao valor
-        if (cliente.isIncluirCartaoMensagem()){
-            totalCarrinho = totalCarrinho.add(new BigDecimal("10.00"));
-        }
-
-        //adiçao do valor da entrega com base na região
-        String regiao = cliente.getEndereco().getRegiao();
-        BigDecimal precoEntrega = regioesAtendidasService.getPrecoEntrega(regiao);
-        totalCarrinho = totalCarrinho.add(precoEntrega);
-
-        carrinho.setTotalCarrinho(totalCarrinho);
 
         //enviar o email após finalização da compra
         Context context = new Context();
         context.setVariable("clienteNome", cliente.getNome());
         context.setVariable("statusCarrinho", "compra finalizada");
-        context.setVariable("totalCarrinho", totalCarrinho);
+        context.setVariable("totalCarrinho", totalFinal);
         context.setVariable("itens", carrinho.getItens());
         context.setVariable("incluirCartaoMensagem", cliente.isIncluirCartaoMensagem());
 
         emailService.enviarEmail(cliente.getEmail(), "status do seu pedido", "email", context);
+
         //limpar o carrinho após a compra
         itemCarrinhoRepository.deleteAll(carrinho.getItens());
     }
