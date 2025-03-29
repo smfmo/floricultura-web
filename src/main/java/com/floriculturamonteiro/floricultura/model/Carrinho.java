@@ -48,7 +48,7 @@ public class Carrinho {
    //calcular o subtotal dos itens
     public BigDecimal calcularSubTotalItens() {
         return this.itens.stream()
-                .map(item -> item.getPrecoTotal()
+                .map(item -> item.getValorUnitario()
                         .multiply(BigDecimal.valueOf(item.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
