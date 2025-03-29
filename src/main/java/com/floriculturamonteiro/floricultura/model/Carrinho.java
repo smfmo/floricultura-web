@@ -28,12 +28,28 @@ public class Carrinho {
     @Column(name = "data_hora_compra")
     private LocalDateTime dataHoraCompra;
 
-    @Column(name = "total_carrinho")
-    private BigDecimal totalCarrinho;
+    @Column(precision = 10, scale = 2, name = "sub_total_itens")
+    private BigDecimal subTotalItens;
+
+    @Column(precision = 10, scale = 2, name = "valor_cartao_mensagem")
+    private BigDecimal valorCartaoMensagem;
+
+    @Column(precision = 10, scale = 2, name = "valor_entrega")
+    private BigDecimal valorEntrega;
+
+    @Column(precision = 10, scale = 2, name = "total_final")
+    private BigDecimal totalFinal;
 
     @Column(name = "concluido")
     private boolean concluido;
 
-
     //métodos getters e setters gerados pelo lombok
+
+   //calcular o subtotal dos itens
+    public BigDecimal calcularSubTotalItens() {
+        return this.itens.stream()
+                .map(item -> item.getPrecoTotal()
+                        .multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
