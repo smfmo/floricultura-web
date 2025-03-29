@@ -2,10 +2,10 @@ package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Flores;
-import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
+import com.floriculturamonteiro.floricultura.service.RegioesAtendidasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +23,16 @@ public  class AdminController {
     private final AdminService adminService;
     private final ArmazenamentoImgService imgService;
     private final CarrinhoService carrinhoService;
+    private final RegioesAtendidasService regioesAtendidasService;
 
     @Autowired
     public AdminController(AdminService adminService,
                            ArmazenamentoImgService imgService,
-                           CarrinhoService carrinhoService) {
+                           CarrinhoService carrinhoService, RegioesAtendidasService regioesAtendidasService) {
         this.adminService = adminService;
         this.imgService = imgService;
         this.carrinhoService = carrinhoService;
+        this.regioesAtendidasService = regioesAtendidasService;
     }
 
     //Login do administrador
@@ -116,14 +118,8 @@ public  class AdminController {
     @GetMapping("controleVenda")
     public String exibirCompras(Model model){
         List<Carrinho> carrinhos = carrinhoService.exibirCompras();
-        for (Carrinho carrinho : carrinhos) {
-            BigDecimal totalCarrinho = carrinho.getItens().stream()
-                    .map(ItemCarrinho::getPrecoTotal)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-            carrinho.setTotalCarrinho(totalCarrinho);
-        }
-        model.addAttribute("carrinhos", carrinhoService.exibirCompras());
+        model.addAttribute("carrinhos", carrinhos);
         return "controleVenda";
     }
 

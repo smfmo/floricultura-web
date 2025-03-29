@@ -62,11 +62,11 @@
             Telefone: <span th:text="${carrinho.cliente.telefone}"></span>
           </h4>
           <div th:if="${carrinho.cliente != null}" class="endereco-box">
+            <strong>Região:</strong> <span th:text="${carrinho.cliente.endereco.regiao}"></span><br>
             <strong>Endereço:</strong> <span th:text="${carrinho.cliente.endereco.logradouro}"></span>
             <span th:text="${carrinho.cliente.endereco.bairro}" ></span>
             <span th:text="${carrinho.cliente.endereco.localidade}"></span>
             <span th:text="${carrinho.cliente.endereco.uf}"></span><br>
-            <span th:text="${carrinho.cliente.isIncluirCartaoMensagem()}"></span>
             <strong>Número: </strong><span th:text="${carrinho.cliente.endereco.numero}"></span><br>
             <strong>Ponto de referência:</strong> <span th:text="${carrinho.cliente.endereco.complemento}"></span>
           </div><br>
@@ -96,7 +96,7 @@
               <th>Produto</th>
               <th>Quantidade</th>
               <th>Preço Unitário</th>
-              <th>Total</th>
+              <th>total dos produtos</th>
             </tr>
             </thead>
             <tbody>
@@ -108,8 +108,22 @@
               <td th:text="${#numbers.formatDecimal(item.precoTotal, 1, 2)}"></td>
             </tr>
             </tbody>
+            <thead>
+              <tr>
+                <th>Cartão Mensagem</th>
+                <th>Entrega</th>
+                <th>total final </th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr th:each="carrinho : ${carrinhos}">
+              <td th:text="${#numbers.formatDecimal(carrinho.valorCartaoMensagem, 1, 2)}"></td>
+              <td th:text="${#numbers.formatDecimal(carrinho.valorEntrega, 1, 2)}"></td>
+              <td th:text="${#numbers.formatDecimal(carrinho.totalFinal, 1, 2)}"></td>
+            </tr>
+            </tbody>
           </table>
-          <h4>Total do Carrinho: R$ <span th:text="${#numbers.formatDecimal(carrinho.totalCarrinho, 1, 2)}"></span></h4>
+          <!--<h4>Total do Carrinho: R$ <span th:text="${#numbers.formatDecimal(carrinho.getTotalCarrinho(), 1, 2)}"></span></h4>-->
         </div>
       </div>
     </div>
