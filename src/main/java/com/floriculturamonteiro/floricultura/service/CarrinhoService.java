@@ -60,6 +60,7 @@ public class CarrinhoService {
         item.setNomeProduto(flores.getNome());
         item.setFlores(flores);
         item.setQuantidade(quantidade);
+        item.setValorUnitario(flores.getPreco());
         item.setCarrinho(carrinho);
         itemCarrinhoRepository.save(item);
     }
