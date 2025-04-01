@@ -4,11 +4,10 @@ import com.floriculturamonteiro.floricultura.model.*;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
-import com.floriculturamonteiro.floricultura.service.CepService;
 import com.floriculturamonteiro.floricultura.service.ClienteService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,26 +20,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/carrinho")
 @Scope("session") //um carrinho por sessão de usuário
+@RequiredArgsConstructor
 public class CarrinhoController {
 
     private final CarrinhoService carrinhoService;
     private final AdminService adminService;
-    private final CepService cepService;
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteService clienteService;
-
-    @Autowired
-    public CarrinhoController(CarrinhoService carrinhoService,
-                              AdminService adminService,
-                              CepService cepService,
-                              CarrinhoRepository carrinhoRepository,
-                              ClienteService clienteService) {
-        this.carrinhoService = carrinhoService;
-        this.adminService = adminService;
-        this.cepService = cepService;
-        this.carrinhoRepository = carrinhoRepository;
-        this.clienteService = clienteService;
-    }
 
     //vizualizar o carrinho
     @GetMapping("")
@@ -122,14 +108,6 @@ public class CarrinhoController {
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
         session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
-
-        //validar o cep
-        if (!cepService.cepAtendido(regiao)){
-            redirectAttributes.addFlashAttribute("error",
-                    "Desculpe, não podemos prosseguir com a compra. Não atendemos sua região!");
-
-            return "redirect:/carrinho";
-        }
 
         Cliente cliente = new Cliente();
         cliente.setNome(nome);

@@ -2,21 +2,17 @@ package com.floriculturamonteiro.floricultura.service;
 
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
 
     //atributo
     private final FloresRepository repository;
-
-    @Autowired
-    public AdminService(FloresRepository repository) {
-        this.repository = repository;
-    }
 
     //adicionar as flores
     public void addFlor(Flores flores){

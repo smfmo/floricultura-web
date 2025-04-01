@@ -7,7 +7,7 @@ import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CarrinhoService {
     //atributos
     private final ItemCarrinhoRepository itemCarrinhoRepository;
@@ -23,19 +24,6 @@ public class CarrinhoService {
     private final AdminService adminService;
     private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
-
-    @Autowired
-    public CarrinhoService(ItemCarrinhoRepository itemCarrinhoRepository,
-                           CarrinhoRepository carrinhoRepository,
-                           AdminService adminService,
-                           EmailService emailService,
-                           RegioesAtendidasService regioesAtendidasService) {
-        this.itemCarrinhoRepository = itemCarrinhoRepository;
-        this.carrinhoRepository = carrinhoRepository;
-        this.adminService = adminService;
-        this.emailService = emailService;
-        this.regioesAtendidasService = regioesAtendidasService;
-    }
 
     //criar um carrinho
     public Carrinho criarCarrinho() {

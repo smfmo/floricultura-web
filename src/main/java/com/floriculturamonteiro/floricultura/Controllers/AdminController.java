@@ -5,35 +5,22 @@ import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
-import com.floriculturamonteiro.floricultura.service.RegioesAtendidasService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public  class AdminController {
 
     private final AdminService adminService;
     private final ArmazenamentoImgService imgService;
     private final CarrinhoService carrinhoService;
-    private final RegioesAtendidasService regioesAtendidasService;
-
-    @Autowired
-    public AdminController(AdminService adminService,
-                           ArmazenamentoImgService imgService,
-                           CarrinhoService carrinhoService, RegioesAtendidasService regioesAtendidasService) {
-        this.adminService = adminService;
-        this.imgService = imgService;
-        this.carrinhoService = carrinhoService;
-        this.regioesAtendidasService = regioesAtendidasService;
-    }
 
     //Login do administrador
     @GetMapping("/loginAdm")
@@ -53,7 +40,6 @@ public  class AdminController {
 
         return "admin";
     }
-
 
     //restaura as flores que estiverem com estoque
     @GetMapping("/restaurarEstoque/{id}")

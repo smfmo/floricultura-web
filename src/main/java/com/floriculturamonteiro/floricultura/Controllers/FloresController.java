@@ -3,25 +3,20 @@ package com.floriculturamonteiro.floricultura.Controllers;
 import com.floriculturamonteiro.floricultura.dtos.FloresDto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/flores")
+@RequiredArgsConstructor
 public class FloresController {
 
     private final FloresRepository repository;
-
-    @Autowired
-    public FloresController(FloresRepository repository) {
-        this.repository = repository;
-    }
 
     @GetMapping
     public ResponseEntity<List<Flores>> getAll(){
