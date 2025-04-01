@@ -3,24 +3,17 @@ package com.floriculturamonteiro.floricultura.Controllers;
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 @Controller
+@RequiredArgsConstructor
 public class CatalogoController {
     //atributos
     private final AdminService adminService;
     private final CarrinhoService carrinhoService;
-
-    @Autowired
-    public CatalogoController(AdminService adminService,
-                              CarrinhoService carrinhoService) {
-        this.adminService = adminService;
-        this.carrinhoService = carrinhoService;
-    }
 
     //sobre nós
     @GetMapping("/sobre-nos")
