@@ -2,11 +2,16 @@ package com.floriculturamonteiro.floricultura.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cliente",
         schema = "public")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Cliente {
  //atributos
     @Id
@@ -26,6 +31,10 @@ public class Cliente {
 
     @Column(name = "email")
     private String email;
+
+    @CreatedDate
+    @Column(name = "data_cadastro")
+    private LocalDateTime dataCadastro;
 
     //métodos getters e setters gerados pelo lombok
 }
