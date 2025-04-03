@@ -17,6 +17,5 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     List<Carrinho> EncontrarTodosComItens();
 
     List<Carrinho> findByConcluido(boolean concluido);
-
-    //List<Carrinho> findByItens(List<ItemCarrinho> itens);
+    
 }

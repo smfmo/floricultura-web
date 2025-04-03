@@ -43,6 +43,12 @@ public class Carrinho {
     @Column(name = "concluido")
     private boolean concluido;
 
+    @Column(name = "cartao_mensagem")
+    private String cartaoMensagemDestinatario;
+
+    @Column(name = "incluir_cartao_mensagem")
+    private boolean incluirCartaoMensagem = false;
+
     //métodos getters e setters gerados pelo lombok
 
    //calcular o subtotal dos itens

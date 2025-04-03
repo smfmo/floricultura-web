@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
-import com.floriculturamonteiro.floricultura.dtos.FloresDto;
+import com.floriculturamonteiro.floricultura.Controllers.dtos.FloresDto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import lombok.RequiredArgsConstructor;
