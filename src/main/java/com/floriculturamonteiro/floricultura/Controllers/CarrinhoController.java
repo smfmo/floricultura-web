@@ -109,12 +109,16 @@ public class CarrinhoController {
 
         session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
 
+        Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(carrinhoId)
+                        .orElseThrow(() -> new RuntimeException("carrinho não encontrado"));
+
+        carrinho.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
+        carrinho.setIncluirCartaoMensagem(incluirCartaoMensagem);
+
         Cliente cliente = new Cliente();
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
         cliente.setEmail(email);
-        cliente.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
-        cliente.setIncluirCartaoMensagem(incluirCartaoMensagem);
 
         Endereco endereco = new Endereco();
         endereco.setLogradouro(logradouro);

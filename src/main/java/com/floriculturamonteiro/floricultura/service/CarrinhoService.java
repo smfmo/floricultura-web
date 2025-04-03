@@ -14,6 +14,7 @@ import org.thymeleaf.context.Context;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,6 +58,10 @@ public class CarrinhoService {
         return itemCarrinhoRepository.findByCarrinhoId(carrinhoId);
     }
 
+    public Optional<Carrinho> buscarCarrinhoPorId(Long carrinhoId) {
+        return carrinhoRepository.findById(carrinhoId);
+    }
+
     @Transactional
     public void finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
@@ -66,7 +71,7 @@ public class CarrinhoService {
        BigDecimal subtotal = carrinho.calcularSubTotalItens();
 
        // 2. calcula o valor do cartão de mensagem (caso seja marcada a opção)
-       BigDecimal valorCartao = cliente.isIncluirCartaoMensagem()
+       BigDecimal valorCartao = carrinho.isIncluirCartaoMensagem()
                ? new BigDecimal("10.00")
                : BigDecimal.ZERO;
 
@@ -93,7 +98,7 @@ public class CarrinhoService {
         context.setVariable("statusCarrinho", "compra finalizada");
         context.setVariable("totalCarrinho", totalFinal);
         context.setVariable("itens", carrinho.getItens());
-        context.setVariable("incluirCartaoMensagem", cliente.isIncluirCartaoMensagem());
+        context.setVariable("incluirCartaoMensagem", carrinho.isIncluirCartaoMensagem());
 
         emailService.enviarEmail(cliente.getEmail(), "status do seu pedido", "email", context);
 
