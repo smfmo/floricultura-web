@@ -1,5 +1,6 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
+import com.floriculturamonteiro.floricultura.Controllers.dtos.ClienteDto;
 import com.floriculturamonteiro.floricultura.model.*;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
@@ -90,50 +91,26 @@ public class CarrinhoController {
     }
     @PostMapping("/finalizar")
     public String finalizarCompra(
-                                    @RequestParam String nome,
-                                  @RequestParam String telefone,
-                                  @RequestParam String regiao,
-                                  @RequestParam String logradouro,
-                                  @RequestParam String bairro,
-                                  @RequestParam String localidade,
-                                  @RequestParam String uf,
-                                  @RequestParam String numero,
-                                  @RequestParam String complemento,
-                                  @RequestParam String email,
-                                  @RequestParam(required = false) String cartaoMensagemDestinatario, //cartão opcional
-                                    @RequestParam(required = false) boolean incluirCartaoMensagem,
-                                  HttpSession session,
-                                  RedirectAttributes redirectAttributes) {
+            @ModelAttribute ClienteDto clienteDto,
+            @RequestParam(required = false) String cartaoMensagemDestinatario, //cartão opcional
+            @RequestParam(required = false) boolean incluirCartaoMensagem,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
 
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
         session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
-
         Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(carrinhoId)
                         .orElseThrow(() -> new RuntimeException("carrinho não encontrado"));
 
         carrinho.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
         carrinho.setIncluirCartaoMensagem(incluirCartaoMensagem);
 
-        Cliente cliente = new Cliente();
-        cliente.setNome(nome);
-        cliente.setTelefone(telefone);
-        cliente.setEmail(email);
-
-        Endereco endereco = new Endereco();
-        endereco.setLogradouro(logradouro);
-        endereco.setBairro(bairro);
-        endereco.setLocalidade(localidade);
-        endereco.setUf(uf);
-        endereco.setNumero(numero);
-        endereco.setComplemento(complemento);
-        endereco.setRegiao(regiao);
-        cliente.setEndereco(endereco);
-
-        clienteService.salvarCliente(cliente); //salva o cliente no banco de dados
+        var clienteEntidade = clienteDto.mapearParaCliente();
+        clienteService.salvarCliente(clienteEntidade); //salva o cliente no banco de dados
 
         try{
-            carrinhoService.finalizarCompra(carrinhoId, cliente);
+            carrinhoService.finalizarCompra(carrinhoId, clienteEntidade);
             session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
             carrinhoService.limparCarrinhosVazios();
             redirectAttributes.addFlashAttribute("sucess", "Compra finalizada com sucesso!");
