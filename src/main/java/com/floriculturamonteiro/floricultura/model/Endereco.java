@@ -1,15 +1,17 @@
 package com.floriculturamonteiro.floricultura.model;
 
-import com.floriculturamonteiro.floricultura.service.RegioesAtendidasService;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "endereco",
         schema = "public")
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Endereco {
     //atributos
     @Id
@@ -22,6 +24,10 @@ public class Endereco {
     private String uf;
     private String numero;
     private String regiao;
+
+    @CreatedDate
+    @Column(name = "data_cadastro")
+    private LocalDateTime dataCadastro;
 
     //metodos getter e setter gerados pelo Lombok
 }
