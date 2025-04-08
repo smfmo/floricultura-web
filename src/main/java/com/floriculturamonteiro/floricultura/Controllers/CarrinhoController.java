@@ -1,6 +1,7 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.Controllers.dtos.ClienteDto;
+import com.floriculturamonteiro.floricultura.Controllers.mappers.ClienteMapper;
 import com.floriculturamonteiro.floricultura.model.*;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
@@ -28,6 +29,7 @@ public class CarrinhoController {
     private final AdminService adminService;
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteService clienteService;
+    private final ClienteMapper clienteMapper;
 
     //vizualizar o carrinho
     @GetMapping("")
@@ -106,7 +108,7 @@ public class CarrinhoController {
         carrinho.setCartaoMensagemDestinatario(cartaoMensagemDestinatario);
         carrinho.setIncluirCartaoMensagem(incluirCartaoMensagem);
 
-        var clienteEntidade = clienteDto.mapearParaCliente();
+        var clienteEntidade = clienteMapper.toEntity(clienteDto);
         clienteService.salvarCliente(clienteEntidade); //salva o cliente no banco de dados
 
         try{
