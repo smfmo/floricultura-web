@@ -43,13 +43,26 @@
   </div>
 </nav>
 
-<header class="bg-primary text-success-emphasis text-center py-5"><!-- início do catálogo de flores-->
+<header class="bg-primary text-success-emphasis text-center py-5">
   <h1>Controle de Vendas</h1>
 </header><br>
+
 <div class="container mt-5">
-  <form th:action="@{/controleVenda/limpar}" method="post" class="mb-4">
-    <button type="submit" class="btn btn-danger">Limpar carrinhos concluídos</button>
+
+  <form method="get" th:action="@{/controleVenda}" class="mb-3">
+    <div class="input-group">
+      <input type="text" id="buscar" name="nome" class="form-control"
+             th:value="${termoPesquisa}"
+             placeholder="Busque o carrinho pelo nome do cliente">
+      <button type="submit" class="btn btn-primary">Buscar</button>
+      <a th:if="${termoPesquisa != null}" href="/controleVenda" class="btn btn-secondary">Limpar</a>
+    </div>
   </form>
+
+  <!--<form th:action="@{/controleVenda/limpar}" method="post" class="mb-4">
+    <button type="submit" class="btn btn-danger">Limpar carrinhos concluídos</button>
+  </form>-->
+
   <div class="row">
     <div th:each="carrinho : ${carrinhos}" class="col-md-12 mb-4">
       <div class="card">
@@ -129,9 +142,6 @@
     </div>
   </div>
 </div>
-
-
-
 
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

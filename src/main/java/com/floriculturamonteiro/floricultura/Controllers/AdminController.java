@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public  class AdminController {
+public class AdminController {
 
     private final AdminService adminService;
     private final ArmazenamentoImgService imgService;
@@ -102,10 +102,19 @@ public  class AdminController {
 
     //ver as vendas no controle de Vendas
     @GetMapping("controleVenda")
-    public String exibirCompras(Model model){
-        List<Carrinho> carrinhos = carrinhoService.exibirCompras();
+    public String exibirCompras(Model model,
+                                @RequestParam(name = "nome",
+                                        required = false) String nome){
 
-        model.addAttribute("carrinhos", carrinhos);
+        if (nome != null && !nome.isBlank()) {
+            List<Carrinho> carrinhos = carrinhoService.pesquisarCliente(nome);
+            model.addAttribute("carrinhos", carrinhos);
+            model.addAttribute("termoPesquisa", nome);
+        } else {
+            List<Carrinho> carrinhos = carrinhoService.exibirCompras();
+            model.addAttribute("carrinhos", carrinhos);
+        }
+
         return "controleVenda";
     }
 
