@@ -145,4 +145,10 @@ public class CarrinhoService {
 
         itemCarrinhoRepository.delete(item);
     }
+    public List<Carrinho> pesquisarCliente(String nome){
+        if (nome == null || nome.isBlank()) {
+            return exibirCompras();
+        }
+        return carrinhoRepository.findByNomeClienteIgnoreCase(nome);
+    } //buscar carrinho pelo nome do cliente no controle de vendas
 }
