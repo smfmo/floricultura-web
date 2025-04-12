@@ -107,7 +107,7 @@ public class AdminController {
                                         required = false) String nome){
 
         if (nome != null && !nome.isBlank()) {
-            List<Carrinho> carrinhos = carrinhoService.pesquisarCliente(nome);
+            List<Carrinho> carrinhos = carrinhoService.pesquisaByExample(nome);
             model.addAttribute("carrinhos", carrinhos);
             model.addAttribute("termoPesquisa", nome);
         } else {
