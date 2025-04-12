@@ -27,5 +27,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     List<Carrinho> findByNomeClienteIgnoreCase(@Param("nome") String nome);
 
     List<Carrinho> findByConcluido(boolean concluido);
+
+    List<Carrinho> findByClienteIn(List<Cliente> clientes);
     
 }

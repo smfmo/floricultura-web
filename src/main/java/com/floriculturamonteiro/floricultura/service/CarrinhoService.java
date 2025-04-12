@@ -5,9 +5,13 @@ import com.floriculturamonteiro.floricultura.model.Cliente;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
+import com.floriculturamonteiro.floricultura.repositories.ClienteRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -25,6 +29,7 @@ public class CarrinhoService {
     private final AdminService adminService;
     private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
+    private final ClienteRepository clienteRepository;
 
     //criar um carrinho
     public Carrinho criarCarrinho() {
@@ -145,10 +150,26 @@ public class CarrinhoService {
 
         itemCarrinhoRepository.delete(item);
     }
+
     public List<Carrinho> pesquisarCliente(String nome){
         if (nome == null || nome.isBlank()) {
             return exibirCompras();
         }
         return carrinhoRepository.findByNomeClienteIgnoreCase(nome);
     } //buscar carrinho pelo nome do cliente no controle de vendas
+
+    public List<Carrinho> pesquisaByExample(String nome){
+        Cliente cliente = new Cliente();
+        cliente.setNome(nome);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        List<Cliente> clientes = clienteRepository.findAll(Example.of(cliente, matcher));
+
+        return carrinhoRepository.findByClienteIn(clientes);
+
+    } //a bordagem de pesquisa alternativa utilizando a interface QueryByExample
 }
