@@ -1,12 +1,15 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
+import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +43,16 @@ public class CatalogoController {
         model.addAttribute("carrinhoId", carrinho.getId());
         model.addAttribute("flores", adminService.buscarFloresEmEstoque());
         carrinhoService.limparCarrinhosVazios();
+        return "catalogo";
+    }
+
+    @GetMapping("/pesquisa")
+    public String pesquisaPorProduto(@RequestParam(value = "nome", required = false) String nome,
+                                     Model model){
+        List<Flores> resultado = carrinhoService.pesquisa(nome);
+
+        model.addAttribute("flores", resultado);
+
         return "catalogo";
     }
 }
