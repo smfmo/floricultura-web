@@ -123,6 +123,18 @@
     <h1 class="">Bem-vindo ao nosso catálogo de Flores</h1>
     <p class="">Encontre as flores mais lindas para todas as ocasiões</p>
 </header>
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form th:action="@{/pesquisa}" method="get" class="d-flex">
+                <input type="text" name="nome" class="form-control me-2"
+                       placeholder="digite o nome do produto que deseja" th:value="${param.nome}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="wrapper">
     <div class="content">
         <main class="container mt-4">
