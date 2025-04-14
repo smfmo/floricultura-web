@@ -6,12 +6,13 @@ import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ClienteRepository;
+import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -19,6 +20,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import static com.floriculturamonteiro.floricultura.repositories.specs.FloresSpecs.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class CarrinhoService {
     private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
     private final ClienteRepository clienteRepository;
+    private final FloresRepository floresRepository;
 
     //criar um carrinho
     public Carrinho criarCarrinho() {
@@ -171,5 +174,17 @@ public class CarrinhoService {
 
         return carrinhoRepository.findByClienteIn(clientes);
 
-    } //a bordagem de pesquisa alternativa utilizando a interface QueryByExample
+    } //abordagem de pesquisa alternativa utilizando a interface QueryByExample
+
+    public List<Flores> pesquisa(String nome){
+        Specification<Flores> specs = Specification
+                .where((root,
+                        query,
+                        cb) -> cb.conjunction());
+
+        if (nome != null) {
+            specs = specs.and(nomeLike(nome));
+        }
+        return floresRepository.findAll(specs);
+    }
 }
