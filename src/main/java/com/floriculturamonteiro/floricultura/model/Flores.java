@@ -1,5 +1,6 @@
 package com.floriculturamonteiro.floricultura.model;
 
+import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
@@ -35,6 +36,10 @@ public class Flores {
 
     @Column(name = "em_estoque")
     private Boolean emEstoque = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categoria_produto")
+    private CategoriaProduto categoriaProduto;
 
     //construtor
     public Flores(Long id,
