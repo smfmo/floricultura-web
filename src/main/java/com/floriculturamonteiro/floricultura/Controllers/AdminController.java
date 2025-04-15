@@ -1,6 +1,7 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
+import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.ArmazenamentoImgService;
@@ -37,6 +38,7 @@ public class AdminController {
 
         model.addAttribute("floresEmEstoque", floresEmEstoque);
         model.addAttribute("floresSemEstoque", floresSemEstoque);
+        model.addAttribute("categoriaProduto", CategoriaProduto.values());
 
         return "admin";
     }
@@ -71,6 +73,7 @@ public class AdminController {
     public String editarProduto(@PathVariable Long id, Model model){
         return adminService.buscarPeloId(id).map(flores -> {
             model.addAttribute("flores", flores);
+            model.addAttribute("categoriaProduto", CategoriaProduto.values());
             return "editFlores";
         })
                 .orElse("redirect:/admin");
