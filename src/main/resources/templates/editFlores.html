@@ -31,6 +31,14 @@
             <label for="cuidados" class="form-label">cuidados</label>
             <textarea class="form-control" id="cuidados" name="cuidados" required th:field="*{flores.cuidados}"></textarea>
         </div>
+        <div class="mb-3">
+            <label for="categoriaProduto" class="form-label">Categoria do produto:</label>
+            <select name="categoriaProduto" id="categoriaProduto" class="form-select" required>
+                <option th:each="tipo : ${categoriaProduto}"
+                        th:value="${tipo}"
+                        th:text="${tipo.name()}"></option>
+            </select>
+        </div> <hr>
         <div>
             <button type="submit" class="btn btn-primary">Salvar Alterações</button><br>
         </div>

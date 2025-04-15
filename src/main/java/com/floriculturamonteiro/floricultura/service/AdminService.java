@@ -32,6 +32,7 @@ public class AdminService {
             flores.setPreco(florAtualizada.getPreco());
             flores.setDescricao(florAtualizada.getDescricao());
             flores.setCuidados(florAtualizada.getCuidados());
+            flores.setCategoriaProduto(florAtualizada.getCategoriaProduto());
             repository.save(flores);
         });
     }
