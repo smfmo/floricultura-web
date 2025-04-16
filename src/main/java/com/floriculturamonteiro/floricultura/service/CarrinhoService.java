@@ -2,6 +2,7 @@ package com.floriculturamonteiro.floricultura.service;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Cliente;
+import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
@@ -186,5 +187,9 @@ public class CarrinhoService {
             specs = specs.and(nomeLike(nome));
         }
         return floresRepository.findAll(specs);
+    }
+
+    public List<Flores> pesquisaPorCategoria(CategoriaProduto categoria){
+        return floresRepository.findByCategoriaProdutoAndEmEstoqueTrue(categoria);
     }
 }
