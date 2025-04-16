@@ -63,6 +63,10 @@ public class AdminService {
         });
     }
 
+    public Optional<Flores> buscarPorId(Long id){
+        return repository.findById(id);
+    }
+
     /*listar as flores (se precisar listar todas as flores cadastradas!!)
     @Transactional(readOnly = true) //apenas leitura
     public List<Flores> getAllFlores(){
