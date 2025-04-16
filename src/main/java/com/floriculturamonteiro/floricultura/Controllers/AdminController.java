@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -85,14 +87,25 @@ public class AdminController {
                                   @ModelAttribute Flores florAtualizada,
                                   @RequestParam("imagens") MultipartFile[] imagens){
         try {
-            if (imagens.length > 0) {
-                List<String> caminhoImagens = imgService.armazenarImg(imagens);
+            Flores floresExistentes = adminService.buscarPorId(id)
+                    .orElseThrow(() -> new RuntimeException("Flor não encontrada"));
+
+            List<MultipartFile> imagensValidas = Arrays.stream(imagens)
+                    .filter(img -> !img.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!imagensValidas.isEmpty()) {
+                List<String> caminhoImagens = imgService.armazenarImg(imagensValidas.toArray(new MultipartFile[0]));
                 florAtualizada.setUrlImagens(caminhoImagens);
+            }else {
+                florAtualizada.setUrlImagens(floresExistentes.getUrlImagens());
             }
             adminService.atualizarFlores(id, florAtualizada);
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao processar imagens", e);
         }
+
         return "redirect:/admin";
     }
 

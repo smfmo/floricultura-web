@@ -1,6 +1,7 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
+import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
@@ -48,10 +49,18 @@ public class CatalogoController {
 
     @GetMapping("/pesquisa")
     public String pesquisaPorProduto(@RequestParam(value = "nome", required = false) String nome,
+                                     @RequestParam(value = "categoria", required = false)CategoriaProduto categoria,
                                      Model model){
-        List<Flores> resultado = carrinhoService.pesquisa(nome);
+        List<Flores> resultado;
+
+        if (categoria != null){
+            resultado = carrinhoService.pesquisaPorCategoria(categoria);
+        }else{
+            resultado = carrinhoService.pesquisa(nome);
+        }
 
         model.addAttribute("flores", resultado);
+        model.addAttribute("categoria", CategoriaProduto.values());
 
         return "catalogo";
     }
