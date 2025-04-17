@@ -123,11 +123,11 @@ public class AdminController {
                                         required = false) String nome){
 
         if (nome != null && !nome.isBlank()) {
-            List<Carrinho> carrinhos = carrinhoService.pesquisaByExample(nome);
+            List<Carrinho> carrinhos = adminService.pesquisaByExample(nome);
             model.addAttribute("carrinhos", carrinhos);
             model.addAttribute("termoPesquisa", nome);
         } else {
-            List<Carrinho> carrinhos = carrinhoService.exibirCompras();
+            List<Carrinho> carrinhos = adminService.exibirCompras();
             model.addAttribute("carrinhos", carrinhos);
         }
 

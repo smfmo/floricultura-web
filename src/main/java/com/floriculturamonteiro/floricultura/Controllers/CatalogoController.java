@@ -5,6 +5,7 @@ import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
+import com.floriculturamonteiro.floricultura.service.CatalogoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ public class CatalogoController {
     //atributos
     private final AdminService adminService;
     private final CarrinhoService carrinhoService;
+    private final CatalogoService catalogoService;
 
     //sobre nós
     @GetMapping("/sobre-nos")
@@ -43,6 +45,7 @@ public class CatalogoController {
         Carrinho carrinho = carrinhoService.criarCarrinho();
         model.addAttribute("carrinhoId", carrinho.getId());
         model.addAttribute("flores", adminService.buscarFloresEmEstoque());
+        model.addAttribute("categoria", CategoriaProduto.values());
         carrinhoService.limparCarrinhosVazios();
         return "catalogo";
     }
@@ -54,9 +57,9 @@ public class CatalogoController {
         List<Flores> resultado;
 
         if (categoria != null){
-            resultado = carrinhoService.pesquisaPorCategoria(categoria);
+            resultado = catalogoService.pesquisaPorCategoria(categoria);
         }else{
-            resultado = carrinhoService.pesquisa(nome);
+            resultado = catalogoService.pesquisaPorNome(nome);
         }
 
         model.addAttribute("flores", resultado);
