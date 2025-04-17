@@ -2,18 +2,12 @@ package com.floriculturamonteiro.floricultura.service;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Cliente;
-import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
 import com.floriculturamonteiro.floricultura.model.Flores;
 import com.floriculturamonteiro.floricultura.model.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
-import com.floriculturamonteiro.floricultura.repositories.ClienteRepository;
-import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -21,7 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import static com.floriculturamonteiro.floricultura.repositories.specs.FloresSpecs.*;
+
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +26,6 @@ public class CarrinhoService {
     private final AdminService adminService;
     private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
-    private final ClienteRepository clienteRepository;
-    private final FloresRepository floresRepository;
 
     //criar um carrinho
     public Carrinho criarCarrinho() {
@@ -76,7 +68,7 @@ public class CarrinhoService {
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
-        // 1. calcula o subtotal dos itens (metodo na calsse Carrinho)
+        // 1. calcula o subtotal dos itens (metodo na classe Carrinho)
        BigDecimal subtotal = carrinho.calcularSubTotalItens();
 
        // 2. calcula o valor do cartão de mensagem (caso seja marcada a opção)
@@ -115,11 +107,6 @@ public class CarrinhoService {
         itemCarrinhoRepository.deleteAll(carrinho.getItens());
     }
 
-    //metodo para exibir as compras no controle de vendas
-    public List<Carrinho> exibirCompras() {
-        return carrinhoRepository.EncontrarTodosComItens();
-    }
-
     //limpar carrinhos vazios
     public void limparCarrinhosVazios(){
         List<Carrinho> carrinhos = carrinhoRepository.findAll();
@@ -155,41 +142,4 @@ public class CarrinhoService {
         itemCarrinhoRepository.delete(item);
     }
 
-    public List<Carrinho> pesquisarCliente(String nome){
-        if (nome == null || nome.isBlank()) {
-            return exibirCompras();
-        }
-        return carrinhoRepository.findByNomeClienteIgnoreCase(nome);
-    } //buscar carrinho pelo nome do cliente no controle de vendas
-
-    public List<Carrinho> pesquisaByExample(String nome){
-        Cliente cliente = new Cliente();
-        cliente.setNome(nome);
-
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
-        List<Cliente> clientes = clienteRepository.findAll(Example.of(cliente, matcher));
-
-        return carrinhoRepository.findByClienteIn(clientes);
-
-    } //abordagem de pesquisa alternativa utilizando a interface QueryByExample
-
-    public List<Flores> pesquisa(String nome){
-        Specification<Flores> specs = Specification
-                .where((root,
-                        query,
-                        cb) -> cb.conjunction());
-
-        if (nome != null) {
-            specs = specs.and(nomeLike(nome));
-        }
-        return floresRepository.findAll(specs);
-    }
-
-    public List<Flores> pesquisaPorCategoria(CategoriaProduto categoria){
-        return floresRepository.findByCategoriaProdutoAndEmEstoqueTrue(categoria);
-    }
 }
