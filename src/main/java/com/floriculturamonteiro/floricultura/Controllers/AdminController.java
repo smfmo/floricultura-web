@@ -116,36 +116,4 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    //ver as vendas no controle de Vendas
-    @GetMapping("controleVenda")
-    public String exibirCompras(Model model,
-                                @RequestParam(name = "nome",
-                                        required = false) String nome){
-
-        if (nome != null && !nome.isBlank()) {
-            List<Carrinho> carrinhos = adminService.pesquisaByExample(nome);
-            model.addAttribute("carrinhos", carrinhos);
-            model.addAttribute("termoPesquisa", nome);
-        } else {
-            List<Carrinho> carrinhos = adminService.exibirCompras();
-            model.addAttribute("carrinhos", carrinhos);
-        }
-
-        return "controleVenda";
-    }
-
-    //marcar os carrinhos concluidos
-    @PostMapping("/controleVenda/concluir/{carrinhoId}")
-    public String marcarComoConcluido(@PathVariable Long carrinhoId){
-        carrinhoService.carrinhoConcluido(carrinhoId);
-        return "redirect:/controleVenda";
-    }
-
-    //limpar os carrinhos que ja foram concluídos
-    @PostMapping("controleVenda/limpar")
-    public String limparCarrinhosConcluidos(){
-        carrinhoService.limparCarrinhosConcluidos();
-        return "redirect:/controleVenda";
-    }
-
 }
