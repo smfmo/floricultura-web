@@ -5,8 +5,7 @@ import com.floriculturamonteiro.floricultura.model.Cliente;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -18,16 +17,18 @@ public class ControleVendaService {
     private final ClienteRepository clienteRepository;
 
     //exibir as compras no controle de vendas
-    public List<Carrinho> exibirCompras() {
-        return carrinhoRepository.EncontrarTodosComItens();
+//    public List<Carrinho> exibirCompras() {
+//        return carrinhoRepository.EncontrarTodosComItens();
+//    }
+
+    public Page<Carrinho> listarCarrinhos(Integer pagina, Integer tamanhoPagina){
+        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        return carrinhoRepository.EncontrarTodosComItens(pageRequest);
     }
 
-    public List<Carrinho> pesquisarCliente(String nome) {
-        if (nome == null || nome.isBlank()) {
-            return exibirCompras();
-        }
-
-        return carrinhoRepository.findByNomeClienteIgnoreCase(nome);
+    public Page<Carrinho> pesquisarCliente(String nome, Integer pagina, Integer tamanhoPagina) {
+        Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
+        return carrinhoRepository.findByNomeClienteIgnoreCase(nome, pageRequest);
     } //buscar carrinho pelo nome do cliente no controle de vendas
 
     public List<Carrinho> pesquisaByExample(String nome){

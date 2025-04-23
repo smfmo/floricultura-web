@@ -2,6 +2,8 @@ package com.floriculturamonteiro.floricultura.repositories;
 
 import com.floriculturamonteiro.floricultura.model.Carrinho;
 import com.floriculturamonteiro.floricultura.model.Cliente;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +18,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     left join fetch  c.cliente
     where size(c.itens) > 0
     """)
-    List<Carrinho> EncontrarTodosComItens();
+    Page<Carrinho> EncontrarTodosComItens(Pageable pageable);
 
     @Query("""
     select c
@@ -24,7 +26,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     join c.cliente
     cl where lower(cl.nome) = lower(:nome)
     """)
-    List<Carrinho> findByNomeClienteIgnoreCase(@Param("nome") String nome);
+    Page<Carrinho> findByNomeClienteIgnoreCase(@Param("nome") String nome, Pageable pageable);
 
     List<Carrinho> findByConcluido(boolean concluido);
 
