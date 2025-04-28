@@ -47,8 +47,8 @@ O **E-commerce Floricultura Monteiro** é uma plataforma de vendas online focada
 ![img_1.png](sobrenos.png)
 
 ### contato e localização:
-![img_1.png](cttElocalizacao1.png)
-![img_1.png](cttElocalizacao2.png)
+![img_1.png](cttELocalizacao1.png)
+![img_1.png](cttELocalizacao2.png)
 
 ### detalhes do produto:
 ![img_1.png](detalhes.png)
