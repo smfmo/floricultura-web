@@ -36,14 +36,36 @@ O **E-commerce Floricultura Monteiro** é uma plataforma de vendas online focada
 - **Git e GitHub:** Controle de versão e colaboração.
 
 ---
+## Evidencias Visuais: 
+### inicio:
+![img_1.png](inicio.png)
+
+### catalogo:
+![img_1.png](catalogo.png)
+
+### sobre nós: 
+![img_1.png](sobrenos.png)
+
+### contato e localização:
+![img_1.png](cttElocalizacao1.png)
+![img_1.png](cttElocalizacao2.png)
+
+### detalhes do produto:
+![img_1.png](detalhes.png)
+
+### carrinho: 
+![img_1.png](carrinho1.png)
+![img_1.png](carrinho2.png)
+
+### Área do administrador (apenas Estoque):
+![img_1.png](adminEstoque.png)
 
 ## 📋 Funcionalidades Detalhadas
 
-### Para Clientes:git
+### Para Clientes:
 - Navegação intuitiva por categorias de produtos.
 - Carrinho de compras com resumo de pedidos.
 - Pagamentos seguros via Pix, cartão de crédito, débito e boleto.
-- Acompanhamento de pedidos em tempo real.
 
 ### Para Administradores:
 - Cadastro e gerenciamento de produtos.
