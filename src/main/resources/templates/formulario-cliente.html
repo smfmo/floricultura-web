@@ -202,15 +202,19 @@
         <main class="container mt-5">
             <div class="row">
                 <div class="col-md-8">
-                    <form th:action="@{/carrinho/finalizar}" method="post">
+                    <form th:action="@{/carrinho/finalizar}" th:object="${cliente}" method="post">
                         <div class="form-group row">
                             <div class="col-md-6">
                                 <label for="nome">Nome do destinatário</label>
-                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" required>
+                                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" th:field="*{nome}">
+                                <small class="text-danger" th:if="${#fields.hasErrors('nome')}"
+                                       th:errors="*{nome}">Erro no nome</small>
                             </div>
                             <div class="col-md-6">
                                 <label for="telefone">telefone do destinatário</label>
-                                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite aqui" required>
+                                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite aqui" th:field="*{telefone}">
+                                <small class="text-danger" th:if="${#fields.hasErrors('telefone')}"
+                                       th:errors="*{telefone}">Erro no telefone</small>
                                 <small class="form-text text-muted">Somente números!</small>
                             </div>
                         </div>
@@ -226,41 +230,43 @@
 
                         <div class="col-md-6">
                             <label for="email">Digite seu e-mail</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Digite aqui" required>
+                            <input type="text" class="form-control" id="email" name="email" th:field="*{email}" placeholder="Digite aqui">
+                            <small class="text-danger" th:if="${#fields.hasErrors('email')}"
+                                   th:errors="*{email}">Erro no email</small>
                         </div>
                         <hr>
                         <div class="form-box">
                             <h3>Informações para a entrega</h3><br>
                             <div class="form-group">
                                 <label for="regiao">Selecione sua região:</label>
-                                <select class="form-control" id="regiao" name="endereco.regiao" required>
+                                <select class="form-control" id="regiao" name="endereco.regiao" th:field="*{endereco.regiao}">
                                     <option value="">Carregando regiões...</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="logradouro">Logradouro</label>
-                                <input type="text" class="form-control" id="logradouro" name="endereco.logradouro">
+                                <input type="text" class="form-control" id="logradouro" name="endereco.logradouro" th:field="*{endereco.logradouro}">
                             </div>
                             <div class="form-group">
                                 <label for="bairro">Bairro</label>
-                                <input type="text" class="form-control" id="bairro" name="endereco.bairro">
+                                <input type="text" class="form-control" id="bairro" name="endereco.bairro" th:field="*{endereco.bairro}">
                             </div>
                             <div class="form-group">
                                 <label for="localidade">Cidade</label>
-                                <input type="text" class="form-control" id="localidade" name="endereco.localidade">
+                                <input type="text" class="form-control" id="localidade" name="endereco.localidade" th:field="*{endereco.localidade}">
                             </div>
                             <div class="form-group">
                                 <label for="uf">UF</label>
-                                <input type="text" class="form-control" id="uf" name="endereco.uf">
+                                <input type="text" class="form-control" id="uf" name="endereco.uf" th:field="*{endereco.uf}">
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="numero">Número</label>
-                                    <input type="text" class="form-control" id="numero" name="endereco.numero">
+                                    <input type="text" class="form-control" id="numero" name="endereco.numero" th:field="*{endereco.numero}">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="complemento">ponto de referencia para entrega</label>
-                                    <input type="text" class="form-control" id="complemento" name="endereco.complemento">
+                                    <input type="text" class="form-control" id="complemento" name="endereco.complemento" th:field="*{endereco.complemento}">
                                 </div>
                             </div>
                         </div>

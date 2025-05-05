@@ -9,11 +9,13 @@ import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.ClienteService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
@@ -106,13 +108,26 @@ public class CarrinhoController {
 
     @PostMapping("/finalizar")
     public String finalizarCompra(
-            @ModelAttribute ClienteDto clienteDto,
+            @ModelAttribute("cliente") @Valid ClienteDto clienteDto,
+            BindingResult bindingResult,
             @RequestParam(required = false) String cartaoMensagemDestinatario, //cartão opcional
             @RequestParam(required = false) boolean incluirCartaoMensagem,
             HttpSession session,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes,
+            Model model) {
 
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("carrinhoId", carrinhoId);
+            List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
+            model.addAttribute("itens", itens);
+            model.addAttribute("total", itens.stream()
+                    .map(ItemCarrinho::getPrecoTotal)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add));
+            model.addAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
+            return "formulario-cliente"; // Retorna para a view com os erros
+        }
 
         session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
         Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(carrinhoId)
