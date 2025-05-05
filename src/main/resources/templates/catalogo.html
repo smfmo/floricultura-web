@@ -225,9 +225,8 @@
                             <form th:action="@{/carrinho/adicionarItem}" method="get" class="mt-auto">
                                 <input type="hidden" name="carrinhoId" th:value="${carrinhoId}">
                                 <input type="hidden" name="floresId" th:value="${flores.id}">
-                                <div class="text-center mb-2">
-                                    <input type="number" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto">
-                                </div>
+                                <!--apenas adicionar 1 item no carrinho, caso queira outro basta clicar em "Continuar comprando"-->
+                                <input type="hidden" name="quantidade" value="1" min="1" class="form-control w-50 mx-auto">
                                 <button type="submit" class="btn btn-primary w-100">Adicionar ao carrinho</button>
                             </form>
                             <button type="button" class="btn btn-primary w-100 mt-2" data-bs-toggle="modal" th:attr="data-bs-target='#modalDetalhes' + ${flores.id}">Detalhes</button>

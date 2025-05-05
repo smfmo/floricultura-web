@@ -31,8 +31,7 @@ public class CarrinhoController {
     private final ClienteService clienteService;
     private final ClienteMapper clienteMapper;
 
-    //vizualizar o carrinho
-    @GetMapping("")
+    @GetMapping("") //vizualizar o carrinho
     public String verCarrinho(HttpSession session, Model model) {
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
@@ -41,8 +40,7 @@ public class CarrinhoController {
         }
 
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
-        //calcular o total do carrinho
-       BigDecimal total = itens.stream()
+        BigDecimal total = itens.stream() //calcular o total do carrinho
                .map(ItemCarrinho::getPrecoTotal)
                         .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -53,22 +51,36 @@ public class CarrinhoController {
         return "carrinho";
     }
 
-    //adicionar os produtos ao carrinho
-    @PostMapping("/adicionar")
-    public String adicionarFlorAoCarrinho(@RequestParam Long carrinhoId,
-                                          @RequestParam Long floresId,
-                                          @RequestParam int quantidade,
-                                          @RequestParam String nomeProduto,
-                                          @RequestParam BigDecimal precoTotal,
-                                          HttpSession session) {
-        carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId,
-                quantidade, nomeProduto, precoTotal);
-        session.setAttribute("carrinhoId", carrinhoId); //aqui armazena o ID do carrinho na sessão
+    @GetMapping("/adicionarItem")//adicionar itens ao carrinho
+    public String adicionarItem(@RequestParam Long floresId,
+                                @RequestParam int quantidade,
+                                HttpSession session) {
+        carrinhoService.limparCarrinhosVazios(); //limpar carrinhos vazios
+
+        Long carrinhoId = (Long) session.getAttribute("carrinhoId");
+        if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
+            Carrinho novoCarrinho = carrinhoService.criarCarrinho();//se não houver carrinho na sessão, cria um novo
+            carrinhoId = novoCarrinho.getId();
+            session.setAttribute("carrinhoId", carrinhoId);
+        }
+
+        Flores flores = adminService.buscarPeloId(floresId).orElseThrow();//adicionar item ao carrinho
+
+        BigDecimal precoTotal = flores.getPreco().multiply(BigDecimal.valueOf(quantidade));
+
+        carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId, quantidade, flores.getNome(), precoTotal);
+
         return "redirect:/carrinho";
     }
 
+    @DeleteMapping("/remover/{itemId}")
+    public ResponseEntity<Void> removerItemDoCarrinho(@PathVariable Long itemId) {
+        carrinhoService.excluirItensDoCarrinho(itemId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/finalizar")
-    public String mostratFormCliente(HttpSession session, Model model) {
+    public String mostrarFormCliente(HttpSession session, Model model) {
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
         model.addAttribute("carrinhoId", carrinhoId);
@@ -91,6 +103,7 @@ public class CarrinhoController {
 
         return "formulario-cliente";
     }
+
     @PostMapping("/finalizar")
     public String finalizarCompra(
             @ModelAttribute ClienteDto clienteDto,
@@ -116,48 +129,14 @@ public class CarrinhoController {
             session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
             carrinhoService.limparCarrinhosVazios();
             redirectAttributes.addFlashAttribute("sucess", "Compra finalizada com sucesso!");
-        } catch (MessagingException e){
-            //erro ao envial email
+        } catch (MessagingException e){ //erro ao envial email
             redirectAttributes.addFlashAttribute("error",
                     "Compra finalizada, mas ocorreu um erro ao enviar o email de confirmação!");
         }
         return "redirect:/carrinho/confirmacao";
     }
-
     @GetMapping("/confirmacao")
     public String confirmacaoCompra(){
         return "confirmacao-compra";
-    }
-
-    //metodo para adicionar itens ao carrinho existente ou criar um novo
-    @GetMapping("/adicionarItem")
-    public String adicionarItem(@RequestParam Long floresId,
-                                @RequestParam int quantidade,
-                                HttpSession session) {
-        //limpar carrinhos vazios
-        carrinhoService.limparCarrinhosVazios();
-
-        Long carrinhoId = (Long) session.getAttribute("carrinhoId");
-        if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
-            //se não houver carrinho na sessão, cria um novo
-            Carrinho novoCarrinho = carrinhoService.criarCarrinho();
-            carrinhoId = novoCarrinho.getId();
-            session.setAttribute("carrinhoId", carrinhoId);
-        }
-
-        //adicionar item ao carrinho
-        Flores flores = adminService.buscarPeloId(floresId).orElseThrow();
-
-        BigDecimal precoTotal = flores.getPreco().multiply(BigDecimal.valueOf(quantidade));
-
-        carrinhoService.adicionarFloresAoCarrinho(carrinhoId, floresId, quantidade, flores.getNome(), precoTotal);
-
-        return "redirect:/carrinho";
-    }
-
-    @DeleteMapping("/remover/{itemId}")
-    public ResponseEntity<Void> removerItemDoCarrinho(@PathVariable Long itemId) {
-        carrinhoService.excluirItensDoCarrinho(itemId);
-        return ResponseEntity.noContent().build();
     }
 }
