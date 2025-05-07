@@ -27,20 +27,21 @@ public class ControleVendaController {
                                 @RequestParam(defaultValue = "0") Integer pagina,
                                 @RequestParam(defaultValue = "10") Integer tamanhoPagina){
 
+        Page<Carrinho> carrinhos;
 
         if (nome != null && !nome.isBlank()) {
-            Page<Carrinho> carrinhos = controleVendaService
+            carrinhos = controleVendaService
                     .pesquisarCliente(nome, pagina, tamanhoPagina);
             model.addAttribute("carrinhos", carrinhos.getContent());
             model.addAttribute("termoPesquisa", nome);
             model.addAttribute("paginaAtual", pagina);
-            model.addAttribute("totalPaginas", carrinhos.getTotalPages());
         } else {
-            Page<Carrinho> carrinhos = controleVendaService.listarCarrinhos(pagina, tamanhoPagina);
+            carrinhos = controleVendaService.listarCarrinhos(pagina, tamanhoPagina);
             model.addAttribute("paginaAtual", pagina);
             model.addAttribute("carrinhos", carrinhos.getContent());
-            model.addAttribute("totalPaginas", carrinhos.getTotalPages());
         }
+
+        model.addAttribute("totalPaginas", carrinhos.getTotalPages());
         List<Integer> tamanhos = List.of(5, 10, 15);
         model.addAttribute("tamanhos", tamanhos);
         model.addAttribute("tamanhoPagina", tamanhoPagina);
@@ -55,10 +56,12 @@ public class ControleVendaController {
         return "redirect:/controleVenda";
     }
 
-    //limpar os carrinhos que ja foram concluídos
-    @PostMapping("controleVenda/limpar")
-    public String limparCarrinhosConcluidos(){
-        carrinhoService.limparCarrinhosConcluidos();
-        return "redirect:/controleVenda";
-    }
+    /** limpar os carrinhos que ja foram concluídos
+     *      (Funcionalidade retirada da parte do cliente!!)
+     *     @PostMapping("controleVenda/limpar")
+     *     public String limparCarrinhosConcluidos(){
+     *         carrinhoService.limparCarrinhosConcluidos();
+     *         return "redirect:/controleVenda";
+     *     }
+     */
 }
