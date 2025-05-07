@@ -28,7 +28,6 @@ public class ControleVendaController {
                                 @RequestParam(defaultValue = "10") Integer tamanhoPagina){
 
         Page<Carrinho> carrinhos;
-
         if (nome != null && !nome.isBlank()) {
             carrinhos = controleVendaService
                     .pesquisarCliente(nome, pagina, tamanhoPagina);
@@ -41,7 +40,7 @@ public class ControleVendaController {
             model.addAttribute("carrinhos", carrinhos.getContent());
         }
 
-        model.addAttribute("totalPaginas", carrinhos.getTotalPages());
+        model.addAttribute("totalPaginas", Math.max(1, carrinhos.getTotalPages()));
         List<Integer> tamanhos = List.of(5, 10, 15);
         model.addAttribute("tamanhos", tamanhos);
         model.addAttribute("tamanhoPagina", tamanhoPagina);

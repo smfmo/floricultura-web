@@ -24,7 +24,7 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     select c
     from Carrinho c
     join c.cliente
-    cl where lower(cl.nome) = lower(:nome)
+    cl where lower(cl.nome) like lower(concat('%', :nome, '%'))
     """)
     Page<Carrinho> findByNomeClienteIgnoreCase(@Param("nome") String nome, Pageable pageable);
 

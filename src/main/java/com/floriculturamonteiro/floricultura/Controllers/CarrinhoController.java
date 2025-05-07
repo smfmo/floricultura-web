@@ -8,6 +8,7 @@ import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.ClienteService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -89,6 +90,11 @@ public class CarrinhoController {
         model.addAttribute("cliente", new Cliente());
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         model.addAttribute("itens", itens);
+
+        //se não houver itens no carrinho, redireciona para o catálogo
+        if (itens == null || itens.isEmpty()) {
+            return "redirect:/catalogo?carrinhoVazio=true";
+        }
 
         BigDecimal total = itens.stream()
                 .map(ItemCarrinho::getPrecoTotal)
