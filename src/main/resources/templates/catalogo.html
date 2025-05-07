@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,10 +166,13 @@
         <div class="col-md-8">
 
             <div class="search-container">
-                <form th:action="@{/pesquisa}" method="get" class="d-flex flex-grow-1 me-2" style="max-width: 400px;">
-                    <input type="text" name="nome" class="form-control"
-                           placeholder="digite o nome do produto que deseja" th:value="${param.nome}">
-                    <button type="submit" class="btn btn-primary ms-2">Buscar</button>
+                <form th:action="@{/pesquisa}" method="get" class="flex-grow-1 me-2" style="max-width: 400px;">
+                    <div class="input-group">
+                        <input type="text" name="nome" class="form-control"
+                               placeholder="digite o nome do produto que deseja" th:value="${param.nome}">
+                        <button type="submit" class="btn btn-primary">Buscar</button>
+                        <a th:if="${termoPesquisa != null}" href="/pesquisa" class="btn btn-secondary">Limpar</a>
+                    </div>
                 </form>
 
                 <div class="dropdown">

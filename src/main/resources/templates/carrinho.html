@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,7 +123,6 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <div th:each="item, iter: ${itens}" class="col">
                     <div class="card h-100 shadow-sm">
-                        <!-- Carousel com ID único para cada item -->
                         <div th:id="'carouselItem' + ${iter.index}" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div th:each="urlImagem, iterStat : ${item.flores.urlImagens}"
@@ -131,7 +130,6 @@
                                     <img th:src="${urlImagem}" class="d-block w-100 card-img-top" alt="Imagem da Flor" style="height: 200px; object-fit: cover;">
                                 </div>
                             </div>
-                            <!-- Botões de controle do carousel -->
                             <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#carouselItem' + ${iter.index}" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Anterior</span>
@@ -156,14 +154,12 @@
                                 <span th:text="'R$ ' + ${#numbers.formatDecimal(item.quantidade * item.flores.preco, 1, 2)}"></span>
 
                             </p>
-                            <!-- Ícone de exclusão -->
                             <i class="bi bi-trash3 text-danger" style="cursor: pointer;" th:onclick="'excluirItem(' + ${item.id} + ')'"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Total e botões -->
             <div class="text-center mt-5">
                 <h4 class="fw-bold">
                     Total da Compra: <span th:text="'R$ ' + ${#numbers.formatDecimal(total, 1, 2)}"></span>
@@ -201,7 +197,7 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        window.location.reload(); // Recarrega a página após a exclusão
+                        window.location.reload(); // Recarregar a pág. após exclusão
                     } else {
                         alert("Erro ao remover o item.");
                     }
