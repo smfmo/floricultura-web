@@ -11,20 +11,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
-    //atributo
     private final FloresRepository repository;
 
-    //adicionar as flores
     public void addFlor(Flores flores){
         repository.save(flores);
     }
 
-    //buscar pelo ID
     public Optional<Flores> buscarPeloId(Long id){
         return repository.findById(id);
     }
 
-    //atualizar flores
     public void atualizarFlores(Long id, Flores florAtualizada){
         repository.findById(id).ifPresent(flores ->{
             flores.setNome(florAtualizada.getNome());
@@ -45,17 +41,14 @@ public class AdminService {
         });
     }
 
-    //buscar somente flores que estão em estoque
     public List<Flores> buscarFloresEmEstoque(){
         return repository.findByEmEstoqueTrue();
     }
 
-    //buscar flores que não estão em estoque
     public List<Flores> buscarFloresSemEstoque(){
         return repository.findByEmEstoqueFalse();
     }
 
-    //restaurar as flores
     public void restaurarEstoque(Long id){
         repository.findById(id).ifPresent(flores ->{
             flores.setEmEstoque(true);

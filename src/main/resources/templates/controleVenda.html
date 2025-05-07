@@ -27,9 +27,8 @@
       font-size: 16px;
     }
 
-    /* Estilo personalizado para botões de paginação */
     .custom-pagination .page-link {
-      background-color: #A3E063 !important; /* Verde mais vibrante */
+      background-color: #A3E063 !important;
       border-color: #A3E063 !important;
       color: white;
       font-weight: bold;
@@ -39,19 +38,17 @@
     }
 
     .custom-pagination .page-link:hover {
-      background-color: #98d84f !important; /* Um tom mais escuro no hover */
+      background-color: #98d84f !important;
       border-color: #98d84f !important;
       color: white;
     }
 
-    /* Página ativa */
     .custom-pagination .page-item.active .page-link {
-      background-color: #8CD147 !important; /* Verde intenso para página ativa */
+      background-color: #8CD147 !important;
       border-color: #8CD147 !important;
       color: white;
     }
 
-    /* Botão desativado */
     .custom-pagination .page-item.disabled .page-link {
       background-color: #E0E0E0 !important;
       border-color: #E0E0E0 !important;
@@ -90,12 +87,11 @@
       <a th:if="${termoPesquisa != null}" href="/controleVenda" class="btn btn-secondary">Limpar</a>
     </div>
   </form>
-  <!-- Paginação -->
+
   <div th:if="${totalPaginas > 1}" class="row mt-4">
     <div class="col-md-12">
       <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center custom-pagination">
-          <!-- Botão Anterior -->
           <li class="page-item" th:classappend="${paginaAtual == 0} ? 'disabled'">
             <a class="page-link"
                th:href="@{/controleVenda(nome=${termoPesquisa}, pagina=${paginaAtual - 1}, tamanhoPagina=${tamanhoPagina})}">
@@ -103,7 +99,6 @@
             </a>
           </li>
 
-          <!-- Números das páginas -->
           <li th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
               class="page-item" th:classappend="${i == paginaAtual} ? 'active'">
             <a class="page-link"
@@ -111,7 +106,6 @@
                th:text="${i + 1}"></a>
           </li>
 
-          <!-- Botão Próximo -->
           <li class="page-item" th:classappend="${paginaAtual >= totalPaginas - 1} ? 'disabled'">
             <a class="page-link"
                th:href="@{/controleVenda(nome=${termoPesquisa}, pagina=${paginaAtual + 1}, tamanhoPagina=${tamanhoPagina})}">
@@ -121,7 +115,6 @@
         </ul>
       </nav>
 
-      <!-- Seletor de tamanho de página -->
       <div class="text-center mt-2">
         <span>Itens por página: </span>
         <select class="form-select d-inline-block w-auto custom-pagination-select"
@@ -135,9 +128,9 @@
     </div>
   </div> <br>
 
-  <!--<form th:action="@{/controleVenda/limpar}" method="post" class="mb-4">
+  <!-- <form th:action="@{/controleVenda/limpar}" method="post" class="mb-4">
     <button type="submit" class="btn btn-danger">Limpar carrinhos concluídos</button>
-  </form>-->
+  </form> funcionalidade retirada!!! -->
 
   <div class="row">
     <div th:each="carrinho : ${carrinhos}" class="col-md-12 mb-4">

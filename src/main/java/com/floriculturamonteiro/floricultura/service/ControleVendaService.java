@@ -16,15 +16,10 @@ public class ControleVendaService {
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteRepository clienteRepository;
 
-    //exibir as compras no controle de vendas
-//    public List<Carrinho> exibirCompras() {
-//        return carrinhoRepository.EncontrarTodosComItens();
-//    }
-
     public Page<Carrinho> listarCarrinhos(Integer pagina, Integer tamanhoPagina){
         Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
         return carrinhoRepository.EncontrarTodosComItens(pageRequest);
-    }
+    } //metodo de busca com paginação
 
     public Page<Carrinho> pesquisarCliente(String nome, Integer pagina, Integer tamanhoPagina) {
         Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);

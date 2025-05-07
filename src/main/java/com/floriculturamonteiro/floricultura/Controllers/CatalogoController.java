@@ -60,6 +60,7 @@ public class CatalogoController {
             resultado = catalogoService.pesquisaPorCategoria(categoria);
         }else{
             resultado = catalogoService.pesquisaPorNome(nome);
+            model.addAttribute("termoPesquisa", nome);
         }
 
         model.addAttribute("flores", resultado);
