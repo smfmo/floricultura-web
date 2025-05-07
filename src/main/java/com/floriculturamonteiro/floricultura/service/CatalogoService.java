@@ -25,9 +25,12 @@ public class CatalogoService {
             specs = specs.and(nomeLike(nome));
         }
 
+        specs = specs.and(((root,
+                            query,
+                            criteriaBuilder) -> criteriaBuilder.isTrue(root.get("emEstoque"))));
+
         return floresRepository.findAll(specs);
     }
-
     public List<Flores> pesquisaPorCategoria(CategoriaProduto categoria){
         return floresRepository.findByCategoriaProdutoAndEmEstoqueTrue(categoria);
     }
