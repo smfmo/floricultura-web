@@ -54,6 +54,7 @@ public class CatalogoController {
     public String pesquisaPorProduto(@RequestParam(value = "nome", required = false) String nome,
                                      @RequestParam(value = "categoria", required = false)CategoriaProduto categoria,
                                      Model model){
+
         List<Flores> resultado;
 
         if (categoria != null){

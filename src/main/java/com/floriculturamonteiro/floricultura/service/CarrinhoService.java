@@ -34,6 +34,7 @@ public class CarrinhoService {
     }
 
     //adicionar itens ao carrinho
+    @Transactional
     public void adicionarFloresAoCarrinho(Long carrinhoId,
                                           Long floresId,
                                           int quantidade,
@@ -52,6 +53,7 @@ public class CarrinhoService {
         item.setQuantidade(quantidade);
         item.setValorUnitario(flores.getPreco());
         item.setCarrinho(carrinho);
+        carrinho.setUltimaAtualizacao(LocalDateTime.now());
         itemCarrinhoRepository.save(item);
     }
 
@@ -90,6 +92,7 @@ public class CarrinhoService {
        carrinho.setTotalFinal(totalFinal);
        carrinho.setCliente(cliente);
        carrinho.setDataHoraCompra(LocalDateTime.now());
+       carrinho.setFinalizado(true);
 
         carrinhoRepository.save(carrinho);
 
