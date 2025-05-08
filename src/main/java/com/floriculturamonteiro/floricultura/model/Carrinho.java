@@ -22,22 +22,40 @@ public class Carrinho {
     private List<ItemCarrinho> itens = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", referencedColumnName = "id")
+    @JoinColumn(name = "cliente_id",
+            referencedColumnName = "id")
     private Cliente cliente;
 
     @Column(name = "data_hora_compra")
     private LocalDateTime dataHoraCompra;
 
-    @Column(precision = 10, scale = 2, name = "sub_total_itens")
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "ultima_atualizacao")
+    private LocalDateTime ultimaAtualizacao;
+
+    @Column(name = "finalizado")
+    private boolean finalizado;
+
+    @Column(precision = 10,
+            scale = 2,
+            name = "sub_total_itens")
     private BigDecimal subTotalItens;
 
-    @Column(precision = 10, scale = 2, name = "valor_cartao_mensagem")
+    @Column(precision = 10,
+            scale = 2,
+            name = "valor_cartao_mensagem")
     private BigDecimal valorCartaoMensagem;
 
-    @Column(precision = 10, scale = 2, name = "valor_entrega")
+    @Column(precision = 10,
+            scale = 2,
+            name = "valor_entrega")
     private BigDecimal valorEntrega;
 
-    @Column(precision = 10, scale = 2, name = "total_final")
+    @Column(precision = 10,
+            scale = 2,
+            name = "total_final")
     private BigDecimal totalFinal;
 
     @Column(name = "concluido")

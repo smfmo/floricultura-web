@@ -7,6 +7,7 @@ import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.ClienteService;
+import com.floriculturamonteiro.floricultura.service.ManutencaoCarrinhoService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpSession;
@@ -33,6 +34,7 @@ public class CarrinhoController {
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteService clienteService;
     private final ClienteMapper clienteMapper;
+    private final ManutencaoCarrinhoService manutencaoCarrinhoService;
 
     @GetMapping("") //vizualizar o carrinho
     public String verCarrinho(HttpSession session, Model model) {
@@ -83,7 +85,7 @@ public class CarrinhoController {
     }
 
     @GetMapping("/finalizar")
-    public String mostrarFormCliente(HttpSession session, Model model) {
+    public String mostrarFormCliente(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
         model.addAttribute("carrinhoId", carrinhoId);
@@ -91,9 +93,13 @@ public class CarrinhoController {
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         model.addAttribute("itens", itens);
 
-        //se não houver itens no carrinho, redireciona para o catálogo
+        if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
+            redirectAttributes.addAttribute("carrinhoExpirado", true);
+            return "redirect:/catalogo";
+        }
         if (itens == null || itens.isEmpty()) {
-            return "redirect:/catalogo?carrinhoVazio=true";
+            redirectAttributes.addAttribute("carrinhoVazio", true);
+            return "redirect:/catalogo";
         }
 
         BigDecimal total = itens.stream()
@@ -124,6 +130,11 @@ public class CarrinhoController {
 
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
 
+        if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
+            redirectAttributes.addAttribute("carrinhoExpirado", true);
+            return "redirect:/catalogo";
+        }
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("carrinhoId", carrinhoId);
             List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
@@ -134,6 +145,7 @@ public class CarrinhoController {
             model.addAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
             return "formulario-cliente"; // Retorna para a view com os erros
         }
+
 
         session.setAttribute("incluirCartaoMensagem", incluirCartaoMensagem);
         Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(carrinhoId)
@@ -153,6 +165,8 @@ public class CarrinhoController {
         } catch (MessagingException e){ //erro ao envial email
             redirectAttributes.addFlashAttribute("error",
                     "Compra finalizada, mas ocorreu um erro ao enviar o email de confirmação!");
+            redirectAttributes.addAttribute("carrinhoExpirado", true);
+            return "redirect:/catalogo";
         }
         return "redirect:/carrinho/confirmacao";
     }
