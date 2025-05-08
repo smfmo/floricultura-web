@@ -36,6 +36,7 @@ public class CarrinhoController {
     private final ClienteMapper clienteMapper;
     private final ManutencaoCarrinhoService manutencaoCarrinhoService;
 
+
     @GetMapping("") //vizualizar o carrinho
     public String verCarrinho(HttpSession session, Model model) {
         Long carrinhoId = (Long) session.getAttribute("carrinhoId");
@@ -92,6 +93,7 @@ public class CarrinhoController {
         model.addAttribute("cliente", new Cliente());
         List<ItemCarrinho> itens = carrinhoService.ListarItensCarrinho(carrinhoId);
         model.addAttribute("itens", itens);
+
 
         if (carrinhoId == null || !carrinhoRepository.existsById(carrinhoId)) {
             redirectAttributes.addAttribute("carrinhoExpirado", true);

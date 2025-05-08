@@ -34,5 +34,5 @@ public interface CarrinhoRepository extends JpaRepository<Carrinho, Long> {
     List<Carrinho> findByClienteIn(List<Cliente> clientes);
 
     List<Carrinho> findByUltimaAtualizacaoBeforeAndFinalizadoFalse(LocalDateTime dataLimite);
-    
+
 }

@@ -31,6 +31,7 @@ public class CatalogoService {
 
         return floresRepository.findAll(specs);
     }
+
     public List<Flores> pesquisaPorCategoria(CategoriaProduto categoria){
         return floresRepository.findByCategoriaProdutoAndEmEstoqueTrue(categoria);
     }

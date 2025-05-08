@@ -82,4 +82,3 @@ Este projeto resolveu problemas críticos enfrentados pela Floricultura Monteiro
 - **Perda de Vendas:** A plataforma integrada otimizou o processo de vendas, aumentando a satisfação dos clientes.
 - **Desorganização de Pedidos:** A área administrativa centraliza todas as informações, facilitando a gestão.
 
----

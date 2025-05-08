@@ -40,6 +40,7 @@ public class ControleVendaController {
             model.addAttribute("carrinhos", carrinhos.getContent());
         }
 
+
         model.addAttribute("totalPaginas", Math.max(1, carrinhos.getTotalPages()));
         List<Integer> tamanhos = List.of(5, 10, 15);
         model.addAttribute("tamanhos", tamanhos);
