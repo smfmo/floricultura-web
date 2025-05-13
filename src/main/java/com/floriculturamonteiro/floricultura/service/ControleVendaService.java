@@ -21,6 +21,7 @@ public class ControleVendaService {
         return carrinhoRepository.EncontrarTodosComItens(pageRequest);
     } //metodo de
 
+
     public Page<Carrinho> pesquisarCliente(String nome, Integer pagina, Integer tamanhoPagina) {
         Pageable pageRequest = PageRequest.of(pagina, tamanhoPagina);
         return carrinhoRepository.findByNomeClienteIgnoreCase(nome, pageRequest);
