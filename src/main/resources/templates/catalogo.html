@@ -372,6 +372,37 @@
                 font-size: 0.8rem;
             }
         }
+        /*Estilo - modal de detalhes*/
+        .modal-content {
+            border-radius: 15px !important;
+            border: none !important;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #8CD147 0%, #a3e063 100%) !important;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-size: 1.2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .btn-success {
+            transition: all 0.3s ease;
+            background-color: #8CD147 !important;
+        }
+
+        .btn-success:hover {
+            background-color: #7bb73d !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(140, 209, 71, 0.3);
+        }
+
+        .text-success-custom {
+            color: #8CD147 !important;
+        }
     </style>
     <title>Página inicial</title>
 </head>
@@ -527,19 +558,19 @@
 
 
         <div th:each="flores : ${flores}" class="modal fade" th:id="'modalDetalhes'+${flores.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel" th:text="${flores.nome}"></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content border-0 shadow" style="overflow: hidden;">
+                    <div class="modal-header bg-gradient-primary text-white py-3">
+                        <h5 class="modal-title fs-4 fw-normal" id="exampleModalLabel" th:text="${flores.nome}"></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="row">
+                    <div class="modal-body p-0">
+                        <div class="row g-0">
                             <div class="col-md-6">
                                 <div th:id="'modalCarousel' + ${flores.id}" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
+                                    <div class="carousel-inner" style="max-height: 350px; border-radius: 8px;">
                                         <div th:each="urlImagem, iterStat : ${flores.urlImagens}" th:class="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
-                                            <img th:src="${urlImagem}" class="d-block w-100" alt="Imagem da Flor">
+                                            <img th:src="${urlImagem}" class="d-block w-100" style="height: 350px; object-fit: cover;" alt="Imagem da Flor">
                                         </div>
                                     </div>
                                     <button class="carousel-control-prev" type="button" th:attr="data-bs-target='#modalCarousel' + ${flores.id}" data-bs-slide="prev">
@@ -552,14 +583,20 @@
                                     </button>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <p><strong>Descrição:</strong> <span th:text="${flores.descricao}"></span></p><hr>
-                                <p><strong>Cuidados:</strong> <span th:text="${flores.cuidados}"></span></p>
+                            <div class="col-md-6 p-4 d-flex flex-column">
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-success mb-3 fw-bold" style="color: #8CD147 !important;">Descrição</h6>
+                                    <p class="text-secondary lh-lg" th:text="${flores.descricao}"></p>
+                                </div>
+                                <div class="mt-auto">
+                                    <h6 class="text-uppercase text-success mb-3 fw-bold" style="color: #8CD147 !important;">Cuidados</h6>
+                                    <p class="text-secondary lh-lg" th:text="${flores.cuidados}"></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                    <div class="modal-footer bg-light py-3">
+                        <button type="button" class="btn btn-success rounded-pill px-4 border-0" style="background-color: #8CD147;" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
