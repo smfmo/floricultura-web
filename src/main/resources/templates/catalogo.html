@@ -603,7 +603,6 @@
         </div>
     </div>
 </div>
-<!-- Modal Carrinho Vazio -->
 <div id="carrinhoVazioModal" class="custom-modal" style="display: none;">
     <div class="custom-modal-content">
         <span class="close-modal">&times;</span>
@@ -637,35 +636,29 @@
         const carrinhoVazio = urlParams.get('carrinhoVazio');
         const carrinhoExpirado = urlParams.get('carrinhoExpirado');
 
-        // Fechar modais quando clicar no X
         document.querySelectorAll('.close-modal').forEach(btn => {
             btn.addEventListener('click', function() {
-                // Fecha todos os modais
                 document.querySelectorAll('.custom-modal').forEach(modal => {
                     modal.style.display = 'none';
                 });
-                // Remove os parâmetros da URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             });
         });
 
-        // Mostrar modal de carrinho vazio
-        if (carrinhoVazio === 'true') {
+        if (carrinhoVazio === 'true') { //carrinho vazio
             const modalVazio = document.getElementById('carrinhoVazioModal');
             if (modalVazio) {
                 modalVazio.style.display = 'block';
             }
         }
 
-        // Mostrar modal de carrinho expirado
-        if (carrinhoExpirado === 'true') {
+        if (carrinhoExpirado === 'true') {//carrinho expirado
             const modalExpirado = document.getElementById('carrinhoexpiradoModal');
             if (modalExpirado) {
                 modalExpirado.style.display = 'block';
             }
         }
 
-        // Fechar modal quando clicar fora do conteúdo
         window.addEventListener('click', function(event) {
             if (event.target.classList.contains('custom-modal')) {
                 event.target.style.display = 'none';
