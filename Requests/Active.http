@@ -1,0 +1,3 @@
+# Ativar o checkout após tê-lo inativado
+POST https://sandbox.api.pagseguro.com/checkouts/{checkout_id}/activate
+Authorization: Bearer {{PAGBANK_TOKEN}}

@@ -34,3 +34,7 @@ spring:
           starttls:
             enable: true
             required: true
+pagBank:
+  api:
+    url: ${URL_SANDBOX_PAGBANK}
+    bearer_token: ${TOKEN_PAGBANK}
