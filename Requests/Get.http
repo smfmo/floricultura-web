@@ -1,0 +1,4 @@
+# Fazer um get com o id do checkout, para buscar as informações do checkout
+
+GET https://sandbox.api.pagseguro.com/checkouts/
+Authorization: Bearer {{PAGBANK_TOKEN}}

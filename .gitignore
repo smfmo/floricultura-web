@@ -32,5 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
-##Ignora o application.yml
-src/main/resources/application.yml
+#Http client arquivos
+http-client.private.env.json
+http-client.env.json
+*.private.env.json
+
+

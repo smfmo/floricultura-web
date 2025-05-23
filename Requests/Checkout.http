@@ -1,0 +1,56 @@
+## Checkout
+
+POST https://sandbox.api.pagseguro.com/checkouts
+Authorization: Bearer {{PAGBANK_TOKEN}}
+Content-Type: application/json
+
+{
+  "reference_id": "pedido123",
+  "customer": {
+    "name": "Gabriel Monteiro",
+    "email": "Gabriel@email.com",
+    "tax_id": "12345678909",
+    "phones": [
+      {
+        "country": "55",
+        "area": "61",
+        "number": "983363598",
+        "type": "MOBILE"
+      }
+    ]
+  },
+  "items": [
+    {
+      "name": "Havaianas",
+      "quantity": 1,
+      "description": "chinela - Havaianas n.42 branca",
+      "unit_amount": 5000
+    }
+  ],
+  "payment_methods":[
+    {
+      "type": "PIX"
+    },
+    {
+      "type": "CREDIT_CARD"
+    },
+    {
+      "type": "BOLETO"
+    }
+  ],
+  "payment_methods_configs": [
+    {
+      "type": "CREDIT_CARD",
+      "config_options": [
+        {
+          "option": "INSTALLMENTS_LIMIT",
+          "value": "10"
+        }
+      ]
+    }
+  ],
+
+  "notification_urls": [
+    "https://meusite.com.br/notificacoes"
+  ]
+}
