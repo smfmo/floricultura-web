@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

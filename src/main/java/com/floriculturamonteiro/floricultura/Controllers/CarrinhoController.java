@@ -2,14 +2,16 @@ package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.Controllers.dtos.ClienteDto;
 import com.floriculturamonteiro.floricultura.Controllers.mappers.ClienteMapper;
-import com.floriculturamonteiro.floricultura.model.*;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
+import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
+import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.ClienteService;
 import com.floriculturamonteiro.floricultura.service.ManutencaoCarrinhoService;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

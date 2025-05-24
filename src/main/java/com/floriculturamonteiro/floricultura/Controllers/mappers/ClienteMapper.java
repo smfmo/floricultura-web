@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.Controllers.mappers;
 
 import com.floriculturamonteiro.floricultura.Controllers.dtos.ClienteDto;
-import com.floriculturamonteiro.floricultura.model.Cliente;
+import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

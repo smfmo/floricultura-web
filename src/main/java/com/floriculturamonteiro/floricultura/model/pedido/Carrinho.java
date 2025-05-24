@@ -1,5 +1,6 @@
-package com.floriculturamonteiro.floricultura.model;
+package com.floriculturamonteiro.floricultura.model.pedido;
 
+import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;

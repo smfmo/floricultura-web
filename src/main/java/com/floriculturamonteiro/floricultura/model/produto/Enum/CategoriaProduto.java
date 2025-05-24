@@ -1,4 +1,4 @@
-package com.floriculturamonteiro.floricultura.model.Enum;
+package com.floriculturamonteiro.floricultura.model.produto.Enum;
 
 public enum CategoriaProduto {
     ORQUIDEAS,

@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
-import com.floriculturamonteiro.floricultura.model.Carrinho;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.ControleVendaService;
 import lombok.RequiredArgsConstructor;

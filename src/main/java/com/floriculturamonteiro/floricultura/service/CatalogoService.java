@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.produto.Enum.CategoriaProduto;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
