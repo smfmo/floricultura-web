@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.repositories;
 
-import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.produto.Enum.CategoriaProduto;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

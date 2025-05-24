@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Carrinho;
-import com.floriculturamonteiro.floricultura.model.Cliente;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
+import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;

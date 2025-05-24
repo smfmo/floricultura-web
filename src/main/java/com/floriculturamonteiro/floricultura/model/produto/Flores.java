@@ -1,6 +1,6 @@
-package com.floriculturamonteiro.floricultura.model;
+package com.floriculturamonteiro.floricultura.model.produto;
 
-import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
+import com.floriculturamonteiro.floricultura.model.produto.Enum.CategoriaProduto;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;

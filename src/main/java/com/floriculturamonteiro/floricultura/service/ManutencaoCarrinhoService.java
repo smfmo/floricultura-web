@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.Carrinho;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

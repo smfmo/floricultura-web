@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
 import com.floriculturamonteiro.floricultura.Controllers.dtos.FloresDto;
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.repositories.FloresRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;

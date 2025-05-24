@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.repositories.specs;
 
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import org.springframework.data.jpa.domain.Specification;
 
 public class FloresSpecs {

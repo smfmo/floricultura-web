@@ -1,8 +1,8 @@
 package com.floriculturamonteiro.floricultura.Controllers;
 
-import com.floriculturamonteiro.floricultura.model.Carrinho;
-import com.floriculturamonteiro.floricultura.model.Enum.CategoriaProduto;
-import com.floriculturamonteiro.floricultura.model.Flores;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
+import com.floriculturamonteiro.floricultura.model.produto.Enum.CategoriaProduto;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.service.AdminService;
 import com.floriculturamonteiro.floricultura.service.CarrinhoService;
 import com.floriculturamonteiro.floricultura.service.CatalogoService;

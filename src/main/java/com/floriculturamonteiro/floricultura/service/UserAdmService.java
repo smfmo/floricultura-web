@@ -1,6 +1,6 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.UserAdm;
+import com.floriculturamonteiro.floricultura.model.usuarios.UserAdm;
 import com.floriculturamonteiro.floricultura.repositories.UserAdmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

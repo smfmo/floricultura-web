@@ -1,4 +1,4 @@
-package com.floriculturamonteiro.floricultura.model;
+package com.floriculturamonteiro.floricultura.model.usuarios;
 
 import jakarta.persistence.*;
 import lombok.Data;

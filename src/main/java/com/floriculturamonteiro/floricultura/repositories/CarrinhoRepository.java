@@ -1,7 +1,7 @@
 package com.floriculturamonteiro.floricultura.repositories;
 
-import com.floriculturamonteiro.floricultura.model.Carrinho;
-import com.floriculturamonteiro.floricultura.model.Cliente;
+import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
+import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
