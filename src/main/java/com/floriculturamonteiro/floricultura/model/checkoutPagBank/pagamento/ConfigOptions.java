@@ -7,7 +7,6 @@ import jakarta.persistence.Enumerated;
 import lombok.Data;
 
 @Data
-@Embeddable
 public class ConfigOptions {
 
     @Enumerated(EnumType.STRING)
