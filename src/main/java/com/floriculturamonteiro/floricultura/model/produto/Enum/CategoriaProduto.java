@@ -9,5 +9,6 @@ public enum CategoriaProduto {
     CESTAS,
     CARTOES,
     VASOS,
-    BONSAIS
+    BONSAIS,
+    PELUCIAS
 }
