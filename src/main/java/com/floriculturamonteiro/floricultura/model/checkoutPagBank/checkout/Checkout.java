@@ -2,6 +2,7 @@ package com.floriculturamonteiro.floricultura.model.checkoutPagBank.checkout;
 
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.checkout.enums.CheckoutStatus;
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.cliente.Customer;
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.envio.Shipping;
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.Links;
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.item.Item;
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.pagamento.PaymentMethodConfig;
@@ -10,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,11 +23,11 @@ public class Checkout {
 
     private String reference_id;
 
-    private LocalDateTime expiration_date;
+    private OffsetDateTime expiration_date;
 
     private Customer customer;
 
-    private Boolean customer_modifiable = true;
+    private Boolean customer_modifiable;
 
     private List<Item> items = new ArrayList<>();
 
@@ -33,7 +35,7 @@ public class Checkout {
 
     private Integer discount_amount;
 
-    //Shipping
+    private Shipping shipping;
 
     private List<PaymentMethods> payment_methods = new ArrayList<>();
 
@@ -50,7 +52,7 @@ public class Checkout {
     private List<String> payment_notifications_urls = new ArrayList<>();
 
 
-    private LocalDateTime created_at;
+    private OffsetDateTime created_at;
 
     @Enumerated(EnumType.STRING)
     private CheckoutStatus status;

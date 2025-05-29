@@ -1,5 +1,8 @@
 package com.floriculturamonteiro.floricultura.service;
 
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.checkout.Checkout;
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.Links;
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.enums.LinkRelation;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import com.floriculturamonteiro.floricultura.model.produto.Flores;
@@ -26,6 +29,7 @@ public class CarrinhoService {
     private final AdminService adminService;
     private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
+    private final PagBankCheckoutService pagBankCheckoutService;
 
     //criar um carrinho
     public Carrinho criarCarrinho() {
@@ -66,7 +70,7 @@ public class CarrinhoService {
     }
 
     @Transactional
-    public void finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
+    public String finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
@@ -92,8 +96,11 @@ public class CarrinhoService {
        carrinho.setTotalFinal(totalFinal);
        carrinho.setCliente(cliente);
        carrinho.setDataHoraCompra(LocalDateTime.now());
-       carrinho.setFinalizado(true);
 
+       Checkout response = pagBankCheckoutService.criarCheckout(carrinho);
+       String paymentUrl = response.getLinks().stream().filter(link -> LinkRelation.PAY.equals(link.getRel()))
+                       .findFirst().map(Links::getHref).orElseThrow(() -> new RuntimeException("Link nao encontrado"));
+       carrinho.setFinalizado(true);
         carrinhoRepository.save(carrinho);
 
         //enviar o email após finalização da compra
@@ -108,6 +115,8 @@ public class CarrinhoService {
 
         //limpar o carrinho após a compra
         itemCarrinhoRepository.deleteAll(carrinho.getItens());
+
+        return paymentUrl;
     }
 
     //limpar carrinhos vazios

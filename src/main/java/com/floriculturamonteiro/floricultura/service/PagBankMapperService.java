@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,21 +25,21 @@ import java.util.UUID;
  */
 
 @Service
-public class PagBankConverterService {
+public class PagBankMapperService {
 
     public Checkout convertToPagBankCheckout(Carrinho carrinho) {
         Checkout checkout = new Checkout();
 
         checkout.setReference_id(UUID.randomUUID().toString());
-        checkout.setExpiration_date(LocalDateTime.now().plusHours(24));
+        //checkout.setExpiration_date(LocalDateTime.now().plusHours(24));
         //checkout.setCreated_at(LocalDateTime.now());
 
         checkout.setCustomer(convertClienteToCustomer(carrinho.getCliente())); //convertendo Customer para cliente
 
         checkout.setItems(convertItensCarrinhoToPagBankItems(carrinho.getItens())); //converte Item para itens do carrinho
 
-        checkout.setRedirect_url("http://localhost:8080/carrinho/confirmacao");
-        checkout.setReturn_url("http://localhost:8080/");
+        //checkout.setRedirect_url("http://localhost:8080/carrinho/confirmacao");
+        //checkout.setReturn_url("http://localhost:8080/");
         //checkout.setNotification_urls(List.of(""));
 
         checkout.setCustomer_modifiable(true);
@@ -116,6 +117,7 @@ public class PagBankConverterService {
 
         PaymentMethodConfig creditCardConfig = new PaymentMethodConfig();
         creditCardConfig.setType(PaymentMethodType.CREDIT_CARD);
+        creditCardConfig.setConfig_options(new HashSet<>());
         creditCardConfig.getConfig_options().add(creditCardInstallments);
         //creditCardConfig.getConfig_options().add(creditCardInterestFree);
 
@@ -123,6 +125,7 @@ public class PagBankConverterService {
         //debitCardConfig.setType(PaymentMethodType.DEBIT_CARD);
         //debitCardConfig.getConfig_options().add(debitCardInstallments);
 
+        paymentMethodConfigs.add(creditCardConfig);
         return paymentMethodConfigs;
     }
 }

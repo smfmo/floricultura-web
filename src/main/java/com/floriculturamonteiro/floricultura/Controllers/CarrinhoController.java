@@ -162,17 +162,18 @@ public class CarrinhoController {
         clienteService.salvarCliente(clienteEntidade); //salva o cliente no banco de dados
 
         try{
-            carrinhoService.finalizarCompra(carrinhoId, clienteEntidade);
+            String pagBankUrl = carrinhoService.finalizarCompra(carrinhoId, clienteEntidade);
             session.removeAttribute("carrinhoId"); //aqui remove o carrinho da sessão após finalizar a compra
             carrinhoService.limparCarrinhosVazios();
             redirectAttributes.addFlashAttribute("sucess", "Compra finalizada com sucesso!");
+            return "redirect:" + pagBankUrl;
         } catch (MessagingException e){ //erro ao envial email
             redirectAttributes.addFlashAttribute("error",
                     "Compra finalizada, mas ocorreu um erro ao enviar o email de confirmação!");
             redirectAttributes.addAttribute("carrinhoExpirado", true);
+            redirectAttributes.addAttribute("error", "Erro ao processar pagamento");
             return "redirect:/catalogo";
         }
-        return "redirect:/carrinho/confirmacao";
     }
     @GetMapping("/confirmacao")
     public String confirmacaoCompra(){

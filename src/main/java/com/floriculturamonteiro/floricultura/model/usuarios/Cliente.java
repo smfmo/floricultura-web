@@ -24,6 +24,7 @@ public class Cliente {
     @Column(name = "telefone")
     private String telefone;
 
+    @Column(name = "cpf")
     private String cpf;
 
     @OneToOne(cascade = CascadeType.ALL,

@@ -216,6 +216,11 @@
                                        th:errors="*{telefone}">Erro no telefone</small>
                                 <small class="form-text text-muted">Somente números!</small>
                             </div>
+                            <div class="col-md-6">
+                                <label for="cpf">CPF</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite aqui" th:field="*{cpf}">
+                                <small class="form-text text-muted">Somente números!</small>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="cartaoMensagemDestinatario">cartão de mensagem (Lembre-se de colocar o seu nome)</label>
