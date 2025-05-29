@@ -9,15 +9,7 @@ Content-Type: application/json
   "customer": {
     "name": "Gabriel Monteiro",
     "email": "Gabriel@email.com",
-    "tax_id": "12345678909",
-    "phones": [
-      {
-        "country": "55",
-        "area": "61",
-        "number": "983363598",
-        "type": "MOBILE"
-      }
-    ]
+    "tax_id": "12345678909"
   },
   "items": [
     {
@@ -35,6 +27,9 @@ Content-Type: application/json
       "type": "CREDIT_CARD"
     },
     {
+      "type": "DEBIT_CARD"
+    },
+    {
       "type": "BOLETO"
     }
   ],
@@ -49,7 +44,6 @@ Content-Type: application/json
       ]
     }
   ],
-
   "notification_urls": [
     "https://meusite.com.br/notificacoes"
   ]
