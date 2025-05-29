@@ -24,6 +24,8 @@ public class Cliente {
     @Column(name = "telefone")
     private String telefone;
 
+    private String cpf;
+
     @OneToOne(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_id")
