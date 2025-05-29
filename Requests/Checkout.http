@@ -7,7 +7,7 @@ Content-Type: application/json
 {
   "reference_id": "pedido123",
   "customer": {
-    "name": "Gabriel Monteiro",
+    "name": "SAMUEL MONTEIRO",
     "email": "Gabriel@email.com",
     "tax_id": "12345678909"
   },
