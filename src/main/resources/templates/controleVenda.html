@@ -143,6 +143,9 @@
           <h4 th:if="${carrinho.cliente != null}">
             Telefone: <span th:text="${carrinho.cliente.telefone}"></span>
           </h4>
+          <h4 th:if="${carrinho.cliente != null}">
+            CPF: <span th:text="${carrinho.cliente.cpf}"></span>
+          </h4>
           <div th:if="${carrinho.cliente != null}" class="endereco-box">
             <strong>Região:</strong> <span th:text="${carrinho.cliente.endereco.regiao}"></span><br>
             <strong>Endereço:</strong> <span th:text="${carrinho.cliente.endereco.logradouro}"></span>
