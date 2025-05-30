@@ -97,11 +97,13 @@ public class CarrinhoService {
        carrinho.setCliente(cliente);
        carrinho.setDataHoraCompra(LocalDateTime.now());
 
+       // 6. redireciona o comprador para a pagbank
        Checkout response = pagBankCheckoutService.criarCheckout(carrinho);
        String paymentUrl = response.getLinks().stream().filter(link -> LinkRelation.PAY.equals(link.getRel()))
                        .findFirst().map(Links::getHref).orElseThrow(() -> new RuntimeException("Link nao encontrado"));
+
        carrinho.setFinalizado(true);
-        carrinhoRepository.save(carrinho);
+       carrinhoRepository.save(carrinho);
 
         //enviar o email após finalização da compra
         Context context = new Context();

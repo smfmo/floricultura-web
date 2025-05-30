@@ -10,11 +10,11 @@ import com.floriculturamonteiro.floricultura.model.checkoutPagBank.pagamento.enu
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.pagamento.enums.PaymentMethodType;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
+import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -36,7 +36,7 @@ public class PagBankMapperService {
 
         checkout.setCustomer(convertClienteToCustomer(carrinho.getCliente())); //convertendo Customer para cliente
 
-        checkout.setItems(convertItensCarrinhoToPagBankItems(carrinho.getItens())); //converte Item para itens do carrinho
+        checkout.setItems(convertItensCarrinhoToPagBankItems(carrinho.getItens(),carrinho)); //converte Item para itens do carrinho
 
         //checkout.setRedirect_url("http://localhost:8080/carrinho/confirmacao");
         //checkout.setReturn_url("http://localhost:8080/");
@@ -60,11 +60,35 @@ public class PagBankMapperService {
         return customer;
     }
 
-    private List<Item> convertItensCarrinhoToPagBankItems(List<ItemCarrinho> itens){
-        return itens
+    private List<Item> convertItensCarrinhoToPagBankItems(List<ItemCarrinho> itens, Carrinho carrinho) {
+
+        // 1. adiciona os produtos normalmente
+        List<Item> items = new ArrayList<>(
+                itens
                 .stream()
                 .map(this::convertItem)
-                .toList();
+                .toList());
+
+        // 2. Adiciona o cartão mensagem como item adicional
+        if (carrinho.isIncluirCartaoMensagem() && carrinho.getValorCartaoMensagem().compareTo(BigDecimal.ZERO) > 0) {
+            items.add(createItemAditional(
+                    "cartão mensagem",
+                    carrinho.getValorCartaoMensagem()
+            ));
+        }
+
+        // 3. Frete
+        if (carrinho.getValorEntrega() != null && carrinho.getValorEntrega().compareTo(BigDecimal.ZERO) > 0) {
+            items.add(createItemAditional(
+                    "Taxa de entrega - " + carrinho.getCliente()
+                    .getEndereco()
+                    .getRegiao(),
+                    carrinho.getValorEntrega()
+                    )
+            );
+
+        }
+        return items;
     }
 
     private Item convertItem(ItemCarrinho itemCarrinho) {
@@ -74,6 +98,16 @@ public class PagBankMapperService {
         item.setUnit_amount(itemCarrinho.getValorUnitario()
                 .multiply(BigDecimal
                         .valueOf(100)).intValue());
+        return item;
+    }
+
+    private Item createItemAditional(String nome,
+                                     BigDecimal valor) {
+        Item item = new Item();
+        item.setName(nome);
+        item.setQuantity(1);
+        item.setUnit_amount(valor
+                .multiply(BigDecimal.valueOf(100)).intValue());
         return item;
     }
 
