@@ -13,7 +13,6 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,21 +22,17 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CarrinhoService {
-    //atributos
     private final ItemCarrinhoRepository itemCarrinhoRepository;
     private final CarrinhoRepository carrinhoRepository;
     private final AdminService adminService;
-    private final EmailService emailService;
     private final RegioesAtendidasService regioesAtendidasService;
     private final PagBankCheckoutService pagBankCheckoutService;
 
-    //criar um carrinho
     public Carrinho criarCarrinho() {
         Carrinho carrinho = new Carrinho();
         return carrinhoRepository.save(carrinho);
     }
 
-    //adicionar itens ao carrinho
     @Transactional
     public void adicionarFloresAoCarrinho(Long carrinhoId,
                                           Long floresId,
@@ -104,16 +99,7 @@ public class CarrinhoService {
 
        carrinho.setFinalizado(true);
        carrinhoRepository.save(carrinho);
-
-        //enviar o email após finalização da compra
-        Context context = new Context();
-        context.setVariable("clienteNome", cliente.getNome());
-        context.setVariable("statusCarrinho", "compra finalizada");
-        context.setVariable("totalCarrinho", totalFinal);
-        context.setVariable("itens", carrinho.getItens());
-        context.setVariable("incluirCartaoMensagem", carrinho.isIncluirCartaoMensagem());
-
-        emailService.enviarEmail(cliente.getEmail(), "status do seu pedido", "email", context);
+        //emailService.enviarEmailAposCompra(cliente, carrinho); //envia email após compra (desativado temporariamente)
 
         //limpar o carrinho após a compra
         itemCarrinhoRepository.deleteAll(carrinho.getItens());

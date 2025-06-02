@@ -3,6 +3,8 @@ package com.floriculturamonteiro.floricultura.model.produto;
 import com.floriculturamonteiro.floricultura.model.produto.Enum.CategoriaProduto;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Table(name = "flores",
         schema = "public")
 @Data
+@NoArgsConstructor
 public class Flores {
     //atributos
     @Id
@@ -56,10 +59,5 @@ public class Flores {
         this.cuidados = cuidados;
 
     }
-
-    public Flores() {
-
-    }
-
     //métodos getters e setters gerados pelo lombok
 }
