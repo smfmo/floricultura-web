@@ -3,6 +3,8 @@ package com.floriculturamonteiro.floricultura.model.pedido;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

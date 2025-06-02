@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class Cliente {
- //atributos
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

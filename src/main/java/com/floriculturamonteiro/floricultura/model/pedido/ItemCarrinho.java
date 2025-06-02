@@ -3,6 +3,8 @@ package com.floriculturamonteiro.floricultura.model.pedido;
 import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @Entity
