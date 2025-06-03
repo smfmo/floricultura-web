@@ -1,15 +1,11 @@
 package com.floriculturamonteiro.floricultura.service;
 
-import com.floriculturamonteiro.floricultura.model.checkoutPagBank.checkout.Checkout;
-import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.Links;
-import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.enums.LinkRelation;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +13,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
@@ -64,45 +59,45 @@ public class CarrinhoService {
         return carrinhoRepository.findById(carrinhoId);
     }
 
-    @Transactional
-    public String finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
+    public Carrinho valorFinal(Long carrinhoId, Cliente cliente) {
         Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado"));
 
-        // 1. calcula o subtotal dos itens (metodo na classe Carrinho)
-       BigDecimal subtotal = carrinho.calcularSubTotalItens();
+        // 1. calcula subtotal dos itens.
+        BigDecimal subtotal = carrinho.calcularSubTotalItens();
 
-       // 2. calcula o valor do cartão de mensagem (caso seja marcada a opção)
-       BigDecimal valorCartao = carrinho.isIncluirCartaoMensagem()
-               ? new BigDecimal("10.00")
-               : BigDecimal.ZERO;
+        // 2. Calcula o valor do cartão de mensagem (caso a opção seja marcada)
+        BigDecimal valorCartao = carrinho.isIncluirCartaoMensagem()
+                ? new BigDecimal("10.00")
+                : BigDecimal.ZERO;
 
-       // 3. obtém o valor da entrega
-       String regiao = cliente.getEndereco().getRegiao();
-       BigDecimal valorEntrega = regioesAtendidasService.getPrecoEntrega(regiao);
+        // 3. obtém o valor da entrega
+        String regiao = cliente.getEndereco().getRegiao();
+        BigDecimal valorEntrega = regioesAtendidasService.getPrecoEntrega(regiao);
 
-       // 4. calcular o total final
-       BigDecimal totalFinal = subtotal.add(valorCartao).add(valorEntrega);
+        // 4. calcula o total final
+        BigDecimal totalFinal = subtotal.add(valorCartao).add(valorEntrega);
 
-       // 5. atualiza os valores no carrinho
-       carrinho.setSubTotalItens(subtotal);
-       carrinho.setValorCartaoMensagem(valorCartao);
-       carrinho.setValorEntrega(valorEntrega);
-       carrinho.setTotalFinal(totalFinal);
-       carrinho.setCliente(cliente);
-       carrinho.setDataHoraCompra(LocalDateTime.now());
+        //5. atualiza os valores no carrinho
+        carrinho.setSubTotalItens(subtotal);
+        carrinho.setValorCartaoMensagem(valorCartao);
+        carrinho.setValorEntrega(valorEntrega);
+        carrinho.setTotalFinal(totalFinal);
+        carrinho.setCliente(cliente);
+        carrinho.setDataHoraCompra(LocalDateTime.now());
+        carrinho.setFinalizado(true);
 
-       // 6. redireciona o comprador para a pagbank
-       Checkout response = pagBankCheckoutService.criarCheckout(carrinho);
-       String paymentUrl = response.getLinks().stream().filter(link -> LinkRelation.PAY.equals(link.getRel()))
-                       .findFirst().map(Links::getHref).orElseThrow(() -> new RuntimeException("Link nao encontrado"));
+        return carrinho;
+    }
 
-       carrinho.setFinalizado(true);
+    @Transactional
+    public String finalizarCompra(Long carrinhoId, Cliente cliente){
+        Carrinho carrinho = valorFinal(carrinhoId, cliente);
+       // 6. Redireciona o cliente para pagamento
+       String paymentUrl = pagBankCheckoutService.responsePagBank(carrinho);
        carrinhoRepository.save(carrinho);
-        //emailService.enviarEmailAposCompra(cliente, carrinho); //envia email após compra (desativado temporariamente)
 
-        //limpar o carrinho após a compra
-        itemCarrinhoRepository.deleteAll(carrinho.getItens());
+        itemCarrinhoRepository.deleteAll(carrinho.getItens());//limpar o carrinho após a compra
 
         return paymentUrl;
     }

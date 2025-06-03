@@ -1,9 +1,13 @@
 package com.floriculturamonteiro.floricultura.service;
 
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.checkout.Checkout;
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.Links;
+import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.enums.LinkRelation;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -39,5 +43,15 @@ public class PagBankCheckoutService {
                         Checkout.class);
 
         return response.getBody();
+    }
+
+
+    public String responsePagBank(Carrinho carrinho){
+        Checkout response = criarCheckout(carrinho);
+
+        return response.getLinks().stream()
+                .filter(link -> LinkRelation.PAY.equals(link.getRel()))
+                .findFirst().map(Links::getHref)
+                .orElseThrow(() -> new RuntimeException("Link nao encontrado"));
     }
 }

@@ -28,26 +28,25 @@ public class EmailService {
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,
                 true, "UTF-8");
 
-        String conteudoHtml = templateEngine.process(templateName, context);
+        String conteudo_html = templateEngine.process(templateName, context);
 
         mimeMessageHelper.setTo(para);
         mimeMessageHelper.setSubject(assunto);
-        mimeMessageHelper.setText(conteudoHtml, true);
+        mimeMessageHelper.setText(conteudo_html, true);
 
         ClassPathResource classPathResource = new ClassPathResource("static/img/floriculturaMonteiro.jpg");
         mimeMessageHelper.addInline("floriculturaMonteiro", classPathResource);
         mailSender.send(mimeMessage);
     }
 
-    public void enviarEmailAposCompra(Cliente cliente, Carrinho carrinho) throws MessagingException {
-        //enviar o email após finalização da compra
+    public void enviarEmailAposCompra(Carrinho carrinho) throws MessagingException {
         Context context = new Context();
-        context.setVariable("clienteNome", cliente.getNome());
+        context.setVariable("clienteNome", carrinho.getCliente().getNome());
         context.setVariable("statusCarrinho", "compra finalizada");
         context.setVariable("totalCarrinho", carrinho.getTotalFinal());
         context.setVariable("itens", carrinho.getItens());
         context.setVariable("incluirCartaoMensagem", carrinho.isIncluirCartaoMensagem());
 
-        conteudoEmail(cliente.getEmail(), "status do seu pedido", "email", context);
+        conteudoEmail(carrinho.getCliente().getEmail(), "status do seu pedido", "email", context);
     }
 }
