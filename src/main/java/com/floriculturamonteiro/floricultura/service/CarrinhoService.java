@@ -6,6 +6,7 @@ import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.repositories.CarrinhoRepository;
 import com.floriculturamonteiro.floricultura.repositories.ItemCarrinhoRepository;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +92,7 @@ public class CarrinhoService {
     }
 
     @Transactional
-    public String finalizarCompra(Long carrinhoId, Cliente cliente){
+    public String finalizarCompra(Long carrinhoId, Cliente cliente) throws MessagingException {
         Carrinho carrinho = valorFinal(carrinhoId, cliente);
        // 6. Redireciona o cliente para pagamento
        String paymentUrl = pagBankCheckoutService.responsePagBank(carrinho);
