@@ -10,7 +10,6 @@ import com.floriculturamonteiro.floricultura.model.checkoutPagBank.pagamento.enu
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.pagamento.enums.PaymentMethodType;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
-import com.floriculturamonteiro.floricultura.model.produto.Flores;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import org.springframework.stereotype.Service;
 

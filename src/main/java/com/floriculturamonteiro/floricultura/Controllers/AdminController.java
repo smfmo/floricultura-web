@@ -91,7 +91,7 @@ public class AdminController {
 
             List<MultipartFile> imagensValidas = Arrays.stream(imagens)
                     .filter(img -> !img.isEmpty())
-                    .collect(Collectors.toList());
+                    .toList();
 
             if (!imagensValidas.isEmpty()) {
                 List<String> caminhoImagens = imgService.armazenarImg(imagensValidas.toArray(new MultipartFile[0]));
