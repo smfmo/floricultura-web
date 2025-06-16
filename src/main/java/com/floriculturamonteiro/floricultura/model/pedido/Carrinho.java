@@ -32,9 +32,6 @@ public class Carrinho {
     @Column(name = "data_hora_compra")
     private LocalDateTime dataHoraCompra;
 
-    @Column(name = "data_criacao")
-    private LocalDateTime dataCriacao;
-
     @Column(name = "ultima_atualizacao")
     private LocalDateTime ultimaAtualizacao;
 

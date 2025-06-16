@@ -1,0 +1,112 @@
+-- ARQUIVO DESTINADO AOS SCRIPTS DAS TABELAS DO BANCO DE DADOS--
+
+CREATE TABLE carrinho(
+    id BIGSERIAL PRIMARY KEY,
+    cliente_id BIGINT,
+
+    -- status do carrinho --
+    concluido BOOLEAN,
+    finalizado BOOLEAN,
+
+    -- dados de valor --
+    sub_total_itens NUMERIC(10,2),
+    valor_entrega NUMERIC(10,2),
+    total_final NUMERIC(10,2),
+
+    -- Cartão mensagem (opcional) --
+    incluir_cartao_mensagem BOOLEAN,
+    cartao_mensagem VARCHAR(255),
+    valor_cartao_mensagem NUMERIC(10,2),
+
+    -- campos de auditoria --
+    ultima_atualizacao TIMESTAMP WITHOUT TIME ZONE,
+    data_hora_compra TIMESTAMP WITHOUT TIME ZONE,
+
+    -- constraints --
+    CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(id)
+);
+
+CREATE TABLE cliente(
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    telefone VARCHAR(30) NOT NULL,
+    cpf VARCHAR(15) NOT NULL,
+
+    -- relacionamento com endereço --
+    endereco_id BIGINT,
+
+    -- campo de auditoria (cadastro) --
+    data_cadastro TIMESTAMP WITHOUT TIME ZONE,
+
+    -- constraints --
+    CONSTRAINT fk_endereco FOREIGN KEY (endereco_id) REFERENCES endereco(id),
+    CONSTRAINT uniq_endereco UNIQUE (endereco_id)
+);
+
+CREATE TABLE endereco(
+    id BIGSERIAL PRIMARY KEY,
+
+    -- dados do endereço --
+    logradouro VARCHAR(255) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    complemento VARCHAR(255),
+    bairro VARCHAR(100) NOT NULL,
+    uf VARCHAR(10) NOT NULL,
+    regiao VARCHAR(255),
+
+    -- auditoria --
+    data_cadastro TIMESTAMP WITHOUT TIME ZONE
+);
+
+CREATE TABLE item_carrinho(
+    id BIGSERIAL PRIMARY KEY,
+
+    -- relacionamentos --
+    carrinho_id BIGINT,
+    flores_id BIGINT,
+
+    -- dados do produto --
+    nome_produto VARCHAR(255) NOT NULL,
+    valor_unitario NUMERIC(10,2) NOT NULL,
+    quantidade INTEGER NOT NULL,
+    preco_total NUMERIC(10,2),
+
+    -- constraints --
+    CONSTRAINT fk_item_carrinho FOREIGN KEY (carrinho_id) REFERENCES carrinho(id) ON DELETE CASCADE,
+    CONSTRAINT fk_item_flores FOREIGN KEY (flores_id) REFERENCES flores(id)
+);
+
+CREATE TABLE flores(
+    id BIGSERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    descricao TEXT,
+    cuidados TEXT,
+    preco NUMERIC(38,2),
+    em_estoque BOOLEAN,
+
+    -- categoria com a Enum explícita --
+    categoria_produto VARCHAR(50) NOT NULL CHECK(
+        categoria_produto IN
+        ('ORQUIDEAS', 'FLORESPLANTADAS', 'BUQUES', 'PLANTASDEVASO', 'CHOCOLATES',
+         'CESTAS', 'CARTOES', 'VASOS', 'BONSAIS', 'PELUCIAS')
+    )
+);
+
+CREATE TABLE flores_imagens(
+    flores_id BIGINT,
+    url_imagens VARCHAR(255) NOT NULL,
+
+    -- constraints --
+    CONSTRAINT fk_flores_imagens FOREIGN KEY (flores_id) REFERENCES flores(id) ON DELETE CASCADE
+);
+
+CREATE TABLE user_adm(
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+
+   -- controle de acesso --
+   role VARCHAR(30) NOT NULL
+);
+
