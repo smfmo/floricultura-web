@@ -5,9 +5,7 @@ import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.Links;
 import com.floriculturamonteiro.floricultura.model.checkoutPagBank.http.enums.LinkRelation;
 import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -44,7 +42,6 @@ public class PagBankCheckoutService {
 
         return response.getBody();
     }
-
 
     public String responsePagBank(Carrinho carrinho){
         Checkout response = criarCheckout(carrinho);
