@@ -12,7 +12,6 @@ import com.floriculturamonteiro.floricultura.model.pedido.Carrinho;
 import com.floriculturamonteiro.floricultura.model.pedido.ItemCarrinho;
 import com.floriculturamonteiro.floricultura.model.usuarios.Cliente;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
