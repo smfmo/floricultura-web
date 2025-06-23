@@ -38,3 +38,10 @@ pagBank:
   api:
     url: ${URL_SANDBOX_PAGBANK}
     bearer_token: ${TOKEN_PAGBANK}
+management: #vizualização das métricas da aplicação
+  server:
+    port: 9090
+  endpoints:
+    web:
+      exposure:
+        include: '*'
